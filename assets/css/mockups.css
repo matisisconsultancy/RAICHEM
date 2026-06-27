@@ -256,3 +256,11 @@
   .pin__label { display: none; }
   .pin.on .pin__label { display: block; }
 }
+
+/* =====================================================================
+   MOLECOLE — animazione chimica nei pannelli claim (cap. 03)
+   ===================================================================== */
+.hpin__panel { isolation: isolate; }
+.hpin__panel .mol { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.85; }
+.hpin__panel.master .mol { opacity: 0.5; }
+.hpin__panel > div, .hpin__panel > p { position: relative; z-index: 1; }

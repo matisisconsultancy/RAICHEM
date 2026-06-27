@@ -548,6 +548,86 @@
   }
 
   /* =============================================================
+     12. MOLECOLE — animazione chimica nei pannelli claim
+     ============================================================= */
+  function molecules() {
+    var canvases = $$('.mol');
+    if (!canvases.length) return;
+    // hexagon aromatico (benzene)
+    var HEX = [[0, 0.5], [-0.433, 0.25], [-0.433, -0.25], [0, -0.5], [0.433, -0.25], [0.433, 0.25]];
+    var HEXB = [[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,0,2]];
+    var T = [
+      // 0 · benzene
+      { atoms: HEX, bonds: HEXB, accent: 0 },
+      // 1 · benzoyl (anello + C=O)
+      { atoms: HEX.concat([[0.9, 0.5], [1.25, 0.95]]), bonds: HEXB.concat([[5, 6, 1], [6, 7, 2]]), accent: 7 },
+      // 2 · perossido O-O con rami (cuore del BPO)
+      { atoms: [[-0.25, 0], [0.25, 0], [-0.8, 0.45], [-0.8, -0.45], [0.8, 0.45], [0.8, -0.45]],
+        bonds: [[0, 1, 1], [0, 2, 1], [0, 3, 2], [1, 4, 1], [1, 5, 2]], accent: 0 },
+      // 3 · catena zig-zag
+      { atoms: [[-1, 0.25], [-0.5, -0.25], [0, 0.25], [0.5, -0.25], [1, 0.25]],
+        bonds: [[0, 1, 1], [1, 2, 2], [2, 3, 1], [3, 4, 2]], accent: 2 },
+      // 4 · ramificata
+      { atoms: [[0, 0], [0.85, 0.45], [0.85, -0.45], [-0.85, 0.45], [-0.85, -0.45]],
+        bonds: [[0, 1, 1], [0, 2, 2], [0, 3, 2], [0, 4, 1]], accent: 0 },
+      // 5 · biciclica (naftalene)
+      { atoms: [[-0.9, 0.25], [-0.9, -0.25], [-0.45, 0.5], [-0.45, -0.5], [0, 0.25], [0, -0.25], [0.45, 0.5], [0.45, -0.5], [0.9, 0.25], [0.9, -0.25]],
+        bonds: [[0, 2, 1], [2, 4, 2], [4, 5, 1], [5, 3, 2], [3, 1, 1], [1, 0, 2], [4, 6, 1], [6, 8, 2], [8, 9, 1], [9, 7, 2], [7, 5, 1]], accent: 4 },
+      // 6 · anello triangolare con sostituenti
+      { atoms: [[0, -0.5], [0.45, 0.3], [-0.45, 0.3], [0, -1.05], [0.95, 0.6], [-0.95, 0.6]],
+        bonds: [[0, 1, 1], [1, 2, 1], [2, 0, 1], [0, 3, 2], [1, 4, 1], [2, 5, 1]], accent: 0 }
+    ];
+
+    canvases.forEach(function (cv) {
+      var tpl = T[(parseInt(cv.getAttribute('data-mol'), 10) || 0) % T.length];
+      var onRed = !!cv.closest('.master');
+      var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w, h, running = true, t = (parseInt(cv.getAttribute('data-mol'), 10) || 0) * 1.7;
+      function size() { w = cv.offsetWidth; h = cv.offsetHeight; if (!w || !h) return; cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+      size();
+      window.addEventListener('resize', debounce(size, 250));
+      var atomCol = onRed ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.92)';
+      var bondCol = onRed ? 'rgba(0,0,0,0.28)' : 'rgba(255,255,255,0.22)';
+      var accCol = onRed ? '#0b0b0c' : '#E11518';
+      function frame() {
+        if (!running || !w) return;
+        t += 0.01;
+        var R = Math.min(w, h) * 0.3, cx = w * 0.5, cy = h * 0.5, rot = t * 0.18, c = Math.cos(rot), s = Math.sin(rot);
+        var pos = tpl.atoms.map(function (a, i) {
+          var vib = 1 + Math.sin(t * 1.6 + i) * 0.035;
+          var ax = a[0] * vib, ay = a[1] * vib;
+          return [cx + (ax * c - ay * s) * R, cy + (ax * s + ay * c) * R];
+        });
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 1.3; ctx.strokeStyle = bondCol;
+        tpl.bonds.forEach(function (b) {
+          var p = pos[b[0]], q = pos[b[1]];
+          if (b[2] === 2) {
+            var dx = q[0] - p[0], dy = q[1] - p[1], l = Math.hypot(dx, dy) || 1, ox = -dy / l * 2.6, oy = dx / l * 2.6;
+            seg(p[0] + ox, p[1] + oy, q[0] + ox, q[1] + oy); seg(p[0] - ox, p[1] - oy, q[0] - ox, q[1] - oy);
+          } else seg(p[0], p[1], q[0], q[1]);
+        });
+        pos.forEach(function (p, i) {
+          var acc = i === tpl.accent;
+          ctx.fillStyle = acc ? accCol : atomCol;
+          if (acc && !onRed) { ctx.shadowColor = 'rgba(225,21,24,0.85)'; ctx.shadowBlur = 12; }
+          ctx.beginPath(); ctx.arc(p[0], p[1], acc ? 4.2 : 3, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+        });
+        requestAnimationFrame(frame);
+      }
+      function seg(x1, y1, x2, y2) { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); }
+      if (reduce) { frame(); return; }
+      frame();
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (e) {
+          var v = e[0].isIntersecting;
+          if (v && !running) { running = true; frame(); } else running = v;
+        }, { threshold: 0 }).observe(cv);
+      }
+    });
+  }
+
+  /* =============================================================
      UTIL
      ============================================================= */
   function debounce(fn, ms) {
@@ -567,6 +647,7 @@
     scrollFx();
     horizontalPin();
     genPlates();
+    molecules();
     navigation();
     smoothScroll();
     sediMap();
