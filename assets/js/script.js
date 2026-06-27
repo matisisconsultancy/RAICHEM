@@ -88,63 +88,93 @@
      4. HERO CANVAS — rete di nodi (sistema controllato)
      ============================================================= */
   function heroCanvas() {
-    var cv = $('#heroCanvas'); if (!cv || reduce) return;
-    var ctx = cv.getContext('2d'), w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var nodes = [], N, mouse = { x: -9999, y: -9999 };
+    var cv = $('#heroCanvas'); if (!cv) return;
+    var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var hero = $('#hero'), glow = $('#heroGlow');
+
+    // Attrattore di Lorenz — la variabile instabile resa sistema controllato.
+    var pts = [], x = 0.1, y = 0, z = 0, s = 10, r = 28, be = 8 / 3, dt = 0.005, N = 11000, i;
+    for (i = 0; i < N; i++) {
+      var dx = s * (y - x), dy = x * (r - z) - y, dz = x * y - be * z;
+      x += dx * dt; y += dy * dt; z += dz * dt;
+      pts.push([x, y, z - 25]);
+    }
+
+    var w, h, scale, cx, cy;
     function size() {
       w = cv.offsetWidth; h = cv.offsetHeight;
       cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      N = Math.round(clamp((w * h) / 26000, 28, 80));
-      nodes = [];
-      for (var i = 0; i < N; i++) nodes.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.32, vy: (Math.random() - 0.5) * 0.32 });
+      scale = Math.min(w / 38, h / 46); cx = w * 0.5; cy = h * 0.47;
     }
     size();
-    var ro = window.addEventListener ? window.addEventListener('resize', debounce(size, 200)) : null;
-    var hero = $('#hero');
-    hero.addEventListener('mousemove', function (e) { var r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
-    hero.addEventListener('mouseleave', function () { mouse.x = -9999; mouse.y = -9999; });
-    var running = true;
+    window.addEventListener('resize', debounce(size, 200));
+    window.addEventListener('load', size);
+
+    var mouseX = 0.5;
+    hero.addEventListener('mousemove', function (e) {
+      var rb = hero.getBoundingClientRect(); mouseX = (e.clientX - rb.left) / rb.width;
+      if (glow) {
+        var gx = (mouseX - 0.5) * 60, gy = ((e.clientY - rb.top) / rb.height - 0.5) * 60;
+        glow.style.transform = 'translate(calc(-50% + ' + gx + 'px), calc(-50% + ' + gy + 'px))';
+      }
+    });
+
+    function render(a) {
+      var cosA = Math.cos(a), sinA = Math.sin(a), p, rx, depth, sx, sy, near;
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'lighter';
+      for (i = 0; i < N; i++) {
+        p = pts[i];
+        rx = p[0] * cosA - p[1] * sinA;
+        depth = p[0] * sinA + p[1] * cosA;
+        sx = cx + rx * scale; sy = cy - p[2] * scale;
+        near = clamp((depth + 25) / 50, 0, 1);
+        ctx.fillStyle = 'rgba(' + Math.round(205 + near * 45) + ',' + Math.round(28 + near * 40) + ',26,' + (0.08 + near * 0.16) + ')';
+        ctx.fillRect(sx, sy, 1.6, 1.6);
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    if (reduce) { render(0.25); return; }
+
+    var t = 0, head = 0, running = true;
     function frame() {
       if (!running) return;
-      ctx.clearRect(0, 0, w, h);
-      for (var i = 0; i < N; i++) {
-        var n = nodes[i];
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
-        var dmx = n.x - mouse.x, dmy = n.y - mouse.y, dm = Math.sqrt(dmx * dmx + dmy * dmy);
-        if (dm < 140) { n.x += (dmx / dm) * 0.6; n.y += (dmy / dm) * 0.6; }
-        for (var j = i + 1; j < N; j++) {
-          var m = nodes[j], dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 130) {
-            var a = (1 - d / 130) * 0.5;
-            ctx.strokeStyle = 'rgba(225,21,24,' + (a * 0.55) + ')';
-            ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.stroke();
-          }
-        }
-        ctx.fillStyle = 'rgba(255,255,255,0.55)';
-        ctx.beginPath(); ctx.arc(n.x, n.y, 1.5, 0, Math.PI * 2); ctx.fill();
-      }
+      t += 0.005;
+      var a = Math.sin(t) * 0.5 + (mouseX - 0.5) * 0.6;   // balanceo dolce, mostly face-on
+      render(a);
+      // particella in transito (testa) — punto arancio luminoso che osserva il sistema
+      head = (head + 5) % N;
+      var cosA = Math.cos(a), sinA = Math.sin(a), hp = pts[head];
+      var hx = cx + (hp[0] * cosA - hp[1] * sinA) * scale, hy = cy - hp[2] * scale;
+      ctx.shadowColor = 'rgba(255,95,35,0.9)'; ctx.shadowBlur = 16;
+      ctx.fillStyle = '#ff6a2a';
+      ctx.beginPath(); ctx.arc(hx, hy, 3, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
       requestAnimationFrame(frame);
     }
     frame();
-    // Pausa il canvas quando l'hero esce dallo schermo (performance)
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (en) {
-        running = en[0].isIntersecting;
-        if (running) frame();
+        var vis = en[0].isIntersecting;
+        if (vis && !running) { running = true; frame(); }
+        else running = vis;
       }, { threshold: 0 }).observe(hero);
     }
+  }
 
-    // Glow che segue il mouse
-    var glow = $('#heroGlow');
-    if (glow) hero.addEventListener('mousemove', function (e) {
-      var r = hero.getBoundingClientRect();
-      var gx = ((e.clientX - r.left) / r.width - 0.5) * 60;
-      var gy = ((e.clientY - r.top) / r.height - 0.5) * 60;
-      glow.style.transform = 'translate(calc(-50% + ' + gx + 'px), calc(-50% + ' + gy + 'px))';
-    });
+  /* =============================================================
+     4b. OROLOGIO HERO — readout strumentale live
+     ============================================================= */
+  function clock() {
+    var el = $('#heroClock'); if (!el) return;
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var d = new Date();
+      el.textContent = 'LOCAL ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+      setTimeout(tick, 1000);
+    }
+    tick();
   }
 
   /* =============================================================
@@ -409,6 +439,7 @@
     preloader();
     cursore();
     heroCanvas();
+    clock();
     reveals();
     counters();
     scrollFx();
