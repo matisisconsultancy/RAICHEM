@@ -16,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700;800;900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/mockups.css" />
+  <link rel="stylesheet" href="assets/css/sections.css" />
 </head>
 <body>
 
@@ -97,6 +98,22 @@
     <div class="scopo-cell"><div class="et mono">NON È</div><p>Un pitch di vendita</p></div>
     <div class="scopo-cell"><div class="et mono">NON È</div><p>Una presentazione commerciale</p></div>
     <div class="scopo-cell"><div class="et mono">NON CONTIENE</div><p>Dati finanziari</p></div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto">
+  <div class="sez-label" data-reveal><span class="tick"></span><span class="mono mono--bianco">MANIFESTO · L'ESSENZA DEL BRAND</span></div>
+  <h2 class="manifesto__statement" data-reveal="clip">Non vendiamo un prodotto chimico. <span class="acc">Trasformiamo</span> una variabile instabile in un sistema controllato.</h2>
+  <div class="manifesto__grid">
+    <p class="manifesto__body" data-reveal>Il valore non è nel catalogo. È nel controllo sulla variabile più critica del processo del cliente. Dove gli altri vedono un prodotto, noi progettiamo un sistema: prevedibile, ripetibile, verificabile.</p>
+    <ul class="manifesto__list" data-reveal-stagger>
+      <li>Non competiamo sul prezzo</li>
+      <li>Non promettiamo l'indimostrabile</li>
+      <li>Controlliamo la variabile critica</li>
+      <li>Garantiamo la costanza interlotto</li>
+      <li>Documentiamo ogni decisione</li>
+    </ul>
   </div>
 </section>
 
@@ -257,6 +274,20 @@
   </ul>
 </section>
 
+<!-- CONDIZIONI (sezione chiara) -->
+<section class="condizioni" id="condizioni">
+  <div class="condizioni__top">
+    <div class="condizioni__label" data-reveal>CONDIZIONI OPERATIVE</div>
+    <h2 class="condizioni__statement" data-reveal>La performance del cliente dipende dalla costanza del nostro sistema. <span class="acc">Piccole variazioni</span> di lotto producono effetti irreversibili a valle del processo.</h2>
+  </div>
+  <div class="condizioni__grid" data-reveal-stagger>
+    <div class="cond-item"><div class="n">01</div><div><div class="tag">Prevedibilità</div><h4>12–18 mesi</h4><p>Shelf life e costanza interlotto certificata. ISO 9001:2025.</p></div></div>
+    <div class="cond-item"><div class="n">02</div><div><div class="tag">Personalizzazione</div><h4>1000 config.</h4><p>Forma, concentrazione, colore, viscosità, packaging.</p></div></div>
+    <div class="cond-item"><div class="n">03</div><div><div class="tag">Supporto</div><h4>Classe A · 95%</h4><p>Affiancamento tecnico proattivo. Partner, non fornitore.</p></div></div>
+    <div class="cond-item"><div class="n">04</div><div><div class="tag">Continuità</div><h4>5 sedi · 3</h4><p>Continenti. Raipack verticale, white-label e stock.</p></div></div>
+  </div>
+</section>
+
 <!-- 03 IDENTITÀ VERBALE -->
 <section class="section" id="verbale">
   <span class="ghost-num" data-parallax="0.12">03</span>
@@ -397,6 +428,25 @@
     <div class="card"><span class="card__num">EDILIZIA · SOBRIO-NORMATIVO</span><p class="essenza" style="font-size:1.45rem;">«La vostra certificazione è costruita sulla costanza del nostro prodotto.»</p></div>
     <div class="card"><span class="card__num">ROAD MARKING · PRAGMATICO-DIRETTO</span><p class="essenza" style="font-size:1.45rem;">«Dai 5°C ai 40°C. Stessa reattività, stesso risultato.»</p></div>
     <div class="card"><span class="card__num">SOLID SURFACE · ORIENTATO AL VISIBILE</span><p class="essenza" style="font-size:1.45rem;">«Il difetto che vede il consumatore nasce nel processo che non vede.»</p></div>
+  </div>
+</section>
+
+<!-- SISTEMI OSSERVATI — cards orizzontali + plate generative -->
+<section class="hpin obs" id="osservati" aria-label="Sistemi osservati">
+  <div class="hpin__sticky">
+    <div class="hpin__head">
+      <span class="tick"></span><span class="mono mono--bianco">SISTEMI OSSERVATI · INDUSTRIA × PAIN × CLAIM</span>
+      <span class="mono" style="margin-left:auto;color:rgba(255,255,255,0.4);">SCORRI →</span>
+    </div>
+    <div class="hpin__track">
+      <article class="obs-card" data-cursor="drag"><div class="obs-card__plate"><span class="obs-card__idx">RX-01</span><canvas class="gen" data-variant="0"></canvas></div><div class="obs-card__body"><h3 class="obs-card__title">Costanza interlotto · Automotive</h3><div class="obs-card__cols"><div><b>Pain</b>Variabilità lotti = riformulazione e fermo linea.</div><div><b>Claim</b>Accuracy is not a feature. It's our standard.</div></div></div></article>
+      <article class="obs-card" data-cursor="drag"><div class="obs-card__plate"><span class="obs-card__idx">RX-02</span><canvas class="gen" data-variant="1"></canvas></div><div class="obs-card__body"><h3 class="obs-card__title">Certificazione · Edilizia</h3><div class="obs-card__cols"><div><b>Pain</b>Perdita della certificazione ETA / CE.</div><div><b>Claim</b>Accuracy is not a feature.</div></div></div></article>
+      <article class="obs-card" data-cursor="drag"><div class="obs-card__plate"><span class="obs-card__idx">RX-03</span><canvas class="gen" data-variant="2"></canvas></div><div class="obs-card__body"><h3 class="obs-card__title">Condizioni esterne · Road marking</h3><div class="obs-card__cols"><div><b>Pain</b>Temperature esterne variabili + penalità.</div><div><b>Claim</b>Unpredictable conditions. Predictable results.</div></div></div></article>
+      <article class="obs-card" data-cursor="drag"><div class="obs-card__plate"><span class="obs-card__idx">RX-04</span><canvas class="gen" data-variant="3"></canvas></div><div class="obs-card__body"><h3 class="obs-card__title">Difetto visibile · Solid surface</h3><div class="obs-card__cols"><div><b>Pain</b>Difetti percepiti dal consumatore finale.</div><div><b>Claim</b>The smallest component. The largest difference.</div></div></div></article>
+      <article class="obs-card" data-cursor="drag"><div class="obs-card__plate"><span class="obs-card__idx">RX-05</span><canvas class="gen" data-variant="4"></canvas></div><div class="obs-card__body"><h3 class="obs-card__title">Affidabilità · CIPP</h3><div class="obs-card__cols"><div><b>Pain</b>Un fallo significa scavo e ripetizione.</div><div><b>Claim</b>Unpredictable conditions. Predictable results.</div></div></div></article>
+      <article class="obs-card" data-cursor="drag"><div class="obs-card__plate"><span class="obs-card__idx">RX-06</span><canvas class="gen" data-variant="5"></canvas></div><div class="obs-card__body"><h3 class="obs-card__title">Controllo · Legno &amp; Nautica</h3><div class="obs-card__cols"><div><b>Pain</b>Condizioni di lavoro non controllate.</div><div><b>Claim</b>One standard. A thousand configurations.</div></div></div></article>
+    </div>
+    <div class="hpin__prog"><i></i></div>
   </div>
 </section>
 

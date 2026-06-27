@@ -1,0 +1,54 @@
+/* =====================================================================
+   RAICHEM · Sezioni in linguaggio "Axiom" — manifesto, sistemi osservati,
+   condizioni operative (chiaro). Sistema di marca invariato.
+   ===================================================================== */
+
+/* ---------- MANIFESTO ---------- */
+.manifesto { background: var(--nero); color: #fff; padding: var(--sez-y) var(--pad-x); position: relative; overflow: hidden; border-top: 1px solid var(--linea-scuro); }
+.manifesto::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(90% 60% at 15% 110%, rgba(225,21,24,0.12), transparent 60%); }
+.manifesto > * { position: relative; z-index: 1; }
+.manifesto__statement {
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2.2rem, 6.4vw, 6rem); line-height: 0.96; letter-spacing: -0.01em; max-width: 19ch; margin-top: 1.6rem;
+}
+.manifesto__statement .acc { color: var(--rosso); }
+.manifesto__grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 5vw, 5rem); margin-top: clamp(2.5rem, 5vw, 4.5rem); align-items: end; }
+.manifesto__body { font-family: var(--mono); font-size: 0.82rem; line-height: 1.75; letter-spacing: 0.03em; color: rgba(255,255,255,0.6); text-transform: uppercase; max-width: 48ch; }
+.manifesto__list { border-left: 1px solid var(--rosso); padding-left: 1.5rem; display: grid; gap: 0.85rem; align-content: end; }
+.manifesto__list li { font-family: var(--mono); font-size: 0.84rem; letter-spacing: 0.06em; text-transform: uppercase; display: flex; gap: 0.85rem; align-items: center; color: rgba(255,255,255,0.88); transition: color .25s, transform .35s var(--ease); }
+.manifesto__list li:hover { color: #fff; transform: translateX(6px); }
+.manifesto__list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--rosso); flex: none; }
+
+/* ---------- SISTEMI OSSERVATI (cards orizzontali) ---------- */
+.hpin.obs .hpin__track { align-items: stretch; }
+.obs-card { flex: 0 0 clamp(290px, 44vw, 580px); background: var(--nero-2); border: 1px solid var(--linea-scuro); display: flex; flex-direction: column; transition: border-color .4s, transform .5s var(--ease); }
+.obs-card:hover { border-color: rgba(225,21,24,0.5); }
+.obs-card__plate { aspect-ratio: 16/10; background: #f4f4f2; position: relative; overflow: hidden; }
+.obs-card__plate canvas { width: 100%; height: 100%; display: block; }
+.obs-card__idx { position: absolute; top: 0; left: 0; z-index: 2; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; color: #1a1a1a; padding: 0.7rem 0.9rem; }
+.obs-card__plate::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(0,0,0,0.06); pointer-events: none; }
+.obs-card__body { padding: clamp(1.3rem, 2.4vw, 2rem); display: flex; flex-direction: column; gap: 1.2rem; flex: 1; }
+.obs-card__title { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.35rem, 2.5vw, 2rem); line-height: 1; color: #fff; }
+.obs-card__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: auto; }
+.obs-card__cols div { font-family: var(--mono); font-size: 0.66rem; line-height: 1.65; letter-spacing: 0.03em; color: rgba(255,255,255,0.55); text-transform: uppercase; }
+.obs-card__cols b { color: var(--rosso); display: block; margin-bottom: 0.35rem; font-weight: 600; }
+
+/* ---------- CONDIZIONI (sezione chiara) ---------- */
+.condizioni { background: var(--grigio-chiaro); color: var(--nero); padding: var(--sez-y) var(--pad-x); border-top: 1px solid var(--linea); }
+.condizioni__top { display: grid; grid-template-columns: 0.7fr 1.6fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+.condizioni__label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grigio); padding-top: 0.6rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
+.condizioni__statement { font-family: var(--display); font-weight: 700; text-transform: none; font-size: clamp(1.7rem, 4.2vw, 3.4rem); line-height: 1.06; letter-spacing: -0.005em; max-width: 24ch; }
+.condizioni__statement .acc { color: var(--rosso); }
+.condizioni__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: rgba(11,11,12,0.10); border: 1px solid rgba(11,11,12,0.10); margin-top: clamp(3rem, 6vw, 5.5rem); }
+.cond-item { background: var(--grigio-chiaro); padding: 2rem 1.8rem; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; transition: background .3s; }
+.cond-item:hover { background: #fff; }
+.cond-item .n { font-family: var(--mono); font-size: 0.72rem; color: var(--grigio); }
+.cond-item .tag { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; color: var(--rosso); text-transform: uppercase; }
+.cond-item h4 { font-family: var(--display); font-size: clamp(1.7rem, 3.2vw, 2.6rem); text-transform: uppercase; line-height: 0.95; margin: 0.5rem 0; }
+.cond-item p { font-size: 0.9rem; color: var(--grigio); }
+
+@media (max-width: 900px) {
+  .manifesto__grid { grid-template-columns: 1fr; }
+  .condizioni__top { grid-template-columns: 1fr; }
+  .condizioni__label { position: static; }
+}

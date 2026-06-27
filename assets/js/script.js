@@ -278,34 +278,74 @@
      8. HORIZONTAL PIN — sezione claims
      ============================================================= */
   function horizontalPin() {
-    var sec = $('#claims'), track = $('#hpinTrack'), prog = $('#hpinProg');
-    if (!sec || !track) return;
+    var secs = $$('.hpin');
+    if (!secs.length) return;
     var canPin = fine && !reduce && window.innerWidth > 900;
-    if (!canPin) { sec.classList.add('no-pin'); return; }
+    secs.forEach(function (sec) {
+      var track = $('.hpin__track', sec), prog = $('.hpin__prog i', sec);
+      if (!track) return;
+      if (!canPin) { sec.classList.add('no-pin'); return; }
+      var distance = 0, secTop = 0, secH = 0;
+      function measure() {
+        var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+        distance = Math.max(0, track.scrollWidth - window.innerWidth + pad);
+        secH = window.innerHeight + distance;
+        sec.style.height = secH + 'px';
+        secTop = sec.getBoundingClientRect().top + window.scrollY;
+      }
+      measure();
+      window.addEventListener('resize', debounce(measure, 200));
+      window.addEventListener('load', measure);
+      function onScroll() {
+        var p = clamp((window.scrollY - secTop) / (secH - window.innerHeight), 0, 1);
+        track.style.transform = 'translateX(' + (-p * distance) + 'px)';
+        if (prog) prog.style.width = (p * 100) + '%';
+      }
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(function () { onScroll(); ticking = false; }); ticking = true; }
+      }, { passive: true });
+      onScroll();
+    });
+  }
 
-    var distance = 0, secTop = 0, secH = 0;
-    function measure() {
-      var vw = window.innerWidth;
-      distance = Math.max(0, track.scrollWidth - vw + parseFloat(getComputedStyle(track).paddingLeft) );
-      secH = window.innerHeight + distance;
-      sec.style.height = secH + 'px';
-      secTop = sec.getBoundingClientRect().top + window.scrollY;
+  /* =============================================================
+     8b. PLATE GENERATIVE — attrattori di Clifford (b/n) nelle card
+     ============================================================= */
+  function genPlates() {
+    var canvases = $$('.obs-card__plate canvas');
+    if (!canvases.length) return;
+    var presets = [
+      [-1.4, 1.6, 1.0, 0.7], [1.7, 1.7, 0.6, 1.2], [-1.7, 1.3, -0.1, -1.2],
+      [-1.8, -2.0, -0.5, -0.9], [1.5, -1.8, 1.6, 0.9], [1.6, -0.6, -1.2, 1.6]
+    ];
+    function draw(cv, P) {
+      var w = cv.offsetWidth, h = cv.offsetHeight;
+      if (!w || !h) return;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = w * dpr; cv.height = h * dpr;
+      var ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = '#f4f4f2'; ctx.fillRect(0, 0, w, h);
+      var a = P[0], b = P[1], c = P[2], d = P[3], x = 0.1, y = 0.1, i, nx, ny;
+      var rng = 2 + Math.max(Math.abs(c), Math.abs(d));
+      var sx = (w * 0.46) / rng, sy = (h * 0.46) / rng, cx = w / 2, cy = h / 2;
+      ctx.fillStyle = 'rgba(11,11,12,0.16)';
+      var N = 48000;
+      for (i = 0; i < N; i++) {
+        nx = Math.sin(a * y) + c * Math.cos(a * x);
+        ny = Math.sin(b * x) + d * Math.cos(b * y);
+        x = nx; y = ny;
+        if (i > 20) ctx.fillRect(cx + x * sx, cy + y * sy, 0.8, 0.8);
+      }
     }
-    measure();
-    window.addEventListener('resize', debounce(measure, 200));
-    window.addEventListener('load', measure);
-
-    function onScroll() {
-      var y = window.scrollY;
-      var p = clamp((y - secTop) / (secH - window.innerHeight), 0, 1);
-      track.style.transform = 'translateX(' + (-p * distance) + 'px)';
-      if (prog) prog.style.width = (p * 100) + '%';
+    function all() {
+      canvases.forEach(function (cv, idx) {
+        var v = parseInt(cv.getAttribute('data-variant') || idx, 10) % presets.length;
+        draw(cv, presets[v]);
+      });
     }
-    var ticking = false;
-    window.addEventListener('scroll', function () {
-      if (!ticking) { requestAnimationFrame(function () { onScroll(); ticking = false; }); ticking = true; }
-    }, { passive: true });
-    onScroll();
+    all();
+    window.addEventListener('resize', debounce(all, 250));
   }
 
   /* =============================================================
@@ -444,6 +484,7 @@
     counters();
     scrollFx();
     horizontalPin();
+    genPlates();
     navigation();
     smoothScroll();
     sediMap();
