@@ -1,0 +1,80 @@
+/* =====================================================================
+   RAICHEM · Sezioni ad alto impatto
+   Gerarchia dei messaggi (cascata) · Cosa Raichem NON è (manifesto nero)
+   ===================================================================== */
+
+/* ---------- GERARCHIA DEI MESSAGGI — cascata gerarchica ---------- */
+.gerarchia { margin-bottom: 1rem; }
+
+.ger-madre {
+  position: relative; background: var(--nero); color: #fff;
+  padding: clamp(2.2rem, 5vw, 4rem) clamp(1.6rem, 4vw, 3.5rem);
+  overflow: hidden; isolation: isolate;
+}
+.ger-madre::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(90% 120% at 100% 0%, rgba(225,21,24,0.22), transparent 60%);
+}
+.ger-madre .ger-lbl { color: var(--rosso); }
+.ger-madre__txt {
+  font-family: var(--display); font-weight: 900; text-transform: none;
+  font-size: clamp(2.1rem, 6.5vw, 5.2rem); line-height: 0.95; letter-spacing: -0.01em; margin-top: 0.8rem;
+}
+.ger-madre__txt .acc { color: var(--rosso); }
+
+.ger-lbl { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rosso); display: block; }
+
+.ger-cascade { position: relative; }
+.ger-node {
+  display: grid; grid-template-columns: auto 1fr; gap: clamp(1rem, 3vw, 2.6rem); align-items: center;
+  padding: clamp(1.3rem, 3vw, 2.1rem) 0; border-top: 1px solid var(--linea);
+  margin-left: calc(var(--lv) * clamp(1rem, 5vw, 5rem));
+  transition: margin-left .4s var(--ease), background .3s;
+}
+.ger-node:hover { background: rgba(11,11,12,0.02); }
+.ger-node .lv {
+  font-family: var(--display); font-weight: 900; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 0.78;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(11,11,12,0.2);
+}
+.ger-node:hover .lv { -webkit-text-stroke-color: var(--rosso); }
+.ger-node .body h4 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.5rem, 3.4vw, 2.6rem); line-height: 0.95; }
+.ger-node .body p { color: var(--grigio); font-size: 0.96rem; margin-top: 0.3rem; }
+/* linea-spina che connette la cascata */
+.ger-node::before {
+  content: ""; position: absolute; left: calc(var(--lv) * clamp(1rem,5vw,5rem) - clamp(0.6rem,1.5vw,1.3rem));
+  top: -1px; bottom: 50%; width: 1px; background: var(--rosso); opacity: 0.5;
+}
+
+/* ---------- COSA RAICHEM NON È — manifesto nero ---------- */
+.nega-x {
+  position: relative; background: var(--nero); color: #fff; overflow: hidden; isolation: isolate;
+  padding: clamp(2.6rem, 6vw, 5rem) clamp(1.6rem, 4vw, 3.6rem);
+}
+.nega-x__ghost {
+  position: absolute; right: -1%; top: -18%; z-index: -1; pointer-events: none; user-select: none;
+  font-family: var(--display); font-weight: 900; font-size: clamp(12rem, 36vw, 32rem); line-height: 0.7;
+  color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.06); letter-spacing: -0.04em;
+}
+.nega-x__intro {
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.04em; line-height: 1.7; text-transform: uppercase;
+  color: rgba(255,255,255,0.55); max-width: 50ch; margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.nega-x ul { position: relative; }
+.nega-x li {
+  display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.2rem);
+  padding: clamp(1.1rem, 2.6vw, 1.9rem) 0; border-top: 1px solid var(--linea-scuro);
+}
+.nega-x li:last-child { border-bottom: 1px solid var(--linea-scuro); }
+.nega-x .mk { color: var(--rosso); font-size: clamp(1.4rem, 3vw, 2.4rem); font-weight: 700; flex: none; line-height: 1; }
+.nega-x .tx {
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(1.5rem, 4.6vw, 3.4rem); line-height: 0.95; position: relative; transition: color .4s;
+}
+.nega-x .tx::after { content: ""; position: absolute; left: 0; top: 54%; height: 3px; width: 0; background: var(--rosso); transition: width .55s var(--ease); }
+.nega-x li:hover .tx::after { width: 100%; }
+.nega-x li:hover .tx { color: rgba(255,255,255,0.55); }
+
+@media (max-width: 760px) {
+  .ger-node { grid-template-columns: 1fr; gap: 0.4rem; margin-left: calc(var(--lv) * 1.2rem); }
+  .ger-node .lv { font-size: 2.4rem; }
+}

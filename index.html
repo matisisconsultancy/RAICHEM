@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="assets/css/sections.css" />
   <link rel="stylesheet" href="assets/css/cinematic.css" />
   <link rel="stylesheet" href="assets/css/cardviz.css" />
+  <link rel="stylesheet" href="assets/css/impact.css" />
 </head>
 <body>
 
@@ -283,12 +284,15 @@
   </div>
 
   <span class="eyebrow">COSA RAICHEM NON È</span>
-  <p class="sez-intro" data-reveal style="margin-bottom:1.6rem;">La chiarezza sui limiti è parte della credibilità. Definire ciò che non siamo protegge ciò che siamo.</p>
-  <ul class="nega" data-reveal-stagger>
-    <li><span class="x">✕</span> Non è il più economico</li>
-    <li><span class="x">✕</span> Non compete su velocità di consegna</li>
-    <li><span class="x">✕</span> Non fa promesse non documentabili</li>
-  </ul>
+  <div class="nega-x" data-reveal>
+    <span class="nega-x__ghost" aria-hidden="true">NO</span>
+    <p class="nega-x__intro">La chiarezza sui limiti è parte della credibilità. Definire ciò che non siamo protegge ciò che siamo.</p>
+    <ul data-reveal-stagger>
+      <li><span class="mk">✕</span><span class="tx">Non è il più economico</span></li>
+      <li><span class="mk">✕</span><span class="tx">Non compete su velocità di consegna</span></li>
+      <li><span class="mk">✕</span><span class="tx">Non fa promesse non documentabili</span></li>
+    </ul>
+  </div>
 </section>
 
 <!-- ATTO II -->
@@ -378,11 +382,16 @@
   </div>
 
   <span class="eyebrow" style="margin-top:0;">GERARCHIA DEI MESSAGGI</span>
-  <div class="griglia" data-reveal-stagger style="grid-template-columns:1fr;margin-bottom:1.6rem;">
-    <div class="card"><span class="card__num">L1 · MESSAGGIO MADRE</span><h4 class="card__titolo" style="text-transform:none;">When you think BPO, think Raichem.</h4></div>
-    <div class="card"><span class="card__num">L2 · PER TERRITORIO</span><p class="card__testo">6 claims strategici assegnati.</p></div>
-    <div class="card"><span class="card__num">L3 · PER INDUSTRIA</span><p class="card__testo">7 verticali con vocabolario specifico.</p></div>
-    <div class="card"><span class="card__num">L4 · PER BUYER PERSONA</span><p class="card__testo">5 profili con angolo e apertura propria.</p></div>
+  <div class="gerarchia">
+    <div class="ger-madre brackets" data-reveal="scale">
+      <span class="ger-lbl">L1 · Messaggio madre</span>
+      <p class="ger-madre__txt">When you think BPO,<br><span class="acc">think Raichem.</span></p>
+    </div>
+    <div class="ger-cascade" data-reveal-stagger>
+      <div class="ger-node" style="--lv:1"><span class="lv">02</span><div class="body"><span class="ger-lbl">L2 · Per territorio</span><h4>6 claims strategici</h4><p>Assegnati a ciascun territorio di marca.</p></div></div>
+      <div class="ger-node" style="--lv:2"><span class="lv">03</span><div class="body"><span class="ger-lbl">L3 · Per industria</span><h4>7 verticali</h4><p>Ognuno con vocabolario specifico.</p></div></div>
+      <div class="ger-node" style="--lv:3"><span class="lv">04</span><div class="body"><span class="ger-lbl">L4 · Per buyer persona</span><h4>5 profili</h4><p>Con angolo e apertura propria.</p></div></div>
+    </div>
   </div>
   <p class="sez-intro" data-reveal style="font-style:italic;">La voce di marca non cambia mai. Ciò che cambia è il vocabolario, il punto d'ingresso e l'enfasi.</p>
 
