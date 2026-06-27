@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700;800;900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/mockups.css" />
 </head>
 <body>
 
@@ -107,6 +108,62 @@
     <div class="stat"><div class="stat__num"><span data-count="7">0</span></div><div class="stat__lab">Industrie verticali</div></div>
     <div class="stat"><div class="stat__num"><span data-count="8">0</span></div><div class="stat__lab">Buyer personas</div></div>
     <div class="stat"><div class="stat__num"><span data-count="12">0</span></div><div class="stat__lab">Capitoli · un sistema</div></div>
+  </div>
+</section>
+
+<!-- PRESENZA GLOBALE — MAPPA INTERATTIVA -->
+<section class="sedi" id="sedi" style="height:240vh;">
+  <div class="sedi__sticky">
+    <div class="sedi__bg"></div>
+    <div class="sedi__grid" id="sediGrid"></div>
+
+    <div class="sedi__head">
+      <div>
+        <div class="sez-label"><span class="tick"></span><span class="mono mono--bianco">PRESENZA GLOBALE · CONTINUITÀ OPERATIVA</span></div>
+        <h2 class="sedi__title">5 sedi.<br>3 <span class="acc">continenti</span>.</h2>
+        <div class="mono" id="sediNow" style="margin-top:1rem;color:rgba(255,255,255,0.7);min-height:1.2em;"></div>
+      </div>
+      <div class="sedi__counter">
+        <div class="n"><span id="sediCount">0</span><span class="tot">/5</span></div>
+        <div class="lab">Sedi attive</div>
+      </div>
+    </div>
+
+    <div class="worldwrap">
+      <div class="worldmap">
+        <svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <g class="graticule">
+            <line x1="0" y1="0" x2="0" y2="500"/><line x1="83.3" y1="0" x2="83.3" y2="500"/>
+            <line x1="166.7" y1="0" x2="166.7" y2="500"/><line x1="250" y1="0" x2="250" y2="500"/>
+            <line x1="333.3" y1="0" x2="333.3" y2="500"/><line x1="416.7" y1="0" x2="416.7" y2="500"/>
+            <line x1="500" y1="0" x2="500" y2="500"/><line x1="583.3" y1="0" x2="583.3" y2="500"/>
+            <line x1="666.7" y1="0" x2="666.7" y2="500"/><line x1="750" y1="0" x2="750" y2="500"/>
+            <line x1="833.3" y1="0" x2="833.3" y2="500"/><line x1="916.7" y1="0" x2="916.7" y2="500"/>
+            <line x1="1000" y1="0" x2="1000" y2="500"/>
+            <line x1="0" y1="0" x2="1000" y2="0"/><line x1="0" y1="83.3" x2="1000" y2="83.3"/>
+            <line x1="0" y1="166.7" x2="1000" y2="166.7"/><line x1="0" y1="250" x2="1000" y2="250"/>
+            <line x1="0" y1="333.3" x2="1000" y2="333.3"/><line x1="0" y1="416.7" x2="1000" y2="416.7"/>
+            <line x1="0" y1="500" x2="1000" y2="500"/>
+          </g>
+          <g id="sediArcs">
+            <path class="arc" data-arc="1" d="M525.5,123.7 Q515.8,55 506,135"/>
+            <path class="arc" data-arc="2" d="M525.5,123.7 Q526.6,45 527.7,101.3"/>
+            <path class="arc" data-arc="3" d="M525.5,123.7 Q448,40 370.5,315.4"/>
+            <path class="arc" data-arc="4" d="M525.5,123.7 Q681.5,30 837.4,163.3"/>
+          </g>
+        </svg>
+      </div>
+      <div class="pin hq" data-step="0" style="left:52.55%;top:24.7%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Milano</b><span>HQ · Europa</span></span></div>
+      <div class="pin pin--lbl-left" data-step="1" style="left:50.6%;top:27%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Barcelona</b><span>Europa</span></span></div>
+      <div class="pin pin--lbl-up" data-step="2" style="left:52.77%;top:20.25%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Hamburg</b><span>Europa</span></span></div>
+      <div class="pin" data-step="3" style="left:37.05%;top:63.1%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>São Paulo</b><span>Americhe</span></span></div>
+      <div class="pin" data-step="4" style="left:83.74%;top:32.65%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Shanghai</b><span>Asia</span></span></div>
+    </div>
+
+    <div class="sedi__legend">
+      <span><i></i> Sede operativa · Raipack verticale</span>
+      <span class="conferma">● Ubicazioni esemplificative — DATI DA CONFERMARE</span>
+    </div>
   </div>
 </section>
 
@@ -455,18 +512,111 @@
     <div class="card"><h4 class="card__titolo" style="font-size:1.35rem;">Partner</h4><p class="card__testo">Relazione di co-creazione.</p></div>
   </div>
 
-  <span class="eyebrow">MOCKUP — COLLATERALI · DA INCORPORARE</span>
-  <div class="placeholder-grid" data-reveal-stagger>
-    <div class="ph"><span class="icona">⊞</span><span class="et">Packaging · Raipack</span><small>TRASCINA MOCKUP</small></div>
-    <div class="ph"><span class="icona">⊞</span><span class="et">Scheda tecnica · TDS</span><small>TRASCINA MOCKUP</small></div>
-    <div class="ph"><span class="icona">⊞</span><span class="et">Presentazione · Deck</span><small>TRASCINA MOCKUP</small></div>
+  <span class="eyebrow">MOCKUP — BANNER &amp; SEGNALETICA FIERA</span>
+  <div class="scene scene--banners" data-reveal>
+    <div class="scene__vign"></div>
+    <div class="banners">
+      <div class="banner-hang">
+        <div class="poster banner banner--logo">
+          <div class="poster__halftone"></div><div class="poster__crop"></div>
+          <div class="wm">RAI<span class="acc">CHEM</span></div><div class="sub">BPO SYSTEMS</div>
+        </div>
+      </div>
+      <div class="banner-hang">
+        <div class="poster poster--rosso banner banner--rosso">
+          <div class="poster__halftone"></div><div class="poster__rmark"></div><div class="poster__crop"></div>
+          <div class="p-kicker">Potenzia il tuo processo. Vivi la produzione con controllo.</div>
+          <div class="p-head">CONTROLLO.</div>
+          <div class="p-foot"><div class="p-mono">RAICHEM®<br>BPO SYSTEMS<br>2026 — v1.0</div><div class="qr"></div></div>
+        </div>
+      </div>
+      <div class="banner-hang">
+        <div class="poster banner banner--dark">
+          <div class="poster__halftone"></div><div class="poster__crop"></div>
+          <div class="p-kicker">Dai 5°C ai 40°C: stessa reattività, stesso risultato.</div>
+          <div class="p-head">RISULTATI<br>PREVEDI<span class="acc">BILI</span>.</div>
+          <div class="p-foot"><div class="p-mono">ALL RIGHTS<br>RESERVED ©</div><div class="qr"></div></div>
+        </div>
+      </div>
+    </div>
   </div>
+  <p class="mock-cap"><span class="dot"></span> Mockup vettoriale on-brand · sostituibile con foto reale dell'allestimento</p>
 
-  <span class="eyebrow">MOCKUP — DIGITALE &amp; FIERE · DA INCORPORARE</span>
-  <div class="placeholder-grid" data-reveal-stagger>
-    <div class="ph"><span class="icona">⊞</span><span class="et">Digitale · Web</span><small>SITO · LANDING</small></div>
-    <div class="ph"><span class="icona">⊞</span><span class="et">Social · Post</span><small>LINKEDIN</small></div>
-    <div class="ph"><span class="icona">⊞</span><span class="et">Fiera · Stand</span><small>STAND</small></div>
+  <span class="eyebrow">MOCKUP — POSTER ISTITUZIONALE</span>
+  <div class="scene scene--wall" data-reveal>
+    <div class="poster wall-poster">
+      <div class="bokeh"></div><div class="poster__crop"></div>
+      <div class="topline">RAICHEM® · BPO SYSTEMS</div>
+      <div class="wm">RAI<span class="acc">CHEM</span></div>
+      <div>
+        <div class="claim">Accuracy is not a feature. It's our standard.</div>
+        <div class="body">Trasformiamo una variabile chimica instabile in un sistema controllato, affidabile e replicabile. Il valore non è nel catalogo: è nel controllo.</div>
+        <div class="url">perossido di benzoile · sistemi controllati</div>
+      </div>
+    </div>
+  </div>
+  <p class="mock-cap"><span class="dot"></span> Stile poster istituzionale · glow rosso come accento</p>
+
+  <span class="eyebrow">MOCKUP — PACKAGING · RAIPACK</span>
+  <div class="scene scene--pkg" data-reveal>
+    <div class="pkg-stage">
+      <div class="pail">
+        <div class="pail__body"></div>
+        <div class="pail__band"><span class="wm">RAICHEM</span></div>
+        <div class="pail__lid"></div>
+        <div class="pail__label">BENZOYL PEROXIDE SYSTEM<br><b>RAIPACK®</b> · NET 25KG<br>BATCH RX-2026-0418</div>
+      </div>
+      <div class="floor"></div>
+    </div>
+    <div class="pkg-info">
+      <h4>Raipack® — packaging verticale</h4>
+      <p>Configurabile per forma, concentrazione, colore e viscosità. White-label e stock dedicato: il nome Raichem non appare sul prodotto del cliente.</p>
+      <div class="spec">
+        <div><span>Sistema</span><span>BPO · Classe A</span></div>
+        <div><span>Shelf life</span><span>12–18 mesi</span></div>
+        <div><span>Tracciabilità</span><span>Batch · ISO 9001:2025</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="mock-cap"><span class="dot"></span> Etichetta &amp; sistema packaging · proporzioni indicative</p>
+
+  <span class="eyebrow">MOCKUP — DIGITALE &amp; SOCIAL</span>
+  <div class="appgrid" data-reveal-stagger>
+    <div class="frame">
+      <div class="poster social">
+        <div class="poster__halftone"></div><div class="poster__rmark"></div>
+        <div class="top"><span>RAICHEM®</span><span>LinkedIn</span></div>
+        <div class="big">Accuracy<br>is not a<br><span class="acc">feature.</span></div>
+        <div class="bottom"><span class="wm" style="font-size:0.8rem;">RAICHEM</span><span>#controllo</span></div>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="poster social social--rosso">
+        <div class="poster__halftone"></div>
+        <div class="top"><span>RAICHEM®</span><span>Campagna</span></div>
+        <div class="big">One standard.<br>A thousand<br><span class="acc">configs.</span></div>
+        <div class="bottom"><span class="wm" style="font-size:0.8rem;">RAICHEM</span><span>2026</span></div>
+      </div>
+    </div>
+    <div class="frame frame--light">
+      <div class="tds">
+        <div class="tds__head"><span class="wm">RAI<span class="acc">CHEM</span></span><span class="lab">SCHEDA TECNICA<br>TDS · 01</span></div>
+        <div class="tds__body">
+          <div class="tds__sub">Perossido di benzoile · Sistema BPO</div>
+          <div class="tds__title">Raipack BPO-75</div>
+          <div class="tds__rows">
+            <div><span>Concentrazione</span><b>75% ± 0,5</b></div>
+            <div><span>Forma</span><b>Pasta · config.</b></div>
+            <div><span>Viscosità</span><b>Su specifica</b></div>
+            <div><span>Shelf life</span><b>12–18 mesi</b></div>
+            <div><span>Classe</span><b>A · 99/100</b></div>
+            <div><span>Standard</span><b>ISO 9001:2025</b></div>
+          </div>
+          <div class="tds__foot">RAICHEM® · BPO SYSTEMS · 2026</div>
+        </div>
+        <div class="tds__bar"></div>
+      </div>
+    </div>
   </div>
 
   <span class="eyebrow">ANIMAZIONI &amp; PEZZI DINAMICI · DA INCORPORARE</span>

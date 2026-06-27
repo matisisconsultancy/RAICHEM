@@ -152,9 +152,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 800; text-transform: uppe
 
 @media (min-width: 940px) {
   .sez-head { display: grid; grid-template-columns: 24% 1fr; column-gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
-  .sez-label { grid-column: 1; grid-row: 1; margin-bottom: 0; align-self: start; position: sticky; top: calc(var(--nav-h) + 2rem); }
-  .sez-titolo { grid-column: 2; grid-row: 1; margin-bottom: 0; }
-  .sez-intro  { grid-column: 2; grid-row: 2; margin-top: 1.4rem; }
+  .sez-head .sez-label { grid-column: 1; grid-row: 1; margin-bottom: 0; align-self: start; position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .sez-head .sez-titolo { grid-column: 2; grid-row: 1; margin-bottom: 0; }
+  .sez-head .sez-intro  { grid-column: 2; grid-row: 2; margin-top: 1.4rem; }
 }
 
 .eyebrow { display: block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rosso); margin: 3rem 0 1.1rem; }

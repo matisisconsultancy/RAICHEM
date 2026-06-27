@@ -347,6 +347,55 @@
   }
 
   /* =============================================================
+     11. SEDI — mappa interattiva (parallax + glow progressivo)
+     ============================================================= */
+  function sediMap() {
+    var sec = $('#sedi'); if (!sec) return;
+    var pins = $$('.pin', sec);
+    var arcs = $$('.arc', sec);
+    var grid = $('#sediGrid');
+    var countEl = $('#sediCount');
+    var nowEl = $('#sediNow');
+    var wrap = $('.worldwrap', sec);
+    if (!pins.length) return;
+    var total = pins.length;
+    var names = ['Milano — HQ', 'Barcelona', 'Hamburg', 'São Paulo', 'Shanghai'];
+    var prev = -1;
+
+    function apply(active) {
+      pins.forEach(function (p, i) { p.classList.toggle('on', i < active); });
+      arcs.forEach(function (a) { a.classList.toggle('on', parseInt(a.getAttribute('data-arc'), 10) < active); });
+      if (countEl) countEl.textContent = active;
+      if (nowEl && active > 0 && active !== prev) {
+        nowEl.textContent = '› ATTIVAZIONE SEDE ' + (active < 10 ? '0' : '') + active + ' · ' + (names[active - 1] || '');
+      }
+      prev = active;
+    }
+
+    if (reduce || !fine) { apply(total); if (nowEl) nowEl.textContent = '› 5 SEDI · 3 CONTINENTI'; return; }
+
+    var secTop = 0, secH = 0;
+    function measure() { var r = sec.getBoundingClientRect(); secTop = r.top + window.scrollY; secH = sec.offsetHeight; }
+    measure();
+    window.addEventListener('resize', debounce(measure, 200));
+    window.addEventListener('load', measure);
+
+    function onScroll() {
+      var p = clamp((window.scrollY - secTop) / (secH - window.innerHeight), 0, 1);
+      var active = clamp(Math.floor(p * (total + 0.6)) + 1, 1, total);
+      if (p <= 0.001) active = window.scrollY >= secTop ? 1 : 0;
+      apply(active);
+      if (grid) grid.style.transform = 'translateY(' + ((p - 0.5) * -50) + 'px)';
+      if (wrap) wrap.style.transform = 'scale(' + (0.94 + p * 0.06) + ')';
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { requestAnimationFrame(function () { onScroll(); ticking = false; }); ticking = true; }
+    }, { passive: true });
+    onScroll();
+  }
+
+  /* =============================================================
      UTIL
      ============================================================= */
   function debounce(fn, ms) {
@@ -366,6 +415,7 @@
     horizontalPin();
     navigation();
     smoothScroll();
+    sediMap();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
