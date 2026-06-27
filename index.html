@@ -17,8 +17,12 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/mockups.css" />
   <link rel="stylesheet" href="assets/css/sections.css" />
+  <link rel="stylesheet" href="assets/css/cinematic.css" />
 </head>
 <body>
+
+<!-- CAMPO PERSISTENTE — attrattore che si controlla allo scroll -->
+<canvas id="field" aria-hidden="true"></canvas>
 
 <!-- TEXTURE + CURSORE -->
 <div class="grain" aria-hidden="true"></div>
@@ -51,10 +55,12 @@
   <button class="nav__toggle" id="navToggle" aria-label="Apri menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 <div class="progress" id="progress"></div>
+<div class="hud" aria-hidden="true">
+  <span>SISTEMA</span><span class="hud__bar"><i id="hudBar"></i></span><b id="hudPct">0%</b><span class="st" id="hudState">OSSERVAZIONE</span>
+</div>
 
 <!-- HERO -->
 <header class="hero" id="hero">
-  <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
   <div class="hero__grid" aria-hidden="true"></div>
   <div class="hero__glow" id="heroGlow" aria-hidden="true"></div>
 
@@ -210,6 +216,15 @@
   </div>
 </section>
 
+<!-- ATTO I -->
+<section class="act" aria-label="Atto I">
+  <div class="act__meta"><span class="mono mono--rosso">ATTO I</span><span class="act__rule"></span><span class="mono mono--bianco">STATE: OSSERVAZIONE</span></div>
+  <div class="act__num" data-parallax="0.1">01</div>
+  <h2 class="act__title">Fondamenti<span class="acc">.</span></h2>
+  <p class="act__line">Una variabile instabile, osservata. Da qui inizia il controllo.</p>
+  <div class="act__foot"><span>RAICHEM · BPO SYSTEMS</span><span>DRIFT: <span class="st">RILEVATO</span></span></div>
+</section>
+
 <!-- 01 FONDAMENTI -->
 <section class="section" id="fondamenti">
   <span class="ghost-num" data-parallax="0.12">01</span>
@@ -286,6 +301,15 @@
     <div class="cond-item"><div class="n">03</div><div><div class="tag">Supporto</div><h4>Classe A · 95%</h4><p>Affiancamento tecnico proattivo. Partner, non fornitore.</p></div></div>
     <div class="cond-item"><div class="n">04</div><div><div class="tag">Continuità</div><h4>5 sedi · 3</h4><p>Continenti. Raipack verticale, white-label e stock.</p></div></div>
   </div>
+</section>
+
+<!-- ATTO II -->
+<section class="act" aria-label="Atto II">
+  <div class="act__meta"><span class="mono mono--rosso">ATTO II</span><span class="act__rule"></span><span class="mono mono--bianco">STATE: STABILIZZAZIONE</span></div>
+  <div class="act__num" data-parallax="0.1">03</div>
+  <h2 class="act__title">Voce<span class="acc">.</span></h2>
+  <p class="act__line">Il sistema prende linguaggio. Preciso, concreto, sicuro di sé.</p>
+  <div class="act__foot"><span>L'INGEGNERE CHE ASCOLTA</span><span>DRIFT: <span class="st">IN CALO</span></span></div>
 </section>
 
 <!-- 03 IDENTITÀ VERBALE -->
@@ -475,6 +499,15 @@
     <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Co-branding / White-label</h4><p class="card__testo">Il nome Raichem non appare sul prodotto del cliente.</p></div>
     <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;color:var(--rosso);">✕ Errori critici</h4><p class="card__testo">Colori modificati · claim inventati · promesse non documentate.</p></div>
   </div>
+</section>
+
+<!-- ATTO III -->
+<section class="act" aria-label="Atto III">
+  <div class="act__meta"><span class="mono mono--rosso">ATTO III</span><span class="act__rule"></span><span class="mono mono--bianco">STATE: CONTROLLO</span></div>
+  <div class="act__num" data-parallax="0.1">08</div>
+  <h2 class="act__title">Sistema <span class="acc">visivo</span>.</h2>
+  <p class="act__line">Il caos diventa griglia. La forma del controllo: blueprint, rosso, struttura.</p>
+  <div class="act__foot"><span>IDENTITÀ VISIVA</span><span>DRIFT: <span class="st">MINIMO</span></span></div>
 </section>
 
 <!-- 08 IDENTITÀ VISIVA -->
@@ -718,6 +751,15 @@
     <div class="check-col"><h4>Identità visiva</h4><ul><li>Logo nella versione corretta?</li><li>Rosso come accento, non dominante?</li><li>Immagini reali, non stock?</li><li>Layout con spazio bianco?</li></ul></div>
     <div class="check-col"><h4>Coerenza strategica</h4><ul><li>Coerente con «lo specialista flessibile»?</li><li>Adattato al target group?</li><li>Nessuna promessa non documentabile?</li><li>Distinguibile dai competitor?</li></ul></div>
   </div>
+</section>
+
+<!-- ATTO IV -->
+<section class="act" aria-label="Atto IV">
+  <div class="act__meta"><span class="mono mono--rosso">ATTO IV</span><span class="act__rule"></span><span class="mono mono--bianco">STATE: SISTEMA CONTROLLATO</span></div>
+  <div class="act__num" data-parallax="0.1">12</div>
+  <h2 class="act__title">Governance<span class="acc">.</span></h2>
+  <p class="act__line">Il controllo si mantiene. Documentato, versionato, protetto.</p>
+  <div class="act__foot"><span>UNA SOLA VERSIONE UFFICIALE</span><span>DRIFT: <span class="st">SOTTO CONTROLLO</span></span></div>
 </section>
 
 <!-- 12 GOVERNANCE -->

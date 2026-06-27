@@ -178,6 +178,87 @@
   }
 
   /* =============================================================
+     4c. CAMPO PERSISTENTE — attrattore del caos che si controlla
+         (chaos → reticolo blueprint) sincronizzato allo scroll
+     ============================================================= */
+  function field() {
+    var cv = document.getElementById('field'); if (!cv) return;
+    var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var N = window.innerWidth < 760 ? 2800 : 6000, pts = [], lat = [], x = 0.1, y = 0, z = 0, i;
+    for (i = 0; i < N; i++) {
+      var dx = 10 * (y - x), dy = x * (28 - z) - y, dz = x * y - (8 / 3) * z;
+      x += dx * 0.006; y += dy * 0.006; z += dz * 0.006;
+      pts.push([x, y, z - 25]);
+    }
+    // reticolo blueprint di destinazione: l'ordine = il controllo
+    var cols = 100, rows = Math.ceil(N / cols);
+    for (i = 0; i < N; i++) {
+      lat.push([((i % cols) / (cols - 1) - 0.5) * 46, 0, (Math.floor(i / cols) / (rows - 1) - 0.5) * 52]);
+    }
+    var w, h, scale, cx, cy;
+    function size() {
+      w = window.innerWidth; h = window.innerHeight;
+      cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      scale = Math.min(w / 44, h / 52); cx = w * 0.5; cy = h * 0.5;
+    }
+    size();
+    window.addEventListener('resize', debounce(size, 200));
+
+    var hudBar = document.getElementById('hudBar'), hudPct = document.getElementById('hudPct'), hudSt = document.getElementById('hudState');
+    var control = 0, target = 0, t = 0, head = 0, running = true;
+    function updateHud(p) {
+      if (hudBar) hudBar.style.width = (p * 100) + '%';
+      if (hudPct) hudPct.textContent = Math.round(p * 100) + '%';
+      if (hudSt) hudSt.textContent = p < 0.12 ? 'OSSERVAZIONE' : p < 0.45 ? 'STABILIZZAZIONE' : p < 0.82 ? 'CONTROLLO' : 'SISTEMA CONTROLLATO';
+    }
+    function onScroll() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      target = max > 0 ? clamp(window.scrollY / max, 0, 1) : 0;
+      updateHud(target);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    function render(e, a) {
+      var cosA = Math.cos(a), sinA = Math.sin(a), p, l, px, py, pz, rx, depth, sx, sy, near;
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'lighter';
+      for (i = 0; i < N; i++) {
+        p = pts[i]; l = lat[i];
+        px = p[0] + (l[0] - p[0]) * e; py = p[1] + (l[1] - p[1]) * e; pz = p[2] + (l[2] - p[2]) * e;
+        rx = px * cosA - py * sinA; depth = px * sinA + py * cosA;
+        sx = cx + rx * scale; sy = cy - pz * scale;
+        near = clamp((depth + 25) / 50, 0, 1);
+        ctx.fillStyle = 'rgba(' + Math.round(205 + near * 45) + ',' + Math.round(26 + near * 40) + ',26,' + (0.05 + near * 0.12) + ')';
+        ctx.fillRect(sx, sy, 1.5, 1.5);
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    if (reduce) { render(0.4, 0.3); return; }
+
+    function frame() {
+      if (!running) return;
+      control += (target - control) * 0.05;
+      t += 0.004;
+      var a = Math.sin(t) * 0.5 * (1 - control * 0.75);
+      render(control, a);
+      head = (head + 5) % N;
+      if (control < 0.9) {
+        var cosA = Math.cos(a), sinA = Math.sin(a), hp = pts[head], lt = lat[head];
+        var hpx = hp[0] + (lt[0] - hp[0]) * control, hpy = hp[1] + (lt[1] - hp[1]) * control, hpz = hp[2] + (lt[2] - hp[2]) * control;
+        var hx = cx + (hpx * cosA - hpy * sinA) * scale, hy = cy - hpz * scale;
+        ctx.shadowColor = 'rgba(255,95,35,' + (0.9 * (1 - control)) + ')'; ctx.shadowBlur = 16;
+        ctx.fillStyle = 'rgba(255,106,42,' + (1 - control * 0.7) + ')';
+        ctx.beginPath(); ctx.arc(hx, hy, 3, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+      }
+      requestAnimationFrame(frame);
+    }
+    frame();
+    document.addEventListener('visibilitychange', function () { running = !document.hidden; if (running) frame(); });
+  }
+
+  /* =============================================================
      5. REVEAL ON SCROLL (+ stagger)
      ============================================================= */
   function reveals() {
@@ -478,7 +559,7 @@
   function init() {
     preloader();
     cursore();
-    heroCanvas();
+    field();
     clock();
     reveals();
     counters();
