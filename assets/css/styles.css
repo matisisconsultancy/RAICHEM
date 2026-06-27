@@ -1,0 +1,559 @@
+/* =====================================================================
+   RAICHEM · BRAND BOOK — Micrositio
+   Sistema visiva: scheda tecnica / blueprint industriale
+   Matisis Consultancy · 2026 · v1.0
+   ===================================================================== */
+
+/* ------------------------------------------------------------------ */
+/*  1. DESIGN TOKENS                                                    */
+/* ------------------------------------------------------------------ */
+:root {
+  /* Palette cromatica ufficiale */
+  --rosso:        #C91517;   /* Accento strategico */
+  --rosso-scuro:  #A01012;
+  --nero:         #1A1A1A;   /* Autorità */
+  --grigio:       #666666;   /* Secondario */
+  --grigio-chiaro:#F2F2F2;   /* Sfondi · card */
+  --bianco:       #FFFFFF;   /* Respiro */
+
+  --linea:        rgba(26, 26, 26, 0.10);
+  --linea-scuro:  rgba(255, 255, 255, 0.10);
+  --blueprint:    rgba(255, 255, 255, 0.045);
+  --blueprint-l:  rgba(26, 26, 26, 0.045);
+
+  /* Tipografia */
+  --display: "Saira Condensed", "Arial Narrow", sans-serif;
+  --testo:   "Archivo", system-ui, sans-serif;
+  --mono:    "IBM Plex Mono", "Courier New", monospace;
+
+  /* Griglia tecnica */
+  --grid:    96px;
+  --bordo:   1px solid var(--linea);
+  --bordo-s: 1px solid var(--linea-scuro);
+
+  /* Spaziatura */
+  --pad-x:   clamp(1.4rem, 5vw, 7rem);
+  --sez-y:   clamp(4.5rem, 9vw, 9rem);
+
+  --nav-h:   62px;
+  --ease:    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/*  2. RESET                                                           */
+/* ------------------------------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--testo);
+  color: var(--nero);
+  background: var(--bianco);
+  line-height: 1.6;
+  font-size: 16px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+::selection { background: var(--rosso); color: #fff; }
+
+/* ------------------------------------------------------------------ */
+/*  3. TIPOGRAFIA UTILITY                                              */
+/* ------------------------------------------------------------------ */
+.mono {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grigio);
+  font-weight: 500;
+}
+.mono--rosso { color: var(--rosso); }
+.mono--bianco { color: rgba(255,255,255,0.55); }
+
+.display {
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+h1, h2, h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; line-height: 0.98; }
+
+/* Tick rosso usato come marker */
+.tick {
+  display: inline-block;
+  width: 22px; height: 4px;
+  background: var(--rosso);
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------------ */
+/*  4. LAYOUT BASE                                                     */
+/* ------------------------------------------------------------------ */
+.wrap { padding-inline: var(--pad-x); }
+
+.section {
+  position: relative;
+  padding-block: var(--sez-y);
+  padding-inline: var(--pad-x);
+  scroll-margin-top: var(--nav-h);
+  border-top: var(--bordo);
+}
+.section--scuro {
+  background: var(--nero);
+  color: var(--bianco);
+  border-top: var(--bordo-s);
+}
+.section--grigio { background: var(--grigio-chiaro); }
+
+/* Etichetta tecnica di sezione (registro scheda tecnica) */
+.sez-label {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2.4rem;
+}
+.sez-label .tick { flex: none; }
+
+.sez-titolo {
+  font-size: clamp(2.1rem, 5.5vw, 4.4rem);
+  margin-bottom: 1.1rem;
+  max-width: 18ch;
+}
+.section--scuro .sez-titolo { color: #fff; }
+
+.sez-intro {
+  max-width: 56ch;
+  color: var(--grigio);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  margin-bottom: 3.2rem;
+}
+.section--scuro .sez-intro { color: rgba(255,255,255,0.62); }
+
+/* Numero fantasma di capitolo */
+.ghost-num {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2.4rem);
+  right: var(--pad-x);
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(7rem, 22vw, 20rem);
+  line-height: 0.8;
+  color: var(--blueprint-l);
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+.section--scuro .ghost-num { color: var(--blueprint); }
+
+.section > *:not(.ghost-num) { position: relative; z-index: 1; }
+
+/* Griglia blueprint di sfondo */
+.blueprint-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--blueprint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint) 1px, transparent 1px);
+  background-size: var(--grid) var(--grid);
+  pointer-events: none; z-index: 0;
+}
+
+/* Corner brackets (ancoraggio) */
+.brackets { position: relative; }
+.brackets::before, .brackets::after {
+  content: ""; position: absolute; width: 16px; height: 16px;
+  border: 2px solid var(--rosso); pointer-events: none;
+}
+.brackets::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.brackets::after  { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+/* ------------------------------------------------------------------ */
+/*  5. NAVIGAZIONE                                                     */
+/* ------------------------------------------------------------------ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding-inline: var(--pad-x);
+  background: rgba(255,255,255,0.86);
+  backdrop-filter: blur(14px);
+  border-bottom: var(--bordo);
+  transition: background .3s var(--ease), border-color .3s var(--ease);
+}
+.nav__brand {
+  font-family: var(--display); font-weight: 900; font-size: 1.35rem;
+  letter-spacing: 0.02em; display: flex; align-items: center; gap: 0.5rem;
+}
+.nav__brand .dot { width: 9px; height: 9px; background: var(--rosso); display: inline-block; }
+.nav__brand small {
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em;
+  color: var(--grigio); font-weight: 500; align-self: flex-start; margin-top: 4px;
+}
+.nav__links { display: flex; gap: 1.6rem; align-items: center; }
+.nav__links a {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--grigio); transition: color .2s;
+  position: relative; padding-block: 4px;
+}
+.nav__links a:hover, .nav__links a.attivo { color: var(--nero); }
+.nav__links a.attivo::after {
+  content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--rosso);
+}
+
+.nav__toggle {
+  display: none; background: none; border: 0; cursor: pointer;
+  width: 30px; height: 22px; position: relative;
+}
+.nav__toggle span {
+  position: absolute; left: 0; width: 100%; height: 2px; background: var(--nero);
+  transition: transform .3s var(--ease), opacity .2s;
+}
+.nav__toggle span:nth-child(1) { top: 2px; }
+.nav__toggle span:nth-child(2) { top: 10px; }
+.nav__toggle span:nth-child(3) { top: 18px; }
+.nav.aperto .nav__toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav.aperto .nav__toggle span:nth-child(2) { opacity: 0; }
+.nav.aperto .nav__toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Barra di avanzamento lettura */
+.progress {
+  position: fixed; top: var(--nav-h); left: 0; height: 2px;
+  background: var(--rosso); width: 0; z-index: 101; transition: width .1s linear;
+}
+
+/* ------------------------------------------------------------------ */
+/*  6. HERO / COVER                                                    */
+/* ------------------------------------------------------------------ */
+.hero {
+  min-height: 100vh;
+  background: var(--nero); color: var(--bianco);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: calc(var(--nav-h) + 3rem) var(--pad-x) 3rem;
+  position: relative; overflow: hidden;
+}
+.hero__meta {
+  display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  margin-bottom: auto; padding-top: 1rem;
+}
+.hero__brand {
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(3.4rem, 15vw, 12rem); line-height: 0.85;
+  letter-spacing: -0.01em; margin: 1.5rem 0;
+}
+.hero__brand .acc { color: var(--rosso); }
+.hero__sub {
+  font-family: var(--mono); font-size: clamp(0.72rem, 1.4vw, 0.95rem);
+  letter-spacing: 0.28em; color: rgba(255,255,255,0.7); text-transform: uppercase;
+  border-left: 3px solid var(--rosso); padding-left: 1rem; margin-bottom: 2rem;
+}
+.hero__title {
+  font-size: clamp(2.6rem, 8vw, 6.5rem); line-height: 0.92; max-width: 16ch;
+}
+.hero__title .punto { color: var(--rosso); }
+.hero__foot {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: auto; padding-top: 3rem; flex-wrap: wrap; gap: 1rem;
+  border-top: var(--bordo-s);
+}
+.hero__scroll {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.5); text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.hero__scroll .freccia { animation: bob 1.8s var(--ease) infinite; }
+@keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(5px);} }
+
+/* ------------------------------------------------------------------ */
+/*  7. SCOPO (è / non è)                                               */
+/* ------------------------------------------------------------------ */
+.scopo-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px; background: var(--linea); border: var(--bordo);
+}
+.scopo-cell { background: var(--bianco); padding: 2rem 1.8rem; }
+.scopo-cell .et { margin-bottom: 0.8rem; }
+.scopo-cell p { font-size: 1.05rem; }
+.scopo-cell--si { background: var(--nero); color: #fff; }
+.scopo-cell--si .display { font-size: 1.6rem; color: #fff; }
+
+/* ------------------------------------------------------------------ */
+/*  8. CARD / GRIGLIE GENERICHE                                        */
+/* ------------------------------------------------------------------ */
+.griglia {
+  display: grid; gap: 1px; background: var(--linea); border: var(--bordo);
+}
+.section--scuro .griglia { background: var(--linea-scuro); border: var(--bordo-s); }
+.g-2 { grid-template-columns: repeat(2, 1fr); }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.g-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.g-6 { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+.card {
+  background: var(--bianco); padding: 1.8rem; position: relative;
+  transition: background .25s, transform .25s var(--ease);
+}
+.section--scuro .card { background: var(--nero); }
+.section--grigio .card { background: var(--grigio-chiaro); }
+.card:hover { background: var(--grigio-chiaro); }
+.section--scuro .card:hover { background: #232323; }
+
+.card__num {
+  font-family: var(--mono); font-size: 0.8rem; color: var(--rosso);
+  font-weight: 600; margin-bottom: 0.9rem; display: block;
+}
+.card__titolo { font-family: var(--display); font-size: 1.5rem; margin-bottom: 0.6rem; }
+.section--scuro .card__titolo { color: #fff; }
+.card__testo { font-size: 0.95rem; color: var(--grigio); }
+.section--scuro .card__testo { color: rgba(255,255,255,0.6); }
+
+/* Blocco citazione / essenza */
+.essenza {
+  font-family: var(--display); font-weight: 700; text-transform: none;
+  font-size: clamp(1.7rem, 4.4vw, 3.4rem); line-height: 1.08; max-width: 22ch;
+}
+.essenza .acc { color: var(--rosso); }
+.essenza-fonte { margin-top: 2rem; }
+
+/* Mission / Vision / Promessa */
+.mvp { display: grid; gap: 1px; background: var(--linea-scuro); border: var(--bordo-s); grid-template-columns: repeat(3,1fr); }
+.mvp__cell { background: var(--nero); padding: 2.2rem 1.8rem; }
+.mvp__cell h3 { color: var(--rosso); font-size: 1.4rem; margin-bottom: 1rem; letter-spacing: 0.04em; }
+.mvp__cell p { color: rgba(255,255,255,0.8); font-size: 1rem; }
+.mvp__cell .big { font-family: var(--display); font-size: 2.4rem; color: #fff; text-transform: uppercase; }
+
+/* ------------------------------------------------------------------ */
+/*  9. CLAIMS                                                          */
+/* ------------------------------------------------------------------ */
+.claim-master {
+  text-align: center; padding: clamp(2.5rem,7vw,5rem) 1rem;
+  border: var(--bordo-s); position: relative;
+}
+.claim-master .et { margin-bottom: 1.4rem; }
+.claim-master .frase {
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2rem, 7vw, 5rem); line-height: 0.96; color: #fff;
+}
+.claim-master .frase .acc { color: var(--rosso); }
+
+.claim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1px; background: var(--linea-scuro); border: var(--bordo-s); margin-top: 1px; }
+.claim-item { background: var(--nero); padding: 1.8rem; }
+.claim-item .tag { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em; color: var(--rosso); text-transform: uppercase; margin-bottom: 0.7rem; display: block; }
+.claim-item .txt { font-family: var(--display); font-weight: 700; text-transform: none; font-size: 1.35rem; color: #fff; line-height: 1.1; }
+
+/* ------------------------------------------------------------------ */
+/*  10. VOCABOLARIO (raccomandato / proibito)                          */
+/* ------------------------------------------------------------------ */
+.voc { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--linea); border: var(--bordo); }
+.voc__col { background: var(--bianco); padding: 2rem 1.8rem; }
+.voc__col--no { background: var(--grigio-chiaro); }
+.voc__col h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; margin-bottom: 1.4rem; text-transform: uppercase; }
+.voc__col--si h4 { color: var(--rosso); }
+.voc__col--no h4 { color: var(--grigio); }
+.voc__tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.voc__tags span {
+  font-family: var(--mono); font-size: 0.78rem; padding: 0.4rem 0.8rem;
+  border: 1px solid var(--linea); border-radius: 2px; background: #fff;
+}
+.voc__col--si .voc__tags span { border-color: rgba(201,21,23,0.3); color: var(--nero); }
+.voc__col--no .voc__tags span { color: var(--grigio); text-decoration: line-through; text-decoration-color: rgba(201,21,23,0.6); }
+.voc__nota { margin-top: 1.6rem; font-size: 0.9rem; color: var(--grigio); font-style: italic; grid-column: 1 / -1; padding: 1.4rem 1.8rem 0; }
+
+/* ------------------------------------------------------------------ */
+/*  11. TABELLE (matrici, industrie)                                  */
+/* ------------------------------------------------------------------ */
+.tab-wrap { overflow-x: auto; border: var(--bordo); }
+.tab { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.9rem; }
+.tab thead th {
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+  text-align: left; padding: 1rem 1.2rem; background: var(--nero); color: rgba(255,255,255,0.85); font-weight: 500;
+}
+.tab tbody td { padding: 1rem 1.2rem; border-top: var(--bordo); vertical-align: top; }
+.tab tbody tr:nth-child(even) td { background: var(--grigio-chiaro); }
+.tab tbody tr:hover td { background: rgba(201,21,23,0.04); }
+.tab .claim-cell { font-family: var(--display); font-weight: 600; text-transform: none; }
+.tab .kw { color: var(--rosso); font-weight: 600; font-family: var(--mono); font-size: 0.8rem; }
+
+/* ------------------------------------------------------------------ */
+/*  12. PALETTE                                                        */
+/* ------------------------------------------------------------------ */
+.palette { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 1px; background: var(--linea); border: var(--bordo); }
+.swatch { padding: 0; overflow: hidden; background: #fff; }
+.swatch__chip { height: 140px; position: relative; }
+.swatch__info { padding: 1.1rem 1.3rem; }
+.swatch__info .ruolo { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; color: var(--grigio); text-transform: uppercase; }
+.swatch__info .nome { font-family: var(--display); font-size: 1.3rem; margin: 0.3rem 0; }
+.swatch__info .hex { font-family: var(--mono); font-size: 0.8rem; color: var(--nero); }
+.swatch__chip.border { box-shadow: inset 0 0 0 1px var(--linea); }
+.palette-nota { font-size: 0.92rem; color: var(--grigio); margin-top: 1.6rem; max-width: 60ch; }
+
+/* ------------------------------------------------------------------ */
+/*  13. TIPOGRAFIA SISTEMA                                             */
+/* ------------------------------------------------------------------ */
+.font-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1px; background: var(--linea); border: var(--bordo); }
+.font-card { background: #fff; padding: 2rem 1.8rem; }
+.font-card .aa { font-size: 4.5rem; line-height: 1; margin-bottom: 1rem; }
+.font-card .aa-display { font-family: var(--display); font-weight: 900; text-transform: uppercase; }
+.font-card .aa-testo { font-family: var(--testo); font-weight: 600; }
+.font-card .aa-mono { font-family: var(--mono); font-weight: 500; }
+.font-card .nome { font-family: var(--display); font-size: 1.4rem; }
+.font-card .uso { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--grigio); text-transform: uppercase; margin-top: 0.4rem; }
+.font-card .ruolo-tag { display: inline-block; margin-bottom: 1rem; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.16em; color: var(--rosso); text-transform: uppercase; }
+
+/* ------------------------------------------------------------------ */
+/*  14. LOGO USO                                                       */
+/* ------------------------------------------------------------------ */
+.logo-uso { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1px; background: var(--linea); border: var(--bordo); }
+.logo-box { background: var(--grigio-chiaro); padding: 2.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; min-height: 200px; text-align: center; }
+.logo-box .wordmark { font-family: var(--display); font-weight: 900; font-size: 2.2rem; }
+.logo-box .wordmark .dot { color: var(--rosso); }
+.logo-box--neg { background: var(--nero); color: #fff; }
+.logo-box--err { position: relative; }
+.logo-box--err .wordmark { opacity: 0.45; }
+.logo-box--err.deform .wordmark { transform: scaleX(1.6); }
+.logo-box--err.colore .wordmark { color: #2d8a4e; }
+.logo-box .et-err { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; color: var(--rosso); text-transform: uppercase; }
+.logo-box .cross { position: absolute; top: 12px; right: 14px; color: var(--rosso); font-size: 1.4rem; font-weight: 700; }
+
+/* ------------------------------------------------------------------ */
+/*  15. CHECKLIST                                                      */
+/* ------------------------------------------------------------------ */
+.check-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.5rem; }
+.check-col h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; color: var(--rosso); text-transform: uppercase; margin-bottom: 1.2rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--rosso); }
+.check-col ul li {
+  display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.7rem 0;
+  border-bottom: var(--bordo); font-size: 0.95rem; cursor: default;
+}
+.check-col ul li::before {
+  content: ""; flex: none; width: 16px; height: 16px; margin-top: 3px;
+  border: 1.5px solid var(--grigio); border-radius: 2px; transition: all .2s;
+}
+.check-col ul li:hover::before { border-color: var(--rosso); background: var(--rosso); box-shadow: inset 0 0 0 3px #fff; }
+
+/* ------------------------------------------------------------------ */
+/*  16. DO / DON'T                                                     */
+/* ------------------------------------------------------------------ */
+.dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.dd-col { border: var(--bordo); }
+.dd-col__head { padding: 1.2rem 1.6rem; font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; gap: 0.6rem; }
+.dd-col--si .dd-col__head { background: var(--nero); color: #fff; }
+.dd-col--no .dd-col__head { background: var(--grigio-chiaro); color: var(--grigio); }
+.dd-col__head .mk { color: var(--rosso); font-weight: 700; }
+.dd-item { padding: 1.2rem 1.6rem; border-top: var(--bordo); font-size: 0.98rem; }
+.dd-item.frase { font-family: var(--display); font-weight: 700; text-transform: none; font-size: 1.15rem; line-height: 1.2; }
+.dd-col--no .dd-item.frase { color: var(--grigio); }
+
+/* ------------------------------------------------------------------ */
+/*  17. PERSONALITÀ (è / non è)                                        */
+/* ------------------------------------------------------------------ */
+.pers { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--linea-scuro); border: var(--bordo-s); }
+.pers__col { background: var(--nero); padding: 2rem 1.8rem; }
+.pers__col h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.3rem; }
+.pers__col--si h4 { color: var(--rosso); }
+.pers__col--no h4 { color: rgba(255,255,255,0.4); }
+.pers__col ul li { padding: 0.55rem 0; font-family: var(--display); font-weight: 600; text-transform: uppercase; font-size: 1.3rem; color: #fff; border-bottom: var(--bordo-s); }
+.pers__col--no ul li { color: rgba(255,255,255,0.35); text-decoration: line-through; text-decoration-color: var(--rosso); }
+
+/* Pattern decisionale */
+.flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.flow__step { border: var(--bordo); padding: 1.8rem; position: relative; background: #fff; }
+.flow__step .step-n { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--rosso); text-transform: uppercase; }
+.flow__step h4 { font-family: var(--display); font-size: 1.6rem; margin: 0.6rem 0; }
+.flow__step p { font-size: 0.92rem; color: var(--grigio); }
+.flow__step:not(:last-child)::after {
+  content: "›"; position: absolute; right: -0.9rem; top: 50%; transform: translateY(-50%);
+  color: var(--rosso); font-size: 1.8rem; z-index: 2; font-family: var(--display);
+}
+
+/* ------------------------------------------------------------------ */
+/*  18. PILASTRI / DIFFERENZIAZIONE                                    */
+/* ------------------------------------------------------------------ */
+.pilastri { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 1px; background: var(--linea); border: var(--bordo); }
+.pilastro { background: #fff; padding: 1.8rem; }
+.pilastro h4 { font-family: var(--display); font-size: 1.5rem; margin-bottom: 1rem; }
+.pilastro ul li { font-family: var(--mono); font-size: 0.78rem; color: var(--grigio); padding: 0.35rem 0; border-bottom: var(--bordo); letter-spacing: 0.02em; }
+.pilastro ul li:last-child { border-bottom: 0; }
+
+/* "Non è" list */
+.nega { display: flex; flex-direction: column; gap: 1px; background: var(--linea); border: var(--bordo); }
+.nega li { background: #fff; padding: 1.3rem 1.6rem; display: flex; gap: 1rem; align-items: center; font-size: 1.1rem; font-family: var(--display); font-weight: 600; text-transform: none; }
+.nega li .x { color: var(--rosso); font-weight: 800; flex: none; }
+
+/* Placeholder asset (da definire) */
+.placeholder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; }
+.ph {
+  border: 1.5px dashed var(--linea); aspect-ratio: 4/3; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.6rem; color: var(--grigio);
+  text-align: center; padding: 1.2rem; background: var(--grigio-chiaro);
+}
+.section--scuro .ph { border-color: var(--linea-scuro); background: rgba(255,255,255,0.02); }
+.ph .icona { font-size: 1.6rem; color: var(--rosso); }
+.ph .et { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.ph small { font-family: var(--mono); font-size: 0.6rem; color: var(--grigio); letter-spacing: 0.08em; }
+
+/* ------------------------------------------------------------------ */
+/*  19. INDICE                                                         */
+/* ------------------------------------------------------------------ */
+.indice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1px; background: var(--linea-scuro); border: var(--bordo-s); }
+.indice-item {
+  background: var(--nero); padding: 1.5rem 1.6rem; display: flex; gap: 1rem; align-items: baseline;
+  transition: background .2s; cursor: pointer;
+}
+.indice-item:hover { background: #232323; }
+.indice-item .num { font-family: var(--mono); font-size: 0.85rem; color: var(--rosso); font-weight: 600; flex: none; }
+.indice-item .titolo { font-family: var(--display); font-size: 1.25rem; color: #fff; text-transform: uppercase; }
+
+/* ------------------------------------------------------------------ */
+/*  20. FOOTER                                                         */
+/* ------------------------------------------------------------------ */
+.footer {
+  background: var(--nero); color: #fff; padding: var(--sez-y) var(--pad-x) 3rem;
+  position: relative; overflow: hidden;
+}
+.footer__claim {
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2.2rem, 8vw, 6rem); line-height: 0.95; margin-bottom: 3rem;
+}
+.footer__claim .acc { color: var(--rosso); }
+.footer__meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 2.5rem; border-top: var(--bordo-s); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.55); text-transform: uppercase; }
+.footer__meta .acc { color: var(--rosso); }
+
+/* ------------------------------------------------------------------ */
+/*  21. ANIMAZIONI ON-SCROLL                                          */
+/* ------------------------------------------------------------------ */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.visibile { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+  .hero__scroll .freccia { animation: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  22. RESPONSIVE                                                     */
+/* ------------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .g-2, .g-3, .mvp, .voc, .dodont, .pers, .flow { grid-template-columns: 1fr; }
+  .flow__step:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -1.4rem; transform: translateX(50%); }
+}
+@media (max-width: 760px) {
+  .nav__links {
+    position: fixed; inset: var(--nav-h) 0 auto 0;
+    flex-direction: column; align-items: flex-start; gap: 0;
+    background: var(--bianco); border-bottom: var(--bordo);
+    padding: 0.5rem var(--pad-x) 1.5rem;
+    transform: translateY(-120%); transition: transform .35s var(--ease);
+    max-height: calc(100vh - var(--nav-h)); overflow-y: auto;
+  }
+  .nav.aperto .nav__links { transform: none; }
+  .nav__links a { width: 100%; padding: 0.9rem 0; border-bottom: var(--bordo); font-size: 0.8rem; }
+  .nav__toggle { display: block; }
+  .voc__nota { grid-column: auto; }
+}
