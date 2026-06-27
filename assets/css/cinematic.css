@@ -4,6 +4,10 @@
    Carica DOPO le altre CSS: questi override vincono.
    ===================================================================== */
 
+/* Nasconde la scrollbar nativa (resta lo scroll + barra di avanzamento) */
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
 /* Il campo vive dietro a tutto -------------------------------------- */
 html { background: #07070a; }
 body { background: transparent; }
