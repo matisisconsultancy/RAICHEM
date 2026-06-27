@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="assets/css/mockups.css" />
   <link rel="stylesheet" href="assets/css/sections.css" />
   <link rel="stylesheet" href="assets/css/cinematic.css" />
+  <link rel="stylesheet" href="assets/css/cardviz.css" />
 </head>
 <body>
 
@@ -521,10 +522,22 @@
 
   <span class="eyebrow" style="margin-top:0;">PRINCIPI VISIVI</span>
   <div class="griglia g-4" data-reveal-stagger>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Design strutturale</h4><p class="card__testo">La composizione segue la gerarchia dell'informazione.</p></div>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Griglia chiara</h4><p class="card__testo">Lo spazio bianco è un elemento attivo, non un vuoto.</p></div>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Fotografia reale</h4><p class="card__testo">Mai stock. Impianti, processi, persone reali.</p></div>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Chiarezza prioritaria</h4><p class="card__testo">Leggibilità prima dell'impatto estetico.</p></div>
+    <div class="card card--viz">
+      <div class="card-viz viz-struttura" aria-hidden="true"><span class="s1"></span><span class="s2"></span><span class="s3"></span><span class="s4"></span></div>
+      <div class="card__b"><h4 class="card__titolo" style="font-size:1.3rem;">Design strutturale</h4><p class="card__testo">La composizione segue la gerarchia dell'informazione.</p></div>
+    </div>
+    <div class="card card--viz">
+      <div class="card-viz viz-griglia" aria-hidden="true"><span class="cell"></span></div>
+      <div class="card__b"><h4 class="card__titolo" style="font-size:1.3rem;">Griglia chiara</h4><p class="card__testo">Lo spazio bianco è un elemento attivo, non un vuoto.</p></div>
+    </div>
+    <div class="card card--viz">
+      <div class="card-viz viz-foto" aria-hidden="true"><div class="halftone"></div><div class="frame"></div><div class="scan"></div><span class="tag"><i>●</i> REAL · NO STOCK</span></div>
+      <div class="card__b"><h4 class="card__titolo" style="font-size:1.3rem;">Fotografia reale</h4><p class="card__testo">Mai stock. Impianti, processi, persone reali.</p></div>
+    </div>
+    <div class="card card--viz">
+      <div class="card-viz viz-chiarezza" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <div class="card__b"><h4 class="card__titolo" style="font-size:1.3rem;">Chiarezza prioritaria</h4><p class="card__testo">Leggibilità prima dell'impatto estetico.</p></div>
+    </div>
   </div>
 
   <span class="eyebrow">PALETTE CROMATICA</span>
@@ -546,10 +559,22 @@
 
   <span class="eyebrow">SISTEMA GRAFICO</span>
   <div class="griglia g-4" data-reveal-stagger>
-    <div class="card"><span class="card__num">BLUEPRINT · 96PX</span><h4 class="card__titolo" style="font-size:1.3rem;">Griglia tecnica</h4></div>
-    <div class="card"><span class="card__num">ANCORAGGIO</span><h4 class="card__titolo" style="font-size:1.3rem;">Corner brackets</h4></div>
-    <div class="card"><span class="card__num">PROGRESSO · INDICE</span><h4 class="card__titolo" style="font-size:1.3rem;">Tick rossi</h4></div>
-    <div class="card"><span class="card__num">CAPITOLI</span><h4 class="card__titolo" style="font-size:1.3rem;">Numeri fantasma</h4></div>
+    <div class="card card--viz">
+      <div class="card-viz viz-gridtech" aria-hidden="true"><span class="vline"></span><span class="dot"></span></div>
+      <div class="card__b"><span class="card__num">BLUEPRINT · 96PX</span><h4 class="card__titolo" style="font-size:1.3rem;">Griglia tecnica</h4></div>
+    </div>
+    <div class="card card--viz">
+      <div class="card-viz viz-brackets" aria-hidden="true"><span class="bk"></span><span class="dot"></span></div>
+      <div class="card__b"><span class="card__num">ANCORAGGIO</span><h4 class="card__titolo" style="font-size:1.3rem;">Corner brackets</h4></div>
+    </div>
+    <div class="card card--viz">
+      <div class="card-viz viz-ticks" aria-hidden="true"><div class="line"><span></span><span></span><span></span><span></span><span></span></div></div>
+      <div class="card__b"><span class="card__num">PROGRESSO · INDICE</span><h4 class="card__titolo" style="font-size:1.3rem;">Tick rossi</h4></div>
+    </div>
+    <div class="card card--viz">
+      <div class="card-viz viz-ghost" aria-hidden="true"><span class="n">08</span><span class="n2">CAP.</span></div>
+      <div class="card__b"><span class="card__num">CAPITOLI</span><h4 class="card__titolo" style="font-size:1.3rem;">Numeri fantasma</h4></div>
+    </div>
   </div>
   <p class="palette-nota" data-reveal>Label tecniche in IBM Plex Mono accompagnano ogni elemento: danno un registro preciso e da scheda tecnica.</p>
 
