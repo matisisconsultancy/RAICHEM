@@ -942,6 +942,60 @@
   }
 
   /* =============================================================
+     GALLERIA FOTOGRAFICA — carosello a tutto viewport (mobile)
+     Avvolge la striscia in uno "stage", aggiunge i puntini di posizione
+     e l'hint di swipe. Si attiva/disattiva al cambio di viewport.
+     ============================================================= */
+  function galleryMobile() {
+    var strip = $('.fotostrip--xl'); if (!strip) return;
+    var mq = window.matchMedia('(max-width: 760px)');
+    var stage = null, nav = null, hint = null, dots = [], items = [], rafing = false, swiped = false;
+
+    function build() {
+      if (stage) return;
+      items = $$('.fotostrip__item', strip);
+      if (!items.length) return;
+      stage = document.createElement('div'); stage.className = 'fotostrip-stage';
+      strip.parentNode.insertBefore(stage, strip);
+      stage.appendChild(strip);
+
+      nav = document.createElement('div'); nav.className = 'fotostrip__nav';
+      items.forEach(function (it, i) {
+        var d = document.createElement('button');
+        d.className = 'fotostrip__dot'; d.type = 'button';
+        d.setAttribute('aria-label', 'Vai alla foto ' + (i + 1));
+        d.addEventListener('click', function () { strip.scrollTo({ left: i * strip.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); });
+        nav.appendChild(d); dots.push(d);
+      });
+      stage.appendChild(nav);
+      if (dots[0]) dots[0].classList.add('on');
+
+      hint = document.createElement('span'); hint.className = 'fotostrip__hint';
+      hint.innerHTML = 'Scorri <b aria-hidden="true">›</b>';
+      stage.appendChild(hint);
+    }
+    function teardown() {
+      if (!stage) return;
+      stage.parentNode.insertBefore(strip, stage);
+      stage.remove(); stage = nav = hint = null; dots = []; items = [];
+    }
+    function apply() { if (mq.matches) build(); else teardown(); }
+
+    strip.addEventListener('scroll', function () {
+      if (!dots.length || rafing) return; rafing = true;
+      requestAnimationFrame(function () {
+        rafing = false;
+        var idx = clamp(Math.round(strip.scrollLeft / strip.clientWidth), 0, dots.length - 1);
+        dots.forEach(function (x, j) { x.classList.toggle('on', j === idx); });
+        if (!swiped && strip.scrollLeft > 12 && hint) { swiped = true; hint.classList.add('gone'); }
+      });
+    }, { passive: true });
+
+    apply();
+    if (mq.addEventListener) mq.addEventListener('change', apply); else mq.addListener(apply);
+  }
+
+  /* =============================================================
      INIT
      ============================================================= */
   function init() {
@@ -962,6 +1016,7 @@
     atelier();
     voceScroll();
     checklist();
+    galleryMobile();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
