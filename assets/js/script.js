@@ -289,11 +289,8 @@
       if (nav) {
         if (y > heroH - 120) { nav.classList.add('solid'); nav.classList.remove('su-scuro'); }
         else { nav.classList.remove('solid'); nav.classList.add('su-scuro'); }
-        // Hide on scroll down / show on scroll up
-        if (y > heroH) {
-          if (y > lastY + 6 && !navHidden) { nav.classList.add('nascosta'); navHidden = true; }
-          else if (y < lastY - 6 && navHidden) { nav.classList.remove('nascosta'); navHidden = false; }
-        } else if (navHidden) { nav.classList.remove('nascosta'); navHidden = false; }
+        // Navbar sempre fissa e visibile (niente hide-on-scroll)
+        if (navHidden) { nav.classList.remove('nascosta'); navHidden = false; }
       }
 
       if (!reduce) parallax.forEach(function (el) {
