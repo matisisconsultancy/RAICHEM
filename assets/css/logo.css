@@ -1,0 +1,45 @@
+/* =====================================================================
+   RAICHEM · Logo (ricostruzione vettoriale) + animazione swoosh
+   Lo swoosh rosso = traiettoria che prende forma controllata.
+   ===================================================================== */
+.logo { display: block; height: 100%; width: auto; overflow: visible; }
+.logo .lg-swoosh { color: var(--rosso); fill: currentColor; }
+.logo .lg-wm {
+  font-family: var(--display); font-weight: 600; letter-spacing: 0.04em;
+  font-size: 60px; fill: #fff;
+}
+.logo--ink .lg-wm { fill: var(--nero); }
+
+/* lockup nav */
+.nav__brand { display: flex; align-items: center; gap: 0.7rem; }
+.nav__brand .logo { height: 30px; }
+.nav.su-scuro:not(.solid) .nav__brand .logo .lg-wm { fill: #fff; }
+.nav.solid .nav__brand .logo .lg-wm { fill: var(--nero); }
+.nav__brand small { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.2em; color: var(--grigio); align-self: flex-start; margin-top: 3px; }
+
+/* ---- ANIMAZIONE: lo swoosh si disegna, poi appare il wordmark ---- */
+.logo--anim .lg-swoosh { clip-path: inset(0 100% 0 0); }
+.logo--anim.go .lg-swoosh { animation: lgSwoosh 1s var(--ease-io) forwards; }
+@keyframes lgSwoosh { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.logo--anim .lg-wm { opacity: 0; transform: translateY(10px); }
+.logo--anim.go .lg-wm { animation: lgWm .7s .65s var(--ease-io) forwards; }
+@keyframes lgWm { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .logo--anim .lg-swoosh { clip-path: none; }
+  .logo--anim .lg-wm { opacity: 1; transform: none; }
+}
+
+/* ---- LOADER con logo animato ---- */
+.loader__logo { width: min(420px, 70vw); color: var(--rosso); }
+.loader__logo .logo { height: auto; width: 100%; }
+
+/* ---- VETRINA logo nel capitolo 08 ---- */
+.logo-show {
+  position: relative; background: var(--nero); color: #fff; overflow: hidden;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.6rem,5vw,4rem); display: grid; place-items: center; min-height: 44svh;
+  border: 1px solid var(--linea);
+}
+.logo-show::before { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 90% at 50% 120%, rgba(225,21,24,0.18), transparent 60%); }
+.logo-show .logo { width: min(560px, 86%); height: auto; position: relative; }
+.logo-show__cap { position: absolute; bottom: clamp(1rem,3vw,2rem); left: 0; right: 0; text-align: center;
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.45); text-transform: uppercase; }

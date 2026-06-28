@@ -13,7 +13,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700;800;900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/mockups.css" />
   <link rel="stylesheet" href="assets/css/sections.css" />
@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="assets/css/cardviz.css" />
   <link rel="stylesheet" href="assets/css/impact.css" />
   <link rel="stylesheet" href="assets/css/gallery.css" />
+  <link rel="stylesheet" href="assets/css/logo.css" />
 </head>
 <body>
 
@@ -34,14 +35,17 @@
 
 <!-- PRELOADER -->
 <div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__brand">RAI<span class="acc">CHEM</span></div>
+  <div class="loader__logo"><svg class="logo logo--anim" id="loaderLogo" viewBox="0 0 340 110" role="img" aria-label="RAICHEM"><path class="lg-swoosh" d="M8,54 C92,12 240,6 332,40 C300,27 248,21 150,25 C96,28 44,42 8,54 Z"/><text class="lg-wm" x="6" y="96">RAICHEM</text></svg></div>
   <div class="loader__bar"><i id="loaderBar"></i></div>
   <div class="loader__pct"><span id="loaderPct">0</span> — CARICAMENTO BRAND SYSTEM</div>
 </div>
 
 <!-- NAV -->
 <nav class="nav su-scuro" id="nav">
-  <a href="#hero" class="nav__brand" data-cursor="hover" aria-label="RAICHEM — inizio"><span class="dot"></span>RAICHEM<small>BPO SYSTEMS</small></a>
+  <a href="#hero" class="nav__brand" data-cursor="hover" aria-label="RAICHEM — inizio">
+    <svg class="logo" viewBox="0 0 340 110" role="img" aria-label="RAICHEM"><path class="lg-swoosh" d="M8,54 C92,12 240,6 332,40 C300,27 248,21 150,25 C96,28 44,42 8,54 Z"/><text class="lg-wm" x="6" y="96">RAICHEM</text></svg>
+    <small>BPO SYSTEMS</small>
+  </a>
   <ul class="nav__links" id="navLinks">
     <li><a href="#fondamenti">01 Fondamenti</a></li>
     <li><a href="#posizionamento">02 Posizionamento</a></li>
@@ -549,7 +553,11 @@
   <p class="palette-nota" data-reveal>Label tecniche in IBM Plex Mono accompagnano ogni elemento: danno un registro preciso e da scheda tecnica.</p>
 
   <span class="eyebrow">USO DEL LOGOTIPO</span>
-  <p class="sez-intro" data-reveal style="margin-bottom:1.6rem;">Area di rispetto: mantieni attorno al logo uno spazio libero pari all'altezza della lettera «R». Versioni ufficiali su fondo chiaro e negativo.</p>
+  <p class="sez-intro" data-reveal style="margin-bottom:1.6rem;">Il marchio: wordmark e <strong>swoosh</strong> — la traiettoria che prende forma controllata. Area di rispetto pari all'altezza della «R». Versioni ufficiali su fondo chiaro e negativo.</p>
+  <div class="logo-show" data-reveal style="margin-bottom:1px;">
+    <svg class="logo logo--anim" viewBox="0 0 340 110" role="img" aria-label="RAICHEM"><path class="lg-swoosh" d="M8,54 C92,12 240,6 332,40 C300,27 248,21 150,25 C96,28 44,42 8,54 Z"/><text class="lg-wm" x="6" y="96">RAICHEM</text></svg>
+    <span class="logo-show__cap">Marchio ufficiale · lo swoosh si disegna: traiettoria → sistema controllato</span>
+  </div>
   <div class="logo-uso" data-reveal-stagger>
     <div class="logo-box"><div class="wordmark">RAI<span class="dot">CHEM</span></div><span class="mono" style="font-size:0.62rem;">VERSIONE POSITIVA</span></div>
     <div class="logo-box logo-box--neg"><div class="wordmark" style="color:#fff;">RAI<span class="dot">CHEM</span></div><span class="mono mono--bianco" style="font-size:0.62rem;">VERSIONE NEGATIVA</span></div>
@@ -592,87 +600,94 @@
     <div class="card"><h4 class="card__titolo" style="font-size:1.35rem;">Partner</h4><p class="card__testo">Relazione di co-creazione.</p></div>
   </div>
 
-  <!-- FIERE & EVENTI -->
-  <div class="gal-cat" data-reveal>
-    <div class="gal-head"><span class="eyebrow" style="margin:0;">FIERE &amp; EVENTI</span><h3 class="gal-title">In fiera, RAICHEM è <span class="acc">il sistema</span>.</h3></div>
-    <div class="gal-grid">
-      <figure class="shot shot--feat" data-cursor="hover">
-        <img src="assets/img/mockups/fiere-stand.jpg" alt="Stand fiera RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Stand espositivo</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Fiere · Stand</span><span class="shot__desc">Stand espositivo · The BPO Expert</span></figcaption>
-      </figure>
-      <figure class="shot" data-cursor="hover">
-        <img src="assets/img/mockups/fiere-banner.jpg" alt="Banner sospesi RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Banner sospesi</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Fiere · Segnaletica</span><span class="shot__desc">Banner sospesi · sistema claim</span></figcaption>
-      </figure>
-      <figure class="shot" data-cursor="hover">
-        <img src="assets/img/mockups/fiere-poster.jpg" alt="Poster da stand RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Poster da stand</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Fiere · Poster</span><span class="shot__desc">Trittico poster da stand</span></figcaption>
-      </figure>
+  <!-- SHOWCASE 01 — MERCHANDISING (full screen) -->
+  <section class="showcase" data-enter aria-label="Merchandising in azione">
+    <div class="showcase__media">
+      <img src="assets/img/mockups/sc-technician.png" alt="Tecnico con casco RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Technical visitor</b><small>Merchandising</small></div>
     </div>
+    <span class="showcase__tag"><b>01</b> / Merchandising</span>
+    <span class="showcase__idx" aria-hidden="true">01</span>
+    <div class="showcase__inner">
+      <span class="showcase__lab">Merchandising in azione</span>
+      <h3 class="showcase__title">Pensato per il <span class="acc">campo</span>.</h3>
+      <p class="showcase__desc">Casco, occhiali, workwear · Technical Visitor — quando pensi BPO, pensi Raichem.</p>
+    </div>
+  </section>
+
+  <!-- VGAL — MERCHANDISING -->
+  <div class="gal-head"><span class="eyebrow" style="margin:0;">MERCHANDISING IN AZIONE</span><h3 class="gal-title">In campo, non sullo <span class="acc">scaffale</span>.</h3></div>
+  <div class="vgal">
+    <figure class="vgal__item vgal__item--wide" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/merch-fieldkit.jpg" alt="Waterproof field kit RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Waterproof field kit · 15L</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Merch · In campo</span><span class="t">Waterproof field kit · 15L</span></figcaption>
+    </figure>
+    <figure class="vgal__item" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/merch-marine.jpg" alt="Dry bag marine RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Dry bag &amp; pouch</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Merch · Marine</span><span class="t">Dry bag &amp; pouch · Wood &amp; Marine</span></figcaption>
+    </figure>
+    <figure class="vgal__item" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/merch-tool.jpg" alt="Field control tool RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Field control tool</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Merch · Strumento</span><span class="t">Field control tool · multifunzione</span></figcaption>
+    </figure>
   </div>
 
-  <!-- MERCHANDISING IN AZIONE -->
-  <div class="gal-cat" data-reveal>
-    <div class="gal-head"><span class="eyebrow" style="margin:0;">MERCHANDISING IN AZIONE</span><h3 class="gal-title">Pensato per il <span class="acc">campo</span>, non per lo scaffale.</h3></div>
-    <div class="gal-grid">
-      <figure class="shot shot--feat" data-cursor="hover">
-        <img src="assets/img/mockups/merch-fieldkit.jpg" alt="Waterproof field kit RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Waterproof field kit</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Merch · In campo</span><span class="shot__desc">Waterproof field kit · 15L</span></figcaption>
-      </figure>
-      <figure class="shot" data-cursor="hover">
-        <img src="assets/img/mockups/merch-marine.jpg" alt="Dry bag marine RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Dry bag &amp; pouch</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Merch · Marine</span><span class="shot__desc">Dry bag &amp; pouch · Wood &amp; Marine</span></figcaption>
-      </figure>
-      <figure class="shot" data-cursor="hover">
-        <img src="assets/img/mockups/merch-tool.jpg" alt="Field control tool RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Field control tool</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Merch · Strumento</span><span class="shot__desc">Field control tool · multifunzione</span></figcaption>
-      </figure>
+  <!-- SHOWCASE 02 — FIERE / DIGITALE (full screen) -->
+  <section class="showcase" data-enter aria-label="Fiere e asset digitali">
+    <div class="showcase__media">
+      <img src="assets/img/mockups/sc-posters.png" alt="Poster RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Poster system</b><small>Fiere &amp; digitale</small></div>
     </div>
+    <span class="showcase__tag"><b>02</b> / Fiere &amp; digitale</span>
+    <span class="showcase__idx" aria-hidden="true">02</span>
+    <div class="showcase__inner">
+      <span class="showcase__lab">Fiere &amp; asset digitali</span>
+      <h3 class="showcase__title">Quando pensi BPO,<br>pensa <span class="acc">Raichem</span>.</h3>
+      <p class="showcase__desc">Sistema di poster per stand, ambienti e digitale · Controllo · Engineered reliability.</p>
+    </div>
+  </section>
+
+  <!-- VGAL — FIERE & EVENTI -->
+  <div class="gal-head"><span class="eyebrow" style="margin:0;">FIERE &amp; EVENTI</span><h3 class="gal-title">In fiera, RAICHEM è <span class="acc">il sistema</span>.</h3></div>
+  <div class="vgal">
+    <figure class="vgal__item vgal__item--wide" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/fiere-stand.jpg" alt="Stand fiera RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Stand espositivo</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Fiere · Stand</span><span class="t">Stand espositivo · The BPO Expert</span></figcaption>
+    </figure>
+    <figure class="vgal__item" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/fiere-banner.jpg" alt="Banner sospesi RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Banner sospesi</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Fiere · Segnaletica</span><span class="t">Banner sospesi · sistema claim</span></figcaption>
+    </figure>
+    <figure class="vgal__item vgal__item--tall" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/digital-mural.jpg" alt="Mural RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Mural / wall branding</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Digitale · Ambiente</span><span class="t">Mural &amp; wall branding</span></figcaption>
+    </figure>
   </div>
 
-  <!-- MATERIALI TECNICI -->
-  <div class="gal-cat" data-reveal>
-    <div class="gal-head"><span class="eyebrow" style="margin:0;">MATERIALI TECNICI</span><h3 class="gal-title">Schede, kit e packaging <span class="acc">configurabile</span>.</h3></div>
-    <div class="gal-grid">
-      <figure class="shot shot--feat" data-cursor="hover">
-        <img src="assets/img/mockups/tech-saleskit.jpg" alt="Technical sales kit RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Technical sales kit</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Tecnico · Sales kit</span><span class="shot__desc">Technical sales kit · BPO Systems</span></figcaption>
-      </figure>
-      <figure class="shot" data-cursor="hover">
-        <img src="assets/img/mockups/tech-raipack.jpg" alt="Packaging Raipack RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Packaging Raipack</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Tecnico · Packaging</span><span class="shot__desc">Raipack · sistema BPO</span></figcaption>
-      </figure>
-      <figure class="shot" data-cursor="hover">
-        <img src="assets/img/mockups/tech-brochure.jpg" alt="Brochure tecnica RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Scheda prodotto</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Tecnico · Brochure</span><span class="shot__desc">Scheda prodotto · BPO Powder</span></figcaption>
-      </figure>
-    </div>
-  </div>
-
-  <!-- ASSET DIGITALI -->
-  <div class="gal-cat" data-reveal>
-    <div class="gal-head"><span class="eyebrow" style="margin:0;">ASSET DIGITALI</span><h3 class="gal-title">Ambienti e poster <span class="acc">digitali</span>.</h3></div>
-    <div class="gal-grid">
-      <figure class="shot shot--tall" data-cursor="hover">
-        <img src="assets/img/mockups/digital-mural.jpg" alt="Mural wall branding RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Mural / wall branding</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Digitale · Ambiente</span><span class="shot__desc">Mural &amp; wall branding</span></figcaption>
-      </figure>
-      <figure class="shot shot--tall" data-cursor="hover">
-        <img src="assets/img/mockups/digital-posters.jpg" alt="Poster digitali RAICHEM" loading="lazy" onerror="this.remove()">
-        <div class="shot__ph"><b>Poster digitali</b><small>Foto in arrivo</small></div>
-        <figcaption class="shot__cap"><span class="shot__lab">Digitale · Poster</span><span class="shot__desc">Poster digitali · trittico</span></figcaption>
-      </figure>
-    </div>
+  <!-- VGAL — MATERIALI TECNICI -->
+  <div class="gal-head"><span class="eyebrow" style="margin:0;">MATERIALI TECNICI</span><h3 class="gal-title">Schede, kit e packaging <span class="acc">configurabile</span>.</h3></div>
+  <div class="vgal">
+    <figure class="vgal__item vgal__item--wide" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/tech-saleskit.jpg" alt="Technical sales kit RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Technical sales kit</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Tecnico · Sales kit</span><span class="t">Technical sales kit · BPO Systems</span></figcaption>
+    </figure>
+    <figure class="vgal__item" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/tech-raipack.jpg" alt="Packaging Raipack RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Packaging Raipack</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Tecnico · Packaging</span><span class="t">Raipack · sistema BPO</span></figcaption>
+    </figure>
+    <figure class="vgal__item" data-reveal="scale" data-cursor="hover">
+      <img src="assets/img/mockups/tech-brochure.jpg" alt="Brochure tecnica RAICHEM" loading="lazy" onerror="this.remove()">
+      <div class="showcase__ph"><b>Scheda prodotto · BPO Powder</b><small>Foto in arrivo</small></div>
+      <figcaption><span class="l">Tecnico · Brochure</span><span class="t">Scheda prodotto · BPO Powder</span></figcaption>
+    </figure>
   </div>
 
   <span class="eyebrow">SOCIAL MEDIA · TEMPLATE</span>

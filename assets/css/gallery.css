@@ -1,54 +1,97 @@
 /* =====================================================================
-   RAICHEM · Galleria mockup reali — distribuita per sezioni
-   Fiere · Merchandising in azione · Materiali tecnici · Asset digitali · Social
-   Le immagini reali vanno in assets/img/mockups/. Finché non ci sono,
-   appare un placeholder etichettato (FOTO IN ARRIVO).
+   RAICHEM · Galleria mockup — full-screen showcase + gallerie verticali
+   Niente collage: alcune immagini occupano il 100% del viewport, con
+   entrata animata, parallax e overlay. Altri gruppi in colonna verticale.
    ===================================================================== */
 
-.gal-cat { margin-top: clamp(2.5rem, 5vw, 4rem); }
-.gal-head { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.4rem; }
-.gal-title { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.6rem, 3.6vw, 3rem); line-height: 0.95; letter-spacing: -0.01em; }
+/* ---------- intestazione categoria ---------- */
+.gal-head { display: flex; flex-direction: column; gap: 0.5rem; margin: clamp(2.5rem,5vw,4rem) 0 1.4rem; }
+.gal-title { font-family: var(--display); font-weight: 600; text-transform: uppercase; font-size: clamp(1.6rem, 3.6vw, 3rem); line-height: 0.95; letter-spacing: -0.01em; }
 .gal-title .acc { color: var(--rosso); }
 
-.gal-grid { display: grid; gap: 1px; background: var(--linea); border: 1px solid var(--linea); grid-template-columns: repeat(2, 1fr); }
-.gal-grid--3 { grid-template-columns: repeat(3, 1fr); }
-
-.shot {
-  position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: #0d0d0f;
-  isolation: isolate;
+/* ====================================================================
+   FULL-SCREEN SHOWCASE — l'immagine occupa tutto il viewport
+   ==================================================================== */
+.showcase {
+  position: relative; width: 100%; height: 100svh; min-height: 540px; overflow: hidden;
+  background: #0b0b0c; isolation: isolate;
+  /* esce dai padding della sezione per essere davvero full-bleed */
+  margin-inline: calc(-1 * var(--pad-x)); width: calc(100% + 2 * var(--pad-x));
 }
-.shot--feat { grid-column: 1 / -1; aspect-ratio: 16 / 7; }
-.shot--tall { aspect-ratio: 3 / 4; }
-.shot img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
-  transition: transform .9s var(--ease), filter .5s; filter: saturate(1.02);
+.showcase__media { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+.showcase__media img {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: 100%; height: 120%; object-fit: cover; will-change: transform; z-index: 1;
 }
-.shot:hover img { transform: scale(1.055); }
-/* placeholder (visibile solo se l'immagine non c'è ancora) */
-.shot__ph {
-  position: absolute; inset: 0; z-index: 0; display: grid; place-content: center; gap: 0.5rem; text-align: center; padding: 1.5rem;
+.showcase__media::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7,7,9,0.82) 0%, rgba(7,7,9,0.35) 38%, rgba(7,7,9,0) 68%),
+    linear-gradient(0deg, rgba(7,7,9,0.9) 0%, rgba(7,7,9,0.15) 42%, rgba(7,7,9,0.25) 100%);
+}
+.showcase__ph {
+  position: absolute; inset: 0; z-index: 0; display: grid; place-content: center; gap: 0.5rem; text-align: center;
   background:
     radial-gradient(120% 120% at 50% 0%, #1a1a1e, #0b0b0c),
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 100% 26px,
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 26px 100%;
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 100% 32px,
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 32px 100%;
 }
-.shot__ph b { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 500; }
-.shot__ph small { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: var(--rosso); text-transform: uppercase; }
-/* caption sempre sopra */
-.shot__cap {
-  position: absolute; inset: auto 0 0 0; z-index: 3; padding: clamp(2rem,5vw,3.2rem) clamp(1.1rem,2vw,1.6rem) clamp(1rem,2vw,1.4rem);
+.showcase__ph b { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 500; }
+.showcase__ph small { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em; color: var(--rosso); text-transform: uppercase; }
+
+.showcase__inner {
+  position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: clamp(2rem,6vw,6rem) clamp(1.6rem,6vw,7rem) clamp(3rem,8vw,7rem);
+}
+.showcase__tag { position: absolute; top: clamp(1.6rem,4vw,3rem); left: clamp(1.6rem,6vw,7rem); z-index: 2;
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.6); text-transform: uppercase; }
+.showcase__tag b { color: var(--rosso); }
+.showcase__idx {
+  position: absolute; top: clamp(0.5rem,3vw,2rem); right: clamp(1.4rem,5vw,5rem); z-index: 2;
+  font-family: var(--display); font-weight: 600; font-size: clamp(5rem,16vw,14rem); line-height: 0.8;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,0.16);
+}
+.showcase__lab { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; color: var(--rosso); text-transform: uppercase; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.7rem; }
+.showcase__lab::before { content: ""; width: 26px; height: 3px; background: var(--rosso); }
+.showcase__title { font-family: var(--display); font-weight: 600; text-transform: uppercase; color: #fff;
+  font-size: clamp(2.4rem, 7vw, 6rem); line-height: 0.9; letter-spacing: -0.01em; max-width: 18ch; }
+.showcase__title .acc { color: var(--rosso); }
+.showcase__desc { font-family: var(--mono); font-size: clamp(0.74rem,1.3vw,0.9rem); letter-spacing: 0.04em; line-height: 1.7;
+  color: rgba(255,255,255,0.62); text-transform: uppercase; max-width: 52ch; margin-top: 1.4rem; }
+
+/* entrata animata del media (tendina) */
+.showcase__media { clip-path: inset(0 0 0 0); }
+.showcase[data-enter] .showcase__media { clip-path: inset(0 0 100% 0); transition: clip-path 1.2s var(--ease-io); }
+.showcase[data-enter].in .showcase__media { clip-path: inset(0 0 0 0); }
+.showcase[data-enter] .showcase__media img { transform: translate(-50%,-50%) scale(1.18); transition: transform 1.6s var(--ease-io); }
+.showcase[data-enter].in .showcase__media img { transform: translate(-50%,-50%) scale(1); }
+
+/* ====================================================================
+   GALLERIA VERTICALE — gruppi in colonna, reveal a scorrimento
+   ==================================================================== */
+.vgal { display: grid; gap: clamp(0.8rem, 2vw, 1.5rem); }
+.vgal__item {
+  position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: #0d0d0f; isolation: isolate;
+}
+.vgal__item--tall { aspect-ratio: 4 / 5; }
+.vgal__item--wide { aspect-ratio: 21 / 9; }
+.vgal__item img { position: absolute; inset: -8% 0; width: 100%; height: 116%; object-fit: cover; will-change: transform; transition: transform .9s var(--ease); z-index: 1; }
+.vgal__item:hover img { transform: scale(1.05); }
+.vgal__item .showcase__ph { background:
+    radial-gradient(120% 120% at 50% 0%, #18181c, #0b0b0c),
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 100% 28px,
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 28px 100%; }
+.vgal__item figcaption {
+  position: absolute; inset: auto 0 0 0; z-index: 3; padding: clamp(2rem,5vw,3.4rem) clamp(1.3rem,3vw,2.4rem) clamp(1.1rem,2.4vw,1.7rem);
   background: linear-gradient(transparent, rgba(7,7,9,0.55) 40%, rgba(7,7,9,0.9));
   display: flex; flex-direction: column; gap: 0.35rem;
-  transform: translateY(0.4rem); opacity: 0.92; transition: transform .5s var(--ease), opacity .5s;
 }
-.shot:hover .shot__cap { transform: translateY(0); opacity: 1; }
-.shot__lab { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.16em; color: var(--rosso); text-transform: uppercase; }
-.shot__desc { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(1rem, 1.8vw, 1.5rem); color: #fff; line-height: 1; }
-/* corner bracket */
-.shot::before { content: ""; position: absolute; top: 12px; left: 12px; width: 16px; height: 16px; border: 2px solid var(--rosso); border-right: 0; border-bottom: 0; z-index: 3; opacity: 0; transition: opacity .4s; }
-.shot:hover::before { opacity: 1; }
+.vgal__item .l { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em; color: var(--rosso); text-transform: uppercase; }
+.vgal__item .t { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(1.1rem,2.2vw,1.8rem); color: #fff; line-height: 1; }
+.vgal__item::before { content: ""; position: absolute; top: 12px; left: 12px; width: 16px; height: 16px; border: 2px solid var(--rosso); border-right: 0; border-bottom: 0; z-index: 3; opacity: 0; transition: opacity .4s; }
+.vgal__item:hover::before { opacity: 1; }
 
 @media (max-width: 760px) {
-  .gal-grid, .gal-grid--3 { grid-template-columns: 1fr; }
-  .shot--feat { aspect-ratio: 16 / 10; }
+  .showcase { height: 86svh; }
+  .showcase__media::after { background: linear-gradient(0deg, rgba(7,7,9,0.92), rgba(7,7,9,0.1) 55%); }
 }

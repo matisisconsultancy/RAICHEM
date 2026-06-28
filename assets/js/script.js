@@ -18,6 +18,7 @@
      ============================================================= */
   function preloader() {
     var loader = $('#loader'), bar = $('#loaderBar'), pct = $('#loaderPct');
+    var ll = $('#loaderLogo'); if (ll) requestAnimationFrame(function () { ll.classList.add('go'); });
     if (!loader) { revealHero(); return; }
     if (reduce) { loader.style.display = 'none'; revealHero(); return; }
     var p = 0;
@@ -262,7 +263,7 @@
      5. REVEAL ON SCROLL (+ stagger)
      ============================================================= */
   function reveals() {
-    var els = $$('[data-reveal], [data-reveal-stagger]');
+    var els = $$('[data-reveal], [data-reveal-stagger], [data-enter]');
     if (!('IntersectionObserver' in window) || reduce) {
       els.forEach(function (e) { e.classList.add('in'); });
       return;
@@ -628,6 +629,21 @@
   }
 
   /* =============================================================
+     13. LOGO — disegna lo swoosh quando entra in vista
+     ============================================================= */
+  function logoReveal() {
+    var logos = $$('.logo--anim');
+    logos.forEach(function (l) { if (l.id === 'loaderLogo') return; });
+    var targets = logos.filter(function (l) { return l.id !== 'loaderLogo'; });
+    if (!targets.length) return;
+    if (reduce || !('IntersectionObserver' in window)) { targets.forEach(function (l) { l.classList.add('go'); }); return; }
+    var io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('go'); obs.unobserve(en.target); } });
+    }, { threshold: 0.4 });
+    targets.forEach(function (l) { io.observe(l); });
+  }
+
+  /* =============================================================
      UTIL
      ============================================================= */
   function debounce(fn, ms) {
@@ -648,6 +664,7 @@
     horizontalPin();
     genPlates();
     molecules();
+    logoReveal();
     navigation();
     smoothScroll();
     sediMap();
