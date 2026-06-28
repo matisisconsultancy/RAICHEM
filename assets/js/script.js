@@ -623,6 +623,8 @@
     function applyFilter(f) {
       current = f;
       chips.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-filter') === f); });
+      // con filtro attivo: ogni immagine a tutto schermo, impilata; senza filtro: mosaico
+      grid.classList.toggle('is-single', f !== 'all');
       cards.forEach(function (card) {
         var match = (f === 'all' || card.getAttribute('data-cat') === f);
         card.classList.add('is-filtering');

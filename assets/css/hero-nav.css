@@ -16,8 +16,15 @@
   border-bottom-color: rgba(255,255,255,0.08); color: #fff;
 }
 .nav.su-scuro:not(.solid) { color: #fff; }
-.nav__brand { gap: 0; }
+.nav__brand { gap: 0.7rem; align-items: center; }
 .nav__brand .logo { height: 22px; }
+.nav__brand-tag {
+  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); padding-left: 0.7rem; border-left: 1px solid rgba(255,255,255,0.18); line-height: 1;
+  white-space: nowrap;
+}
+.nav.solid .nav__brand-tag { color: rgba(255,255,255,0.55); }
+@media (max-width: 600px) { .nav__brand-tag { display: none; } }
 .nav.solid .nav__brand .logo .lg-wm, .nav.su-scuro:not(.solid) .nav__brand .logo .lg-wm { fill: #fff; }
 
 /* readout tecnologico al centro */
