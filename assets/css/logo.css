@@ -41,20 +41,72 @@
 }
 .logo-show::before { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 90% at 50% 120%, rgba(225,21,24,0.18), transparent 60%); }
 .logo-show .logo { width: min(560px, 86%); height: auto; position: relative; }
-.logo-show .logo-img { width: min(560px, 86%); height: auto; position: relative; }
 
 /* =====================================================================
    LOGO ufficiale (asset PNG): swoosh + wordmark RAICHEM
    ===================================================================== */
 .logo-img { display: block; height: 100%; width: auto; }
-.loader__logo .logo-img { width: 100%; height: auto; }
 .nav__brand .logo-img { height: 22px; width: auto; }
 
-/* reveal: il marchio entra in vista (no clip-path: azzererebbe l'area
-   visibile e impedirebbe all'IntersectionObserver di attivare .go) */
-.logo-img.logo--anim { opacity: 0; transform: translateY(14px) scale(0.985); }
-.logo-img.logo--anim.go { animation: lgImgReveal 1s var(--ease-io) forwards; }
-@keyframes lgImgReveal { to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .logo-img.logo--anim { opacity: 1; transform: none; } }
+/* ---------------------------------------------------------------------
+   Componente animato del marchio — "lo swoosh si disegna"
+   Il marchio si scopre da sinistra a destra (mask wipe), mentre una lama
+   di luce attraversa la sagoma del logo: traiettoria → sistema controllato.
+   Trigger: .go (preloader / capitolo 08) oppure .hero.in (hero).
+   NB: usa mask, non clip-path, per non azzerare l'area che serve
+   all'IntersectionObserver per attivare .go.
+   --------------------------------------------------------------------- */
+.logo-stage { position: relative; display: inline-block; line-height: 0; isolation: isolate; }
+.logo-stage__img { display: block; width: 100%; height: auto; }
+.logo-stage__beam {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; z-index: 2;
+  background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,0.92) 50%, transparent 58%);
+  background-repeat: no-repeat; background-size: 220% 100%; background-position: 125% 0;
+  -webkit-mask: var(--logo-src) center / contain no-repeat;
+          mask: var(--logo-src) center / contain no-repeat;
+  mix-blend-mode: screen;
+}
+.logo-stage--rosso { --logo-src: url(../img/logo/raichem-logo-rosso.png); }
+.logo-stage--hero  { --logo-src: url(../img/logo/raichem-logo-bianco.png); }
+
+/* stato a riposo: marchio nascosto, pronto a "disegnarsi" */
+.logo--anim .logo-stage__img,
+.hero__logo .logo-stage__img {
+  -webkit-mask: linear-gradient(90deg,#000,#000) left center / 0% 100% no-repeat;
+          mask: linear-gradient(90deg,#000,#000) left center / 0% 100% no-repeat;
+}
+/* attivazione: disegno + lama di luce */
+.logo--anim.go .logo-stage__img,
+.hero.in .hero__logo .logo-stage__img { animation: logoDraw 1.25s var(--ease-io) forwards; }
+.logo--anim.go .logo-stage__beam,
+.hero.in .hero__logo .logo-stage__beam { animation: logoBeam 1.35s var(--ease-io) 0.12s 1; }
+/* vetrina capitolo 08: dopo l'entrata, un riflesso che ritorna con calma */
+.logo-show .logo-stage.go .logo-stage__beam {
+  animation: logoBeam 1.35s var(--ease-io) 0.12s 1, logoBeamLoop 7.5s linear 2.6s infinite;
+}
+
+@keyframes logoDraw {
+  0%   { -webkit-mask-size: 0% 100%; mask-size: 0% 100%; opacity: 0.88; transform: scale(0.985); }
+  70%  { opacity: 1; }
+  100% { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; opacity: 1; transform: scale(1); }
+}
+@keyframes logoBeam {
+  0%   { opacity: 0; background-position: 125% 0; }
+  28%  { opacity: 1; }
+  100% { opacity: 0; background-position: -25% 0; }
+}
+@keyframes logoBeamLoop {
+  0%, 74%  { opacity: 0; background-position: 125% 0; }
+  80%      { opacity: 0.95; }
+  92%, 100%{ opacity: 0; background-position: -25% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo--anim .logo-stage__img, .hero__logo .logo-stage__img { -webkit-mask: none; mask: none; }
+  .logo-stage__beam { display: none; }
+}
+
+/* dimensioni del componente per contesto */
+.loader__logo .logo-stage { width: 100%; }
+.logo-show .logo-stage { width: min(560px, 86%); position: relative; z-index: 1; }
 .logo-show__cap { position: absolute; bottom: clamp(1rem,3vw,2rem); left: 0; right: 0; text-align: center;
   font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.45); text-transform: uppercase; }

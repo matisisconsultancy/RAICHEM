@@ -126,6 +126,11 @@
 .hero.in .hero__kicker, .hero.in .hero__wordmark span, .hero.in .hero__tag { opacity: 1; transform: none; }
 .hero.in .hero__rule { width: clamp(56px, 8vw, 120px); }
 
+/* marchio ufficiale al posto del wordmark testuale */
+.hero__logo { width: min(76vw, 720px); max-width: 100%; margin: 0 auto; display: block; }
+.hero__logo .logo-stage { width: 100%; }
+@media (max-width: 600px) { .hero__logo { width: 86vw; } }
+
 .hero__foot { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end;
   border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.3rem; gap: 1rem; flex-wrap: wrap;
   opacity: 0; transition: opacity 1s var(--ease) .8s; }

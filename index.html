@@ -38,7 +38,12 @@
 
 <!-- PRELOADER -->
 <div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__logo"><img class="logo-img logo--anim" id="loaderLogo" src="assets/img/logo/raichem-logo-rosso.png" alt="RAICHEM" /></div>
+  <div class="loader__logo">
+    <span class="logo-stage logo-stage--rosso logo--anim" id="loaderLogo">
+      <img class="logo-stage__img" src="assets/img/logo/raichem-logo-rosso.png" alt="RAICHEM" />
+      <span class="logo-stage__beam" aria-hidden="true"></span>
+    </span>
+  </div>
   <div class="loader__bar"><i id="loaderBar"></i></div>
   <div class="loader__pct"><span id="loaderPct">0</span> — CARICAMENTO BRAND SYSTEM</div>
 </div>
@@ -81,7 +86,12 @@
   <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__inner">
     <span class="hero__kicker">Identità · Voce · Sistema di marca</span>
-    <h1 class="hero__wordmark" aria-label="RAICHEM"><span>RAI</span><span class="acc">CHEM</span></h1>
+    <h1 class="hero__logo" aria-label="RAICHEM">
+      <span class="logo-stage logo-stage--hero">
+        <img class="logo-stage__img" src="assets/img/logo/raichem-logo-bianco.png" alt="RAICHEM" />
+        <span class="logo-stage__beam" aria-hidden="true"></span>
+      </span>
+    </h1>
     <span class="hero__rule" aria-hidden="true"></span>
     <p class="hero__tag">Brand Book — il manuale operativo della marca.</p>
   </div>
@@ -507,7 +517,10 @@
   <span class="eyebrow">USO DEL LOGOTIPO</span>
   <p class="sez-intro" data-reveal style="margin-bottom:1.6rem;">Il marchio: wordmark e <strong>swoosh</strong> — la traiettoria che prende forma controllata. Area di rispetto pari all'altezza della «R». Versioni ufficiali su fondo chiaro e negativo.</p>
   <div class="logo-show" data-reveal style="margin-bottom:1px;">
-    <img class="logo-img logo--anim" src="assets/img/logo/raichem-logo-rosso.png" alt="RAICHEM — marchio ufficiale" />
+    <span class="logo-stage logo-stage--rosso logo--anim">
+      <img class="logo-stage__img" src="assets/img/logo/raichem-logo-rosso.png" alt="RAICHEM — marchio ufficiale" />
+      <span class="logo-stage__beam" aria-hidden="true"></span>
+    </span>
     <span class="logo-show__cap">Marchio ufficiale · lo swoosh si disegna: traiettoria → sistema controllato</span>
   </div>
   <div class="logo-uso" data-reveal-stagger>
