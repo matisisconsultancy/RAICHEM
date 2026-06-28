@@ -41,12 +41,9 @@
      2. HERO — reveal lettere
      ============================================================= */
   function revealHero() {
-    var ltrs = $$('#heroBrand .ltr');
-    ltrs.forEach(function (l, i) {
-      l.style.transition = 'transform 1s cubic-bezier(0.16,1,0.3,1)';
-      l.style.transitionDelay = (0.05 * i) + 's';
-      requestAnimationFrame(function () { l.style.transform = 'translateY(0)'; });
-    });
+    var hero = $('#hero'); if (!hero) return;
+    // una sola entrata elegante: il blocco hero sale e appare in dissolvenza
+    requestAnimationFrame(function () { requestAnimationFrame(function () { hero.classList.add('in'); }); });
   }
 
   /* =============================================================
@@ -168,11 +165,13 @@
      4b. OROLOGIO HERO — readout strumentale live
      ============================================================= */
   function clock() {
-    var el = $('#heroClock'); if (!el) return;
+    var nav = $('#navClock'), hero = $('#heroClock');
+    if (!nav && !hero) return;
     function pad(n) { return (n < 10 ? '0' : '') + n; }
     function tick() {
-      var d = new Date();
-      el.textContent = 'LOCAL ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+      var d = new Date(), s = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+      if (nav) nav.textContent = s;
+      if (hero) hero.textContent = 'LOCAL ' + s;
       setTimeout(tick, 1000);
     }
     tick();
@@ -183,30 +182,11 @@
          (chaos → reticolo blueprint) sincronizzato allo scroll
      ============================================================= */
   function field() {
-    var cv = document.getElementById('field'); if (!cv) return;
-    var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var N = window.innerWidth < 760 ? 2800 : 6000, pts = [], lat = [], x = 0.1, y = 0, z = 0, i;
-    for (i = 0; i < N; i++) {
-      var dx = 10 * (y - x), dy = x * (28 - z) - y, dz = x * y - (8 / 3) * z;
-      x += dx * 0.006; y += dy * 0.006; z += dz * 0.006;
-      pts.push([x, y, z - 25]);
-    }
-    // reticolo blueprint di destinazione: l'ordine = il controllo
-    var cols = 100, rows = Math.ceil(N / cols);
-    for (i = 0; i < N; i++) {
-      lat.push([((i % cols) / (cols - 1) - 0.5) * 46, 0, (Math.floor(i / cols) / (rows - 1) - 0.5) * 52]);
-    }
-    var w, h, scale, cx, cy;
-    function size() {
-      w = window.innerWidth; h = window.innerHeight;
-      cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      scale = Math.min(w / 44, h / 52); cx = w * 0.5; cy = h * 0.5;
-    }
-    size();
-    window.addEventListener('resize', debounce(size, 200));
-
+    // Sfondo minimale e STATICO: reticolo blueprint quieto, nessuna animazione.
+    // Niente attrattore caotico, niente cerchio che si muove veloce.
+    var cv = document.getElementById('field');
     var hudBar = document.getElementById('hudBar'), hudPct = document.getElementById('hudPct'), hudSt = document.getElementById('hudState');
-    var control = 0, target = 0, t = 0, head = 0, running = true;
+
     function updateHud(p) {
       if (hudBar) hudBar.style.width = (p * 100) + '%';
       if (hudPct) hudPct.textContent = Math.round(p * 100) + '%';
@@ -214,49 +194,28 @@
     }
     function onScroll() {
       var max = document.documentElement.scrollHeight - window.innerHeight;
-      target = max > 0 ? clamp(window.scrollY / max, 0, 1) : 0;
-      updateHud(target);
+      updateHud(max > 0 ? clamp(window.scrollY / max, 0, 1) : 0);
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    function render(e, a) {
-      var cosA = Math.cos(a), sinA = Math.sin(a), p, l, px, py, pz, rx, depth, sx, sy, near;
+    if (!cv) return;
+    var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2), w, h;
+    function draw() {
+      w = window.innerWidth; h = window.innerHeight;
+      cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'lighter';
-      for (i = 0; i < N; i++) {
-        p = pts[i]; l = lat[i];
-        px = p[0] + (l[0] - p[0]) * e; py = p[1] + (l[1] - p[1]) * e; pz = p[2] + (l[2] - p[2]) * e;
-        rx = px * cosA - py * sinA; depth = px * sinA + py * cosA;
-        sx = cx + rx * scale; sy = cy - pz * scale;
-        near = clamp((depth + 25) / 50, 0, 1);
-        ctx.fillStyle = 'rgba(' + Math.round(205 + near * 45) + ',' + Math.round(26 + near * 40) + ',26,' + (0.05 + near * 0.12) + ')';
-        ctx.fillRect(sx, sy, 1.5, 1.5);
+      // punti di reticolo discreti, immobili — texture tecnica appena percettibile
+      var gap = 46, r = 1.1;
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      for (var gx = gap; gx < w; gx += gap) {
+        for (var gy = gap; gy < h; gy += gap) {
+          ctx.beginPath(); ctx.arc(gx, gy, r, 0, Math.PI * 2); ctx.fill();
+        }
       }
-      ctx.globalCompositeOperation = 'source-over';
     }
-
-    if (reduce) { render(0.4, 0.3); return; }
-
-    function frame() {
-      if (!running) return;
-      control += (target - control) * 0.05;
-      t += 0.004;
-      var a = Math.sin(t) * 0.5 * (1 - control * 0.75);
-      render(control, a);
-      head = (head + 5) % N;
-      if (control < 0.9) {
-        var cosA = Math.cos(a), sinA = Math.sin(a), hp = pts[head], lt = lat[head];
-        var hpx = hp[0] + (lt[0] - hp[0]) * control, hpy = hp[1] + (lt[1] - hp[1]) * control, hpz = hp[2] + (lt[2] - hp[2]) * control;
-        var hx = cx + (hpx * cosA - hpy * sinA) * scale, hy = cy - hpz * scale;
-        ctx.shadowColor = 'rgba(255,95,35,' + (0.9 * (1 - control)) + ')'; ctx.shadowBlur = 16;
-        ctx.fillStyle = 'rgba(255,106,42,' + (1 - control * 0.7) + ')';
-        ctx.beginPath(); ctx.arc(hx, hy, 3, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
-      }
-      requestAnimationFrame(frame);
-    }
-    frame();
-    document.addEventListener('visibilitychange', function () { running = !document.hidden; if (running) frame(); });
+    draw();
+    window.addEventListener('resize', debounce(draw, 200));
   }
 
   /* =============================================================
@@ -435,17 +394,22 @@
      9. NAV — menu mobile · scroll-spy · chiusura
      ============================================================= */
   function navigation() {
-    var nav = $('#nav'), toggle = $('#navToggle'), navLinks = $('#navLinks');
+    var nav = $('#nav'), toggle = $('#navToggle'), navLinks = $('#navLinks'), menu = $('#navMenu');
     if (!nav || !toggle || !navLinks) return;
     var links = $$('a', navLinks);
 
-    toggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('aperto');
+    function setOpen(open) {
+      nav.classList.toggle('aperto', open);
+      if (menu) { menu.classList.toggle('open', open); menu.setAttribute('aria-hidden', String(!open)); }
       toggle.setAttribute('aria-expanded', String(open));
-    });
+      var lab = $('.nav__menu-lab', toggle);
+      if (lab) lab.textContent = open ? (lab.getAttribute('data-close') || 'Chiudi') : (lab.getAttribute('data-open') || 'Indice');
+    }
+    toggle.addEventListener('click', function () { setOpen(!nav.classList.contains('aperto')); });
     navLinks.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') { nav.classList.remove('aperto'); toggle.setAttribute('aria-expanded', 'false'); }
+      if (e.target.closest('a')) setOpen(false);
     });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('aperto')) setOpen(false); });
 
     var sezioni = links.map(function (a) {
       var id = a.getAttribute('href').slice(1);
@@ -723,6 +687,40 @@
   }
 
   /* =============================================================
+     VOCE — personalità in scroll: parola + significato + immagine
+     (un pannello resta fisso, il contenuto cambia con lo scroll)
+     ============================================================= */
+  function voceScroll() {
+    var sec = document.getElementById('voce-scroll'); if (!sec) return;
+    var steps = $$('.vs__step', sec);
+    var imgs = $$('.vs__img', sec);
+    var elNum = $('.vs__num', sec), elWord = $('.vs__word', sec), elNo = $('.vs__no', sec), elMean = $('.vs__mean', sec);
+    if (!steps.length) return;
+    var active = -1;
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function setActive(i) {
+      if (i === active) return; active = i;
+      var s = steps[i];
+      steps.forEach(function (st, k) { st.classList.toggle('is-active', k === i); });
+      imgs.forEach(function (im) { im.classList.toggle('is-on', +im.getAttribute('data-i') === i); });
+      if (elNum) elNum.textContent = pad(i + 1);
+      if (elWord) elWord.textContent = s.getAttribute('data-word') || '';
+      if (elNo) elNo.textContent = s.getAttribute('data-non') || '';
+      if (elMean) elMean.textContent = s.getAttribute('data-mean') || '';
+      // retrigger micro-animazione caption
+      if (elWord) { elWord.classList.remove('swap'); void elWord.offsetWidth; elWord.classList.add('swap'); }
+    }
+    if (!('IntersectionObserver' in window)) { setActive(0); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) setActive(steps.indexOf(en.target));
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    steps.forEach(function (s) { io.observe(s); });
+    setActive(0);
+  }
+
+  /* =============================================================
      UTIL
      ============================================================= */
   function debounce(fn, ms) {
@@ -746,8 +744,8 @@
     logoReveal();
     navigation();
     smoothScroll();
-    sediMap();
     atelier();
+    voceScroll();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

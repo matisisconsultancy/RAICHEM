@@ -130,8 +130,21 @@
 .fotostrip__item.is-empty::after { display: none; }
 .fotostrip__item.is-empty .fotostrip__cap { position: static; justify-content: center; }
 
+/* versione protagonista: full-bleed, immagini grandi, ritratto in evidenza */
+.fotostrip--xl {
+  margin-inline: calc(-1 * var(--pad-x)); width: calc(100% + 2 * var(--pad-x));
+  grid-template-columns: 1.5fr 1fr 1fr; grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1vw, 0.9rem); height: clamp(520px, 86svh, 880px);
+}
+.fotostrip--xl .fotostrip__item { aspect-ratio: auto; height: 100%; }
+.fotostrip--xl .fotostrip__item--lead { grid-row: 1 / span 2; }
+.fotostrip--xl .fotostrip__cap { font-size: 0.92rem; padding: 1.3rem clamp(1rem,2vw,1.5rem); }
+.fotostrip--xl .fotostrip__item--lead .fotostrip__cap { font-size: 1.05rem; }
+
 @media (max-width: 760px) {
   .showcase { height: 86svh; }
   .showcase__media::after { background: linear-gradient(0deg, rgba(7,7,9,0.92), rgba(7,7,9,0.1) 55%); }
   .fotostrip { grid-template-columns: 1fr 1fr; }
+  .fotostrip--xl { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, minmax(0,200px)); height: auto; }
+  .fotostrip--xl .fotostrip__item--lead { grid-row: 1 / span 1; grid-column: 1 / span 2; aspect-ratio: 16/10; }
 }

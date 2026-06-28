@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="assets/css/gallery.css" />
   <link rel="stylesheet" href="assets/css/atelier.css" />
   <link rel="stylesheet" href="assets/css/logo.css" />
+  <link rel="stylesheet" href="assets/css/voce.css" />
+  <link rel="stylesheet" href="assets/css/hero-nav.css" />
 </head>
 <body>
 
@@ -45,23 +47,35 @@
 <nav class="nav su-scuro" id="nav">
   <a href="#hero" class="nav__brand" data-cursor="hover" aria-label="RAICHEM — inizio">
     <svg class="logo" viewBox="0 0 340 110" role="img" aria-label="RAICHEM"><path class="lg-swoosh" d="M8,54 C92,12 240,6 332,40 C300,27 248,21 150,25 C96,28 44,42 8,54 Z"/><text class="lg-wm" x="6" y="96">RAICHEM</text></svg>
-    <small>BPO SYSTEMS</small>
   </a>
-  <ul class="nav__links" id="navLinks">
-    <li><a href="#fondamenti">01 Fondamenti</a></li>
-    <li><a href="#posizionamento">02 Posizionamento</a></li>
-    <li><a href="#verbale">03 Voce</a></li>
-    <li><a href="#messaggi">04 Messaggi</a></li>
-    <li><a href="#target">05 Target</a></li>
-    <li><a href="#usabilita">06·07 Uso</a></li>
-    <li><a href="#visiva">08 Visiva</a></li>
-    <li><a href="#canali">09 Canali</a></li>
-    <li><a href="#dodont">10 Do/Don't</a></li>
-    <li><a href="#checklist">11 Checklist</a></li>
-    <li><a href="#governance">12 Governance</a></li>
-  </ul>
-  <button class="nav__toggle" id="navToggle" aria-label="Apri menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <div class="nav__hud" aria-hidden="true">
+    <span class="nav__hud-dot"></span>
+    <span id="navClock">--:--:--</span>
+    <span class="nav__hud-sep"></span>
+    <span class="nav__hud-state">SISTEMA CONTROLLATO</span>
+  </div>
+  <button class="nav__menu" id="navToggle" aria-label="Apri indice" aria-expanded="false" aria-controls="navMenu" data-cursor="hover">
+    <span class="nav__menu-lab" data-open="Indice" data-close="Chiudi">Indice</span>
+    <span class="nav__menu-ico"><i></i><i></i></span>
+  </button>
 </nav>
+<div class="navmenu" id="navMenu" aria-hidden="true">
+  <div class="navmenu__inner">
+    <div class="navmenu__head"><span class="mono">Sommario</span><span class="mono">12 capitoli · un sistema</span></div>
+    <ul class="navmenu__list" id="navLinks">
+      <li><a href="#fondamenti" data-cursor="hover"><span class="n">01</span><span class="t">Fondamenti</span></a></li>
+      <li><a href="#posizionamento" data-cursor="hover"><span class="n">02</span><span class="t">Posizionamento</span></a></li>
+      <li><a href="#verbale" data-cursor="hover"><span class="n">03</span><span class="t">Identità verbale</span></a></li>
+      <li><a href="#messaggi" data-cursor="hover"><span class="n">04</span><span class="t">Architettura messaggi</span></a></li>
+      <li><a href="#target" data-cursor="hover"><span class="n">05</span><span class="t">Target group</span></a></li>
+      <li><a href="#visiva" data-cursor="hover"><span class="n">08</span><span class="t">Identità visiva</span></a></li>
+      <li><a href="#canali" data-cursor="hover"><span class="n">09</span><span class="t">Applicazioni di marca</span></a></li>
+      <li><a href="#dodont" data-cursor="hover"><span class="n">10</span><span class="t">Do's &amp; Don'ts</span></a></li>
+      <li><a href="#checklist" data-cursor="hover"><span class="n">11</span><span class="t">Checklist</span></a></li>
+      <li><a href="#governance" data-cursor="hover"><span class="n">12</span><span class="t">Governance</span></a></li>
+    </ul>
+  </div>
+</div>
 <div class="progress" id="progress"></div>
 <div class="hud" aria-hidden="true">
   <span>SISTEMA</span><span class="hud__bar"><i id="hudBar"></i></span><b id="hudPct">0%</b><span class="st" id="hudState">OSSERVAZIONE</span>
@@ -69,26 +83,16 @@
 
 <!-- HERO -->
 <header class="hero" id="hero">
-  <div class="hero__grid" aria-hidden="true"></div>
-  <div class="hero__glow" id="heroGlow" aria-hidden="true"></div>
-
-  <div class="hero__meta">
-    <span class="mono mono--rosso">● RAICHEM · BPO SYSTEMS</span>
-    <span class="mono mono--bianco" id="heroClock">LOCAL --:--:--</span>
-    <span class="mono mono--bianco">STATO:<b class="acc" style="color:#fff;font-weight:600;">CONTROLLATO</b></span>
-    <span class="mono mono--bianco">VARIABILE:<b style="color:#fff;font-weight:600;">STABILIZZATA</b></span>
-    <span class="mono mono--bianco">DRIFT:<b style="color:var(--rosso);font-weight:600;">SOTTO CONTROLLO</b></span>
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <span class="hero__kicker">Identità · Voce · Sistema di marca</span>
+    <h1 class="hero__wordmark" aria-label="RAICHEM"><span>RAI</span><span class="acc">CHEM</span></h1>
+    <span class="hero__rule" aria-hidden="true"></span>
+    <p class="hero__tag">Brand Book — il manuale operativo della marca.</p>
   </div>
-
-  <div class="hero__brand" id="heroBrand" aria-label="RAICHEM">
-    <span class="ltr">R</span><span class="ltr">A</span><span class="ltr">I</span><span class="ltr acc">C</span><span class="ltr acc">H</span><span class="ltr acc">E</span><span class="ltr acc">M</span>
-  </div>
-  <p class="hero__sub">IDENTITÀ · VOCE · SISTEMA DI MARCA</p>
-  <h1 class="hero__title">Brand Book<span class="punto">.</span></h1>
-
   <div class="hero__foot">
-    <span class="mono mono--bianco">MATISIS CONSULTANCY · 12 CAPITOLI · UN SISTEMA UNICO</span>
-    <a href="#scopo" class="hero__scroll" data-cursor="hover">Scorri <span class="freccia">↓</span></a>
+    <span class="mono">RAICHEM® · BPO Systems · Matisis Consultancy</span>
+    <a href="#scopo" class="hero__scroll" data-cursor="hover"><span>Scorri</span><span class="hero__scroll-line"></span></a>
   </div>
 </header>
 
@@ -144,64 +148,9 @@
   </div>
 </section>
 
-<!-- PRESENZA GLOBALE — MAPPA INTERATTIVA -->
-<section class="sedi" id="sedi" style="height:240vh;">
-  <div class="sedi__sticky">
-    <div class="sedi__bg"></div>
-    <div class="sedi__grid" id="sediGrid"></div>
-
-    <div class="sedi__head">
-      <div>
-        <div class="sez-label"><span class="tick"></span><span class="mono mono--bianco">PRESENZA GLOBALE · CONTINUITÀ OPERATIVA</span></div>
-        <h2 class="sedi__title">5 sedi.<br>3 <span class="acc">continenti</span>.</h2>
-        <div class="mono" id="sediNow" style="margin-top:1rem;color:rgba(255,255,255,0.7);min-height:1.2em;"></div>
-      </div>
-      <div class="sedi__counter">
-        <div class="n"><span id="sediCount">0</span><span class="tot">/5</span></div>
-        <div class="lab">Sedi attive</div>
-      </div>
-    </div>
-
-    <div class="worldwrap">
-      <div class="worldmap">
-        <svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-          <g class="graticule">
-            <line x1="0" y1="0" x2="0" y2="500"/><line x1="83.3" y1="0" x2="83.3" y2="500"/>
-            <line x1="166.7" y1="0" x2="166.7" y2="500"/><line x1="250" y1="0" x2="250" y2="500"/>
-            <line x1="333.3" y1="0" x2="333.3" y2="500"/><line x1="416.7" y1="0" x2="416.7" y2="500"/>
-            <line x1="500" y1="0" x2="500" y2="500"/><line x1="583.3" y1="0" x2="583.3" y2="500"/>
-            <line x1="666.7" y1="0" x2="666.7" y2="500"/><line x1="750" y1="0" x2="750" y2="500"/>
-            <line x1="833.3" y1="0" x2="833.3" y2="500"/><line x1="916.7" y1="0" x2="916.7" y2="500"/>
-            <line x1="1000" y1="0" x2="1000" y2="500"/>
-            <line x1="0" y1="0" x2="1000" y2="0"/><line x1="0" y1="83.3" x2="1000" y2="83.3"/>
-            <line x1="0" y1="166.7" x2="1000" y2="166.7"/><line x1="0" y1="250" x2="1000" y2="250"/>
-            <line x1="0" y1="333.3" x2="1000" y2="333.3"/><line x1="0" y1="416.7" x2="1000" y2="416.7"/>
-            <line x1="0" y1="500" x2="1000" y2="500"/>
-          </g>
-          <g id="sediArcs">
-            <path class="arc" data-arc="1" d="M525.5,123.7 Q515.8,55 506,135"/>
-            <path class="arc" data-arc="2" d="M525.5,123.7 Q526.6,45 527.7,101.3"/>
-            <path class="arc" data-arc="3" d="M525.5,123.7 Q448,40 370.5,315.4"/>
-            <path class="arc" data-arc="4" d="M525.5,123.7 Q681.5,30 837.4,163.3"/>
-          </g>
-        </svg>
-      </div>
-      <div class="pin hq" data-step="0" style="left:52.55%;top:24.7%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Milano</b><span>HQ · Europa</span></span></div>
-      <div class="pin pin--lbl-left" data-step="1" style="left:50.6%;top:27%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Barcelona</b><span>Europa</span></span></div>
-      <div class="pin pin--lbl-up" data-step="2" style="left:52.77%;top:20.25%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Hamburg</b><span>Europa</span></span></div>
-      <div class="pin" data-step="3" style="left:37.05%;top:63.1%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>São Paulo</b><span>Americhe</span></span></div>
-      <div class="pin" data-step="4" style="left:83.74%;top:32.65%;"><span class="pin__ring"></span><span class="pin__dot"></span><span class="pin__label"><b>Shanghai</b><span>Asia</span></span></div>
-    </div>
-
-    <div class="sedi__legend">
-      <span><i></i> Sede operativa · Raipack verticale</span>
-      <span class="conferma">● Ubicazioni esemplificative — DATI DA CONFERMARE</span>
-    </div>
-  </div>
-</section>
-
 <!-- INDICE -->
 <section class="section section--scuro" id="indice">
+  <div class="seam" aria-hidden="true"><span class="seam__line"></span><span class="seam__lab">Sommario</span></div>
   <div class="blueprint-bg" aria-hidden="true"></div>
   <div class="sez-head">
     <div class="sez-label"><span class="tick"></span><span class="mono mono--bianco">SOMMARIO · 12 CAPITOLI</span></div>
@@ -214,8 +163,6 @@
     <a class="indice-item" href="#verbale" data-cursor="hover"><span class="num">03</span><span class="titolo">Identità verbale</span></a>
     <a class="indice-item" href="#messaggi" data-cursor="hover"><span class="num">04</span><span class="titolo">Architettura messaggi</span></a>
     <a class="indice-item" href="#target" data-cursor="hover"><span class="num">05</span><span class="titolo">Target group</span></a>
-    <a class="indice-item" href="#usabilita" data-cursor="hover"><span class="num">06</span><span class="titolo">Usabilità interna</span></a>
-    <a class="indice-item" href="#usabilita" data-cursor="hover"><span class="num">07</span><span class="titolo">Partner esterni</span></a>
     <a class="indice-item" href="#visiva" data-cursor="hover"><span class="num">08</span><span class="titolo">Identità visiva</span></a>
     <a class="indice-item" href="#canali" data-cursor="hover"><span class="num">09</span><span class="titolo">Contenuti per canale</span></a>
     <a class="indice-item" href="#dodont" data-cursor="hover"><span class="num">10</span><span class="titolo">Do's &amp; Don'ts</span></a>
@@ -319,22 +266,53 @@
     <p class="sez-intro" data-reveal>Personalità, voce, claims e linguaggio della marca.</p>
   </div>
 
-  <span class="eyebrow" style="margin-top:0;">PERSONALITÀ DI MARCA</span>
-  <div data-reveal style="margin-bottom:2rem;">
-    <h3 style="font-size:clamp(1.9rem,4.6vw,3.2rem);margin-bottom:0.8rem;">L'ingegnere che ascolta</h3>
-    <p class="sez-intro" style="margin-bottom:2rem;">Preciso, analitico, affidabile. Ma non distante. Ascolta il contesto del cliente e parla il linguaggio del suo mestiere.</p>
-  </div>
-  <div class="pers" data-reveal-stagger>
-    <div class="pers__col pers__col--si"><h4>È</h4><ul><li>Esperta</li><li>Precisa</li><li>Pragmatica</li><li>Sicura di sé</li><li>Vicina</li><li>Affidabile</li></ul></div>
-    <div class="pers__col pers__col--no"><h4>NON È</h4><ul><li>Accademica</li><li>Approssimativa</li><li>Teorica</li><li>Arrogante</li><li>Informale</li><li>Incostante</li></ul></div>
-  </div>
-
-  <span class="eyebrow">VOCE DI MARCA · 4 ATTRIBUTI</span>
-  <div class="griglia g-4" data-reveal-stagger>
-    <div class="card"><span class="card__num">01</span><h4 class="card__titolo">Precisa</h4><p class="card__testo">Dati prima degli aggettivi. «12 mesi di shelf life», non «shelf life eccezionale».</p></div>
-    <div class="card"><span class="card__num">02</span><h4 class="card__titolo">Concreta</h4><p class="card__testo">Situazioni reali, non concetti astratti. Nei panni del buyer persona.</p></div>
-    <div class="card"><span class="card__num">03</span><h4 class="card__titolo">Vicina</h4><p class="card__testo">Comprende il contesto. Usa il linguaggio del mestiere del cliente.</p></div>
-    <div class="card"><span class="card__num">04</span><h4 class="card__titolo">Sicura di sé</h4><p class="card__testo">Dice ciò che sa con convinzione. Ha i dati per farlo.</p></div>
+  <span class="eyebrow" style="margin-top:0;">PERSONALITÀ DI MARCA · L'INGEGNERE CHE ASCOLTA</span>
+  <p class="sez-intro" data-reveal style="margin-bottom:1.4rem;max-width:60ch;">Preciso, analitico, affidabile — ma mai distante. Sei attributi, ciascuno con il suo significato. Scorri: il volto resta, la parola cambia.</p>
+  <div class="voce-scroll" id="voce-scroll">
+    <div class="vs__media">
+      <div class="vs__media-inner">
+        <figure class="vs__img is-on" data-i="0"><img src="assets/img/mockups/foto-portrait.jpg" alt="Precisa" loading="lazy"></figure>
+        <figure class="vs__img" data-i="1"><img src="assets/img/mockups/foto-processi.jpg" alt="Concreta" loading="lazy"></figure>
+        <figure class="vs__img" data-i="2"><img src="assets/img/mockups/foto-persone.jpg" alt="Vicina" loading="lazy"></figure>
+        <figure class="vs__img" data-i="3"><img src="assets/img/mockups/foto-impianti.jpg" alt="Sicura di sé" loading="lazy"></figure>
+        <figure class="vs__img" data-i="4"><img src="assets/img/mockups/merch-fieldkit.jpg" alt="Affidabile" loading="lazy"></figure>
+        <figure class="vs__img" data-i="5"><img src="assets/img/mockups/merch-marine.jpg" alt="Pragmatica" loading="lazy"></figure>
+        <span class="vs__tag">L'ingegnere che ascolta</span>
+        <span class="vs__num">01</span>
+      </div>
+    </div>
+    <div class="vs__steps">
+      <article class="vs__step is-active" data-i="0">
+        <span class="vs__step-n">01 / 06</span>
+        <h3 class="vs__step-w">Precisa<em>non approssimativa</em></h3>
+        <p class="vs__step-m">Dati prima degli aggettivi. «12 mesi di shelf life», mai «shelf life eccezionale».</p>
+      </article>
+      <article class="vs__step" data-i="1">
+        <span class="vs__step-n">02 / 06</span>
+        <h3 class="vs__step-w">Concreta<em>non teorica</em></h3>
+        <p class="vs__step-m">Situazioni reali, non concetti astratti. Parla nei panni del buyer persona.</p>
+      </article>
+      <article class="vs__step" data-i="2">
+        <span class="vs__step-n">03 / 06</span>
+        <h3 class="vs__step-w">Vicina<em>non distante</em></h3>
+        <p class="vs__step-m">Comprende il contesto e usa il linguaggio del mestiere del cliente.</p>
+      </article>
+      <article class="vs__step" data-i="3">
+        <span class="vs__step-n">04 / 06</span>
+        <h3 class="vs__step-w">Sicura di sé<em>non arrogante</em></h3>
+        <p class="vs__step-m">Dice ciò che sa con convinzione, perché ha i dati per farlo.</p>
+      </article>
+      <article class="vs__step" data-i="4">
+        <span class="vs__step-n">05 / 06</span>
+        <h3 class="vs__step-w">Affidabile<em>non incostante</em></h3>
+        <p class="vs__step-m">Costanza interlotto, verificabile. Se fallisce, non è Raichem.</p>
+      </article>
+      <article class="vs__step" data-i="5">
+        <span class="vs__step-n">06 / 06</span>
+        <h3 class="vs__step-w">Pragmatica<em>non accademica</em></h3>
+        <p class="vs__step-m">Risolve prima il problema del cliente. Niente teoria fine a sé stessa.</p>
+      </article>
+    </div>
   </div>
 
   <span class="eyebrow">6 PRINCIPI DI COMUNICAZIONE</span>
@@ -370,11 +348,25 @@
 
 <!-- VOCABOLARIO -->
 <section class="section">
-  <div class="sez-head"><div class="sez-label"><span class="tick"></span><span class="mono">03 · IDENTITÀ VERBALE — VOCABOLARIO DELLA MARCA</span></div></div>
-  <div class="voc" data-reveal>
-    <div class="voc__col voc__col--si"><h4>✓ Raccomandato</h4><div class="voc__tags"><span>Sistema</span><span>Controllo</span><span>Costanza</span><span>Prevedibilità</span><span>Configurabile</span><span>Specializzazione</span><span>Reattività</span><span>Shelf life</span><span>Tracciabilità</span><span>Processo</span><span>Performance</span><span>Batch</span></div></div>
-    <div class="voc__col voc__col--no"><h4>✕ Proibito</h4><div class="voc__tags"><span>Leader mondiale</span><span>All'avanguardia</span><span>Soluzioni innovative</span><span>Eccellenza</span><span>Qualità e passione</span><span>I migliori</span><span>Cutting-edge</span><span>State-of-the-art</span><span>Game-changer</span></div></div>
-    <p class="voc__nota">Regola: se un aggettivo potrebbe essere usato da qualsiasi azienda in qualsiasi settore, non è adatto a Raichem.</p>
+  <div class="sez-head">
+    <div class="sez-label"><span class="tick"></span><span class="mono">03 · IDENTITÀ VERBALE</span></div>
+    <h2 class="sez-titolo" data-reveal="clip">Vocabolario</h2>
+    <p class="sez-intro" data-reveal>Le parole che usiamo — e quelle che non useremo mai.</p>
+  </div>
+  <div class="pillset">
+    <div class="pillset__row">
+      <div class="pillset__lab pillset__lab--si"><span class="mk">✓</span> Raccomandato</div>
+      <div class="pills" data-reveal-stagger>
+        <span class="pill pill--si">Sistema</span><span class="pill pill--si">Controllo</span><span class="pill pill--si">Costanza</span><span class="pill pill--si">Prevedibilità</span><span class="pill pill--si">Configurabile</span><span class="pill pill--si">Specializzazione</span><span class="pill pill--si">Reattività</span><span class="pill pill--si">Shelf life</span><span class="pill pill--si">Tracciabilità</span><span class="pill pill--si">Processo</span><span class="pill pill--si">Performance</span><span class="pill pill--si">Batch</span>
+      </div>
+    </div>
+    <div class="pillset__row">
+      <div class="pillset__lab pillset__lab--no"><span class="mk">✕</span> Proibito</div>
+      <div class="pills" data-reveal-stagger>
+        <span class="pill pill--no">Leader mondiale</span><span class="pill pill--no">All'avanguardia</span><span class="pill pill--no">Soluzioni innovative</span><span class="pill pill--no">Eccellenza</span><span class="pill pill--no">Qualità e passione</span><span class="pill pill--no">I migliori</span><span class="pill pill--no">Cutting-edge</span><span class="pill pill--no">State-of-the-art</span><span class="pill pill--no">Game-changer</span>
+      </div>
+    </div>
+    <p class="pills__nota" data-reveal>Regola: se un aggettivo potrebbe essere usato da qualsiasi azienda in qualsiasi settore, non è adatto a Raichem.</p>
   </div>
 </section>
 
@@ -447,33 +439,6 @@
       <article class="obs-card" data-cursor="drag"><div class="obs-card__plate"><span class="obs-card__idx">RX-07</span><canvas class="gen" data-variant="6"></canvas></div><div class="obs-card__body"><div class="obs-card__deciso">Decisore · Production Mgr</div><h3 class="obs-card__title">Controllo · Legno &amp; Nautica</h3><div class="obs-card__cols"><div><b>Pain</b>Condizioni di lavoro non controllate.</div><div><b>Claim</b>One standard. A thousand configurations.</div></div></div></article>
     </div>
     <div class="hpin__prog"><i></i></div>
-  </div>
-</section>
-
-<!-- 06·07 USABILITÀ / PARTNER -->
-<section class="section section--grigio" id="usabilita">
-  <span class="ghost-num" data-parallax="0.12">06</span>
-  <div class="sez-head">
-    <div class="sez-label"><span class="tick"></span><span class="mono">CAPITOLI 06 · 07 — 06·07/12</span></div>
-    <h2 class="sez-titolo" data-reveal="clip">Usabilità interna &amp; partner esterni</h2>
-    <p class="sez-intro" data-reveal>Come il team e i collaboratori esterni usano la marca ogni giorno.</p>
-  </div>
-
-  <span class="eyebrow" style="margin-top:0;">06 · REGOLE PER IL TEAM INTERNO</span>
-  <p class="sez-intro" data-reveal style="margin-bottom:1.6rem;">Commerciale, tecnica e direzione devono comunicare con lo stesso messaggio.</p>
-  <div class="griglia g-4" data-reveal-stagger>
-    <div class="card"><span class="card__num">01</span><h4 class="card__titolo" style="font-size:1.3rem;">Documenti interni</h4><p class="card__testo">Logo, formattazione, presentazioni e report.</p></div>
-    <div class="card"><span class="card__num">02</span><h4 class="card__titolo" style="font-size:1.3rem;">Comunicazioni clienti</h4><p class="card__testo">Prima email, gestione obiezioni, coerenza.</p></div>
-    <div class="card"><span class="card__num">03</span><h4 class="card__titolo" style="font-size:1.3rem;">Coerenza tra aree</h4><p class="card__testo">Commerciale, tecnica, direzione: stesso messaggio.</p></div>
-    <div class="card"><span class="card__num">04</span><h4 class="card__titolo" style="font-size:1.3rem;">Criteri di approvazione</h4><p class="card__testo">5 domande-filtro prima di pubblicare qualsiasi pezzo.</p></div>
-  </div>
-
-  <span class="eyebrow">07 · REGOLE PER PARTNER ESTERNI</span>
-  <div class="griglia g-4" data-reveal-stagger>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Uso del logo</h4><p class="card__testo">Versioni ufficiali, area di rispetto e formati consentiti.</p></div>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Uso dei claim</h4><p class="card__testo">Solo claim approvati. Nessuna traduzione libera.</p></div>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;">Co-branding / White-label</h4><p class="card__testo">Il nome Raichem non appare sul prodotto del cliente.</p></div>
-    <div class="card"><h4 class="card__titolo" style="font-size:1.3rem;color:var(--rosso);">✕ Errori critici</h4><p class="card__testo">Colori modificati · claim inventati · promesse non documentate.</p></div>
   </div>
 </section>
 
@@ -567,27 +532,24 @@
   </div>
 
   <span class="eyebrow">STILE FOTOGRAFICO · MAI STOCK</span>
-  <p class="sez-intro" data-reveal style="margin-bottom:1.6rem;">Fotografia reale di impianti, processi e persone Raichem. Luce dura, ambienti veri, rosso come unico accento — <strong>mai stock</strong>.</p>
-  <div class="fotostrip" data-reveal-stagger>
+  <p class="sez-intro" data-reveal style="margin-bottom:1.8rem;">Fotografia reale di impianti, processi e persone Raichem. Luce dura, ambienti veri, rosso come unico accento — <strong>mai stock</strong>.</p>
+  <div class="fotostrip fotostrip--xl" data-reveal-stagger>
+    <figure class="fotostrip__item fotostrip__item--lead" data-cursor="hover">
+      <img src="assets/img/mockups/foto-portrait.jpg" alt="Tecnica RAICHEM in impianto" loading="lazy" onerror="this.closest('.fotostrip__item').classList.add('is-empty')">
+      <span class="fotostrip__cap"><i>01</i> Persone</span>
+    </figure>
     <figure class="fotostrip__item" data-cursor="hover">
       <img src="assets/img/mockups/foto-impianti.jpg" alt="Impianti e infrastruttura RAICHEM" loading="lazy" onerror="this.closest('.fotostrip__item').classList.add('is-empty')">
-      <span class="fotostrip__cap"><i>01</i> Impianti</span>
+      <span class="fotostrip__cap"><i>02</i> Impianti</span>
     </figure>
     <figure class="fotostrip__item" data-cursor="hover">
       <img src="assets/img/mockups/foto-processi.jpg" alt="Processi e attrezzatura sul campo RAICHEM" loading="lazy" onerror="this.closest('.fotostrip__item').classList.add('is-empty')">
-      <span class="fotostrip__cap"><i>02</i> Processi</span>
+      <span class="fotostrip__cap"><i>03</i> Processi</span>
     </figure>
     <figure class="fotostrip__item" data-cursor="hover">
       <img src="assets/img/mockups/foto-persone.jpg" alt="Persone reali RAICHEM" loading="lazy" onerror="this.closest('.fotostrip__item').classList.add('is-empty')">
-      <span class="fotostrip__cap"><i>03</i> Persone</span>
+      <span class="fotostrip__cap"><i>04</i> In campo</span>
     </figure>
-  </div>
-
-  <span class="eyebrow">ICONOGRAFIA, PATTERN E RISORSE</span>
-  <div class="placeholder-grid" data-reveal-stagger>
-    <div class="ph"><span class="icona">+</span><span class="et">Set di icone dedicato</span><small>DA DEFINIRE</small></div>
-    <div class="ph"><span class="icona">▦</span><span class="et">Griglia blueprint</span><small>MODULO</small></div>
-    <div class="ph"><span class="icona">▌</span><span class="et">Modulo a tick</span><small>MODULO</small></div>
   </div>
 </section>
 
