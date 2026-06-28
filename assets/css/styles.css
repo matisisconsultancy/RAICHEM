@@ -398,10 +398,15 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; text-transform: uppe
 .logo-box { background: var(--grigio-chiaro); padding: 2.6rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; min-height: 210px; text-align: center; position: relative; }
 .logo-box .wordmark { font-family: var(--display); font-weight: 600; font-size: 2.3rem; }
 .logo-box .wordmark .dot { color: var(--rosso); }
+.logo-box .logo-img { width: 82%; max-width: 240px; height: auto; }
 .logo-box--neg { background: var(--nero); color: #fff; }
 .logo-box--err .wordmark { opacity: 0.45; }
+.logo-box--err .logo-img { opacity: 0.5; }
 .logo-box--err.deform .wordmark { transform: scaleX(1.6); }
+.logo-box--err.deform .logo-img { transform: scaleX(1.55); }
 .logo-box--err.colore .wordmark { color: #2d8a4e; }
+/* colorazione non conforme: silhouette nera ricolorata in verde */
+.logo-box--err.colore .logo-img { filter: brightness(0) saturate(100%) invert(45%) sepia(36%) saturate(820%) hue-rotate(86deg) brightness(92%) contrast(88%); opacity: 0.7; }
 .logo-box .et-err { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; color: var(--rosso); text-transform: uppercase; }
 .logo-box .cross { position: absolute; top: 13px; right: 15px; color: var(--rosso); font-size: 1.4rem; font-weight: 700; }
 

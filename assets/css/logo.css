@@ -41,5 +41,20 @@
 }
 .logo-show::before { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 90% at 50% 120%, rgba(225,21,24,0.18), transparent 60%); }
 .logo-show .logo { width: min(560px, 86%); height: auto; position: relative; }
+.logo-show .logo-img { width: min(560px, 86%); height: auto; position: relative; }
+
+/* =====================================================================
+   LOGO ufficiale (asset PNG): swoosh + wordmark RAICHEM
+   ===================================================================== */
+.logo-img { display: block; height: 100%; width: auto; }
+.loader__logo .logo-img { width: 100%; height: auto; }
+.nav__brand .logo-img { height: 22px; width: auto; }
+
+/* reveal: il marchio entra in vista (no clip-path: azzererebbe l'area
+   visibile e impedirebbe all'IntersectionObserver di attivare .go) */
+.logo-img.logo--anim { opacity: 0; transform: translateY(14px) scale(0.985); }
+.logo-img.logo--anim.go { animation: lgImgReveal 1s var(--ease-io) forwards; }
+@keyframes lgImgReveal { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .logo-img.logo--anim { opacity: 1; transform: none; } }
 .logo-show__cap { position: absolute; bottom: clamp(1rem,3vw,2rem); left: 0; right: 0; text-align: center;
   font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.45); text-transform: uppercase; }
