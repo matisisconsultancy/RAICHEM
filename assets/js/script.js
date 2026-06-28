@@ -644,6 +644,85 @@
   }
 
   /* =============================================================
+     ATELIER — vetrina mockup: filtri + lightbox
+     ============================================================= */
+  function atelier() {
+    var grid = document.getElementById('atelier');
+    if (!grid) return;
+    var cards = $$('.acard', grid);
+    var chips = $$('.fchip');
+    var current = 'all';
+
+    function decode(s) { var t = document.createElement('textarea'); t.innerHTML = s; return t.value; }
+
+    /* ---- filtri ---- */
+    function applyFilter(f) {
+      current = f;
+      chips.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-filter') === f); });
+      cards.forEach(function (card) {
+        var match = (f === 'all' || card.getAttribute('data-cat') === f);
+        card.classList.add('is-filtering');
+        if (match) {
+          card.hidden = false;
+          requestAnimationFrame(function () { card.classList.remove('is-off'); });
+        } else {
+          card.classList.add('is-off');
+          var done = function () { if (card.classList.contains('is-off')) card.hidden = true; card.removeEventListener('transitionend', done); };
+          if (reduce) { card.hidden = true; } else { card.addEventListener('transitionend', done); }
+        }
+      });
+    }
+    chips.forEach(function (c) { c.addEventListener('click', function () { applyFilter(c.getAttribute('data-filter')); }); });
+
+    /* ---- lightbox ---- */
+    var lb = document.getElementById('lbox');
+    var lbImg = document.getElementById('lboxImg');
+    var lbCat = document.getElementById('lboxCat');
+    var lbTitle = document.getElementById('lboxTitle');
+    var lbIdx = document.getElementById('lboxIdx');
+    var lbTot = document.getElementById('lboxTot');
+    var pos = 0, list = [];
+
+    function visibleList() { return cards.filter(function (c) { return !c.hidden; }); }
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+    function show(i) {
+      if (!list.length) return;
+      pos = (i + list.length) % list.length;
+      var card = list[pos];
+      lbImg.classList.remove('show');
+      lbImg.src = card.getAttribute('data-src');
+      lbImg.alt = decode(card.getAttribute('data-title') || '');
+      lbCat.textContent = decode(card.getAttribute('data-clabel') || '');
+      lbTitle.innerHTML = card.getAttribute('data-title') || '';
+      lbIdx.textContent = pad(pos + 1);
+      lbTot.textContent = pad(list.length);
+    }
+    function open(card) {
+      list = visibleList();
+      var i = list.indexOf(card); if (i < 0) i = 0;
+      show(i);
+      lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false');
+      document.documentElement.style.overflow = 'hidden';
+    }
+    function close() {
+      lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true');
+      document.documentElement.style.overflow = '';
+    }
+    cards.forEach(function (card) { card.addEventListener('click', function () { open(card); }); });
+    document.getElementById('lboxClose').addEventListener('click', close);
+    document.getElementById('lboxPrev').addEventListener('click', function () { show(pos - 1); });
+    document.getElementById('lboxNext').addEventListener('click', function () { show(pos + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lbox__stage')) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(pos - 1);
+      else if (e.key === 'ArrowRight') show(pos + 1);
+    });
+  }
+
+  /* =============================================================
      UTIL
      ============================================================= */
   function debounce(fn, ms) {
@@ -668,6 +747,7 @@
     navigation();
     smoothScroll();
     sediMap();
+    atelier();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
