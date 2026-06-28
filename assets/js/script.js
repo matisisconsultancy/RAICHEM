@@ -653,8 +653,13 @@
       if (!list.length) return;
       pos = (i + list.length) % list.length;
       var card = list[pos];
-      lbImg.classList.remove('show');
-      lbImg.src = card.getAttribute('data-src');
+      var src = card.getAttribute('data-src');
+      // crossfade: precarica la nuova immagine, poi dissolvi
+      lbImg.classList.add('swapping');
+      var pre = new Image();
+      pre.onload = function () { lbImg.src = src; requestAnimationFrame(function () { lbImg.classList.remove('swapping'); }); };
+      pre.onerror = function () { lbImg.src = src; lbImg.classList.remove('swapping'); };
+      pre.src = src;
       lbImg.alt = decode(card.getAttribute('data-title') || '');
       lbCat.textContent = decode(card.getAttribute('data-clabel') || '');
       lbTitle.innerHTML = card.getAttribute('data-title') || '';
