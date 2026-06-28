@@ -77,12 +77,12 @@
 }
 /* attivazione: disegno + lama di luce */
 .logo--anim.go .logo-stage__img,
-.hero.in .hero__logo .logo-stage__img { animation: logoDraw 1.25s var(--ease-io) forwards; }
+.hero.in .hero__logo .logo-stage__img { animation: logoDraw 2.4s cubic-bezier(0.62, 0.02, 0.34, 1) forwards; }
 .logo--anim.go .logo-stage__beam,
-.hero.in .hero__logo .logo-stage__beam { animation: logoBeam 1.35s var(--ease-io) 0.12s 1; }
+.hero.in .hero__logo .logo-stage__beam { animation: logoBeam 2.7s var(--ease-io) 0.25s 1; }
 /* vetrina capitolo 08: dopo l'entrata, un riflesso che ritorna con calma */
 .logo-show .logo-stage.go .logo-stage__beam {
-  animation: logoBeam 1.35s var(--ease-io) 0.12s 1, logoBeamLoop 7.5s linear 2.6s infinite;
+  animation: logoBeam 2.7s var(--ease-io) 0.25s 1, logoBeamLoop 11s linear 4.5s infinite;
 }
 
 @keyframes logoDraw {

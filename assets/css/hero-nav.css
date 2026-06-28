@@ -131,6 +131,24 @@
 .hero__logo .logo-stage { width: 100%; }
 @media (max-width: 600px) { .hero__logo { width: 86vw; } }
 
+/* etichetta esplicita: questo è il Brand Book */
+.hero__brandbook {
+  font-family: var(--display); font-weight: 500; text-transform: uppercase;
+  font-size: clamp(1.4rem, 3.8vw, 2.8rem); letter-spacing: 0.36em; line-height: 1;
+  color: #fff; padding-left: 0.36em;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 1s var(--ease) .55s, transform 1s var(--ease) .55s;
+}
+.hero__credit {
+  font-family: var(--mono); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(0.64rem, 1.2vw, 0.82rem); letter-spacing: 0.24em;
+  color: rgba(255,255,255,0.56); margin-top: 0.2rem;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .9s var(--ease) .72s, transform .9s var(--ease) .72s;
+}
+.hero.in .hero__brandbook, .hero.in .hero__credit { opacity: 1; transform: none; }
+.hero__foot--center { justify-content: center; }
+
 .hero__foot { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end;
   border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.3rem; gap: 1rem; flex-wrap: wrap;
   opacity: 0; transition: opacity 1s var(--ease) .8s; }
@@ -142,7 +160,7 @@
 @keyframes scrollDrop { 0% { top: -50%; } 60%,100% { top: 100%; } }
 @media (max-width: 600px) { .hero__foot .mono { flex: 1 1 100%; order: 2; } }
 @media (prefers-reduced-motion: reduce) {
-  .hero__kicker, .hero__wordmark span, .hero__tag, .hero__foot { opacity: 1 !important; transform: none !important; }
+  .hero__kicker, .hero__wordmark span, .hero__tag, .hero__brandbook, .hero__credit, .hero__foot { opacity: 1 !important; transform: none !important; }
   .hero__rule { width: clamp(56px,8vw,120px) !important; }
   .hero__scroll-line::after { animation: none; }
   .nav__hud-dot { animation: none; }
