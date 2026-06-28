@@ -162,9 +162,8 @@
 .hero.in .hero__brandbook, .hero.in .hero__credit { opacity: 1; transform: none; }
 .hero__foot--center { justify-content: center; }
 
-.hero__foot { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end;
-  border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.3rem; gap: 1rem; flex-wrap: wrap;
-  opacity: 0; transition: opacity 1s var(--ease) .8s; }
+/* pie del hero rimosso: niente linea di luce (scroll) ne linea divisoria */
+.hero__foot { display: none; }
 .hero.in .hero__foot { opacity: 1; }
 .hero__foot .mono { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
 .hero__scroll { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.55); text-transform: uppercase; display: inline-flex; flex-direction: column; align-items: center; gap: 0.5rem; }
