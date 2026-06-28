@@ -24,26 +24,28 @@
 
 .ger-lbl { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rosso); display: block; }
 
-.ger-cascade { position: relative; }
+.ger-cascade { margin-top: clamp(0.5rem, 2vw, 1.5rem); }
 .ger-node {
-  display: grid; grid-template-columns: auto 1fr; gap: clamp(1rem, 3vw, 2.6rem); align-items: center;
-  padding: clamp(1.3rem, 3vw, 2.1rem) 0; border-top: 1px solid var(--linea);
-  margin-left: calc(var(--lv) * clamp(1rem, 5vw, 5rem));
-  transition: margin-left .4s var(--ease), background .3s;
+  position: relative;
+  display: grid; grid-template-columns: clamp(3.4rem, 8vw, 6.5rem) 1fr; gap: clamp(1.2rem, 3vw, 2.6rem); align-items: center;
+  padding: clamp(1.6rem, 3.4vw, 2.6rem) 0; border-top: 1px solid var(--linea);
+  margin-left: calc(var(--lv) * clamp(0.6rem, 2.4vw, 2.6rem));
+  transition: margin-left .45s var(--ease);
 }
-.ger-node:hover { background: rgba(11,11,12,0.02); }
+.ger-node:last-child { border-bottom: 1px solid var(--linea); }
+/* puntino indicatore sul filo sinistro */
+.ger-node::before {
+  content: ""; position: absolute; left: calc(-1 * clamp(0.7rem, 1.6vw, 1.2rem)); top: 50%; transform: translateY(-50%);
+  width: 7px; height: 7px; background: var(--rosso); border-radius: 50%; opacity: 0; transition: opacity .3s;
+}
+.ger-node:hover::before { opacity: 1; }
 .ger-node .lv {
-  font-family: var(--display); font-weight: 900; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 0.78;
-  color: transparent; -webkit-text-stroke: 1.5px rgba(11,11,12,0.2);
+  font-family: var(--display); font-weight: 900; font-size: clamp(2.6rem, 7vw, 4.6rem); line-height: 0.78;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(11,11,12,0.2); transition: -webkit-text-stroke-color .3s;
 }
 .ger-node:hover .lv { -webkit-text-stroke-color: var(--rosso); }
 .ger-node .body h4 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.5rem, 3.4vw, 2.6rem); line-height: 0.95; }
-.ger-node .body p { color: var(--grigio); font-size: 0.96rem; margin-top: 0.3rem; }
-/* linea-spina che connette la cascata */
-.ger-node::before {
-  content: ""; position: absolute; left: calc(var(--lv) * clamp(1rem,5vw,5rem) - clamp(0.6rem,1.5vw,1.3rem));
-  top: -1px; bottom: 50%; width: 1px; background: var(--rosso); opacity: 0.5;
-}
+.ger-node .body p { color: var(--grigio); font-size: 0.96rem; margin-top: 0.35rem; }
 
 /* ---------- COSA RAICHEM NON È — manifesto nero ---------- */
 .nega-x {
