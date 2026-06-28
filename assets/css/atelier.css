@@ -125,9 +125,11 @@
 /* =====================================================================
    LIGHTBOX — ispezione pulita a tutto schermo
    ===================================================================== */
-.lbox { position: fixed; inset: 0; z-index: 9999; display: grid; grid-template-rows: auto minmax(0,1fr) auto;
+.lbox { position: fixed; inset: 0; z-index: 9999; display: grid;
+  grid-template-rows: auto minmax(0,1fr) auto; grid-template-columns: minmax(0, 1fr);
   background: rgba(6,6,8,0.975); backdrop-filter: blur(14px);
   opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), visibility .45s; }
+.lbox__top, .lbox__stage, .lbox__foot, .lbox__frame { min-width: 0; }
 .lbox.open { opacity: 1; visibility: visible; }
 
 /* toolbar superiore: categoria + titolo a sinistra, contatore + chiudi a destra */
@@ -167,11 +169,20 @@
 .lbox__hintk { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.34); text-transform: uppercase; }
 
 @media (max-width: 600px) {
-  .lbox__title { font-size: 0.95rem; }
-  .lbox__stage { padding: 1.4rem 1rem; }
-  .lbox__nav { width: 42px; height: 42px; top: auto; bottom: 0.6rem; transform: none; background: rgba(0,0,0,0.45); }
-  .lbox__nav:hover { transform: scale(1.06); }
-  .lbox__nav--prev { left: 1rem; } .lbox__nav--next { right: 1rem; }
+  .lbox__top { gap: 0.8rem; padding: 0.9rem 1rem; }
+  .lbox__cat { display: none; } /* spazio: in alto restano titolo + contatore + chiudi */
+  .lbox__title { font-size: 0.92rem; }
+  .lbox__tools { gap: 0.9rem; }
+  .lbox__close { width: 40px; height: 40px; }
+  .lbox__stage { padding: 1rem 0.8rem; }
+  .lbox__img { max-width: 100%; max-height: 100%; border-radius: 2px; }
+  /* frecce in basso, ai lati, ben dentro lo schermo */
+  .lbox__nav { width: 44px; height: 44px; top: auto; bottom: 0.8rem; transform: none;
+    background: rgba(0,0,0,0.55); border-color: rgba(255,255,255,0.3); }
+  .lbox__nav:active { transform: scale(0.92); background: var(--rosso); border-color: var(--rosso); }
+  .lbox__nav--prev { left: 0.8rem; } .lbox__nav--next { right: 0.8rem; }
+  .lbox__foot { padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom)); }
+  .lbox__hintk { white-space: normal; line-height: 1.5; }
 }
 @media (prefers-reduced-motion: reduce) {
   .acard, .acard__stage img, .lbox__img, .vetrina-intro__media img { transition: none !important; transform: none !important; }
