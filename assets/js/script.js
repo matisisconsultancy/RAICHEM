@@ -725,6 +725,38 @@
   }
 
   /* =============================================================
+     CHECKLIST INTERATTIVA — Do's/Don'ts & approvazione
+     ============================================================= */
+  function checklist() {
+    var root = document.getElementById('chk'); if (!root) return;
+    var items = $$('.chk__item', root);
+    var bar = $('#chkBar'), done = $('#chkDone'), tot = $('#chkTot'), state = $('#chkState'), reset = $('#chkReset');
+    if (!items.length) return;
+    if (tot) tot.textContent = items.length;
+    function update() {
+      var n = items.filter(function (i) { return i.classList.contains('is-on'); }).length;
+      if (done) done.textContent = n;
+      if (bar) bar.style.width = (n / items.length * 100) + '%';
+      var ready = n === items.length;
+      root.classList.toggle('is-ready', ready);
+      if (state) state.textContent = ready ? 'Pronto alla pubblicazione' : (n === 0 ? 'Non pronto' : 'In revisione');
+    }
+    items.forEach(function (it) {
+      it.setAttribute('aria-pressed', 'false');
+      it.addEventListener('click', function () {
+        var on = it.classList.toggle('is-on');
+        it.setAttribute('aria-pressed', String(on));
+        update();
+      });
+    });
+    if (reset) reset.addEventListener('click', function () {
+      items.forEach(function (i) { i.classList.remove('is-on'); i.setAttribute('aria-pressed', 'false'); });
+      update();
+    });
+    update();
+  }
+
+  /* =============================================================
      UTIL
      ============================================================= */
   function debounce(fn, ms) {
@@ -750,6 +782,7 @@
     smoothScroll();
     atelier();
     voceScroll();
+    checklist();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
