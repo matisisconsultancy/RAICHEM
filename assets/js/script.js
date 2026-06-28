@@ -878,6 +878,18 @@
     var imgs = $$('.vs__img', sec);
     var elNum = $('.vs__num', sec), elWord = $('.vs__word', sec), elNo = $('.vs__no', sec), elMean = $('.vs__mean', sec);
     if (!steps.length) return;
+    // su mobile ogni parola porta la sua foto (layout a card, no sovrapposizioni):
+    // cloniamo l'immagine corrispondente dentro lo step. Su desktop resta nascosta.
+    steps.forEach(function (s) {
+      var i = parseInt(s.getAttribute('data-i'), 10); if (isNaN(i)) i = steps.indexOf(s);
+      var src = imgs[i] && imgs[i].querySelector('img');
+      if (src && !$('.vs__step-img', s)) {
+        var fig = document.createElement('figure'); fig.className = 'vs__step-img';
+        var im = document.createElement('img');
+        im.src = src.getAttribute('src'); im.alt = src.getAttribute('alt') || ''; im.loading = 'lazy';
+        fig.appendChild(im); s.insertBefore(fig, s.firstChild);
+      }
+    });
     var active = -1;
     function pad(n) { return (n < 10 ? '0' : '') + n; }
     function setActive(i) {

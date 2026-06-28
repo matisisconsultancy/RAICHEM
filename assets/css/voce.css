@@ -58,14 +58,34 @@
 .vs__step::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background: var(--rosso); transition: height .5s var(--ease); }
 .vs__step.is-active::before { height: 64%; }
 
+/* immagine per-parola: presente nel DOM ma visibile solo nel layout a card */
+.vs__step-img { display: none; }
+
 @media (max-width: 860px) {
-  .voce-scroll { grid-template-columns: 1fr; }
-  .vs__media { position: relative; top: 0; max-width: 420px; margin-inline: auto; }
-  .vs__media-inner { aspect-ratio: 4 / 3; }
-  .vs__step { min-height: 0; padding: 1.6rem 0 1.6rem 1.4rem; opacity: 1; border-top: 1px solid var(--linea); }
+  /* layout a card: ogni parola con la sua foto, niente colonna sticky che si sovrappone */
+  .voce-scroll { display: block; }
+  .vs__media { display: none; }
+
+  .vs__steps { display: block; padding-bottom: 0; }
+  .vs__step {
+    min-height: 0; opacity: 1; padding: 0 0 2.2rem; padding-left: 0;
+    margin-bottom: 2.2rem; border-top: 0; border-bottom: 1px solid var(--linea);
+  }
+  .vs__step:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
   .section--scuro .vs__step { border-color: var(--linea-scuro); }
-  .vs__step::before { top: 1.6rem; transform: none; height: 0; }
-  .vs__step.is-active::before { height: 40px; }
+  .vs__step::before { display: none; }
+
+  .vs__step-img {
+    display: block; margin: 0 0 1.1rem; position: relative; overflow: hidden;
+    aspect-ratio: 16 / 11; background: #0c0c0e; border: 1px solid var(--linea);
+  }
+  .section--scuro .vs__step-img { border-color: var(--linea-scuro); }
+  .vs__step-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.12); }
+  .vs__step-img::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(0deg, rgba(7,7,9,0.5), transparent 55%); }
+
+  .vs__step-n { display: block; margin-bottom: 0.5rem; }
+  .vs__step-w { font-size: clamp(2.1rem, 10vw, 3.1rem); margin-bottom: 0.4rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .vs__img { transition: opacity .2s; transform: none; }
