@@ -323,7 +323,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; text-transform: uppe
 .hpin__panel:hover { border-color: rgba(225,21,24,0.5); background: var(--nero-3); }
 .hpin__panel .idx { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em; color: var(--rosso); }
 .hpin__panel .tag { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 1.2rem; }
-.hpin__panel .frase { font-family: var(--display); font-weight: 600; text-transform: none; font-size: clamp(1.6rem, 3.4vw, 2.8rem); line-height: 1.02; color: #fff; }
+.hpin__panel .frase { font-family: var(--display); font-weight: 600; text-transform: uppercase; font-size: clamp(1.6rem, 3.4vw, 2.8rem); line-height: 1.02; color: #fff; }
 .hpin__panel.master { background: var(--rosso); border-color: var(--rosso); }
 .hpin__panel.master .tag, .hpin__panel.master .idx { color: rgba(255,255,255,0.8); }
 .hpin__panel.master .frase { font-size: clamp(2rem, 4.5vw, 3.6rem); text-transform: uppercase; font-weight: 600; }
