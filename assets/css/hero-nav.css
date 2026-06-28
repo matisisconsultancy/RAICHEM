@@ -93,17 +93,36 @@
    HERO — minimale ed elegante, poche animazioni
    ===================================================================== */
 .hero {
+  position: relative;
   min-height: 100svh; background: #08080a; color: #fff;
   display: grid; grid-template-rows: 1fr auto; align-items: center;
   padding: calc(64px + 3rem) clamp(1.4rem,5vw,4rem) clamp(1.6rem,3vw,2.4rem);
   overflow: hidden;
 }
-/* velo che calma il campo animato dietro: hero quieto (resta SOTTO il testo) */
-.hero__veil { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+/* campo cinematografico (particelle / traiettorie) */
+.hero__fx { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+/* sorgente di luce rossa che respira dietro al marchio */
+.hero__aura { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0;
+  background: radial-gradient(42% 46% at 50% 50%, rgba(201,21,23,0.22), rgba(201,21,23,0.06) 46%, transparent 72%);
+  mix-blend-mode: screen; will-change: transform, opacity; transition: opacity 1.6s var(--ease) .3s; }
+.hero.in .hero__aura { opacity: 1; animation: heroGlow 8s ease-in-out 1.6s infinite; }
+@keyframes heroGlow { 0%,100% { opacity: .8; } 50% { opacity: 1; } }
+/* velo che calma il campo e crea la vignettatura (sopra il campo, sotto il testo) */
+.hero__veil { position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% 42%, rgba(8,8,10,0.25), rgba(8,8,10,0.82) 82%),
-    linear-gradient(180deg, rgba(8,8,10,0.7), rgba(8,8,10,0.25) 32%, rgba(8,8,10,0.9)); }
-.hero__inner { position: relative; z-index: 5; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; gap: clamp(1rem,2.4vw,1.8rem); }
+    radial-gradient(120% 92% at 50% 44%, rgba(8,8,10,0.10), rgba(8,8,10,0.74) 80%),
+    linear-gradient(180deg, rgba(8,8,10,0.66), rgba(8,8,10,0.12) 34%, rgba(8,8,10,0.92)); }
+/* linea di scansione che attraversa l'hero una volta all'entrata */
+.hero__scan { position: absolute; left: 0; right: 0; top: 0; height: 38vh; z-index: 3; pointer-events: none; opacity: 0;
+  background: linear-gradient(180deg, transparent, rgba(201,21,23,0.10) 60%, rgba(201,21,23,0.5) 86%, rgba(255,255,255,0.9) 100%);
+  filter: blur(2px); mix-blend-mode: screen; }
+.hero.in .hero__scan { animation: heroScan 2.6s var(--ease-io) 1.7s 1; }
+@keyframes heroScan { 0% { opacity: 0; transform: translateY(-44vh); } 12% { opacity: .9; } 88% { opacity: .7; } 100% { opacity: 0; transform: translateY(118vh); } }
+.hero__inner { position: relative; z-index: 5; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; gap: clamp(1rem,2.4vw,1.8rem); will-change: transform; }
+/* alone scuro dietro al testo: leggibilità sopra il campo */
+.hero__inner::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(94vw, 1180px); height: min(78vh, 680px); pointer-events: none;
+  background: radial-gradient(closest-side, rgba(8,8,10,0.62), rgba(8,8,10,0.26) 52%, transparent 78%); }
 
 .hero__kicker {
   font-family: var(--mono); font-size: clamp(0.62rem,1vw,0.76rem); letter-spacing: 0.42em; text-transform: uppercase;
@@ -164,6 +183,9 @@
   .hero__rule { width: clamp(56px,8vw,120px) !important; }
   .hero__scroll-line::after { animation: none; }
   .nav__hud-dot { animation: none; }
+  .hero__aura { opacity: 1 !important; animation: none !important; }
+  .hero__scan { display: none; }
+  .hero__inner { transform: none !important; }
 }
 
 /* =====================================================================

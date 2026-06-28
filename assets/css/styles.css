@@ -230,7 +230,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; text-transform: uppe
   background-image: linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
   background-size: var(--grid) var(--grid);
   -webkit-mask-image: radial-gradient(110% 90% at 50% 50%, #000, transparent 80%); mask-image: radial-gradient(110% 90% at 50% 50%, #000, transparent 80%); }
-.hero > *:not(.hero__canvas):not(.hero__grid):not(.hero__glow) { position: relative; z-index: 2; }
+.hero > *:not(.hero__canvas):not(.hero__grid):not(.hero__glow):not(.hero__fx):not(.hero__veil):not(.hero__scan):not(.hero__aura) { position: relative; z-index: 2; }
 
 .hero__meta { display: flex; gap: 1rem 1.4rem; align-items: center; flex-wrap: wrap; margin-bottom: auto; padding-top: 0.5rem; }
 .hero__brand { font-family: var(--display); font-weight: 600; font-size: clamp(3.6rem, 17vw, 15rem); line-height: 0.82; letter-spacing: -0.02em; margin: 1.2rem 0; display: flex; flex-wrap: wrap; }

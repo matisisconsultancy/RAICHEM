@@ -83,15 +83,18 @@
 
 <!-- HERO -->
 <header class="hero" id="hero">
+  <canvas class="hero__fx" id="heroFx" aria-hidden="true"></canvas>
+  <div class="hero__aura" aria-hidden="true"></div>
   <div class="hero__veil" aria-hidden="true"></div>
-  <div class="hero__inner">
+  <div class="hero__scan" aria-hidden="true"></div>
+  <div class="hero__inner" id="heroInner">
     <h1 class="hero__logo" aria-label="RAICHEM">
       <span class="logo-stage logo-stage--hero">
         <img class="logo-stage__img" src="assets/img/logo/raichem-logo-bianco.png" alt="RAICHEM" />
         <span class="logo-stage__beam" aria-hidden="true"></span>
       </span>
     </h1>
-    <span class="hero__brandbook">Brand Book</span>
+    <span class="hero__brandbook" data-text="Brand Book">Brand Book</span>
     <span class="hero__rule" aria-hidden="true"></span>
     <p class="hero__credit">Matisis Consultancy &amp; Costanza Campani</p>
   </div>
