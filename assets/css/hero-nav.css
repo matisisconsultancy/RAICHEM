@@ -116,7 +116,7 @@
 /* alone scuro dietro al testo: leggibilità sopra il campo */
 .hero__inner::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; transform: translate(-50%,-50%);
   width: min(94vw, 1180px); height: min(78vh, 680px); pointer-events: none;
-  background: radial-gradient(closest-side, rgba(8,8,10,0.62), rgba(8,8,10,0.26) 52%, transparent 78%); }
+  background: radial-gradient(closest-side, rgba(8,8,10,0.52), rgba(8,8,10,0.2) 54%, transparent 80%); }
 
 .hero__kicker {
   font-family: var(--mono); font-size: clamp(0.62rem,1vw,0.76rem); letter-spacing: 0.42em; text-transform: uppercase;

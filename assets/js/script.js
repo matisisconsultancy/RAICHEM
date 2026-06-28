@@ -229,7 +229,8 @@
     var cv = $('#heroFx'), inner = $('#heroInner'), glow = $('.hero__aura', hero);
     var ctx = (cv && cv.getContext) ? cv.getContext('2d') : null;
     if (!ctx) return;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var cheap = !fine; // touch / coarse pointer: rendering piu leggero = scorrevole
+    var dpr = Math.min(window.devicePixelRatio || 1, cheap ? 1.5 : 2);
     var w = 0, h = 0, cx = 0, cy = 0;
     var RED = '201,21,23';
     function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -354,8 +355,8 @@
         for (var ri = 0; ri < rows.length; ri++) {
           for (var kk = 0; kk <= dots; kk++) {
             var tt = kk / dots, edge = Math.sin(tt * Math.PI);
-            var al = (0.13 + 0.2 * edge) * introE;
-            ctx.beginPath(); ctx.arc(A2.wx + bx * tt + perx * rows[ri], A2.wy + by * tt + pery * rows[ri], 0.95, 0, 6.2832);
+            var al = (0.18 + 0.26 * edge) * introE;
+            ctx.beginPath(); ctx.arc(A2.wx + bx * tt + perx * rows[ri], A2.wy + by * tt + pery * rows[ri], 1.05, 0, 6.2832);
             ctx.fillStyle = oO ? 'rgba(214,46,44,' + (al * 1.1) + ')' : 'rgba(220,226,235,' + al + ')';
             ctx.fill();
           }
@@ -365,11 +366,10 @@
         nd = mn[n2];
         var isO = nd.type === 'O', pulse = 0.7 + 0.3 * Math.sin(tn * 0.002 + nd.ph), near = 0;
         if (inside) { var qd = Math.sqrt((nd.wx - tmx) * (nd.wx - tmx) + (nd.wy - tmy) * (nd.wy - tmy)); near = clamp(1 - qd / 140, 0, 1); }
-        var aa2 = (isO ? 0.6 : 0.48) * pulse * introE + near * 0.4;
+        var aa2 = (isO ? 0.78 : 0.6) * pulse * introE + near * 0.4;
         ctx.save();
-        ctx.shadowBlur = (isO ? 10 : 6) + near * 8;
-        ctx.shadowColor = isO ? 'rgba(225,40,40,0.9)' : 'rgba(210,220,240,0.7)';
-        ctx.beginPath(); ctx.arc(nd.wx, nd.wy, (isO ? 2.4 : 1.9) + near * 1.6, 0, 6.2832);
+        if (!cheap) { ctx.shadowBlur = (isO ? 12 : 7) + near * 8; ctx.shadowColor = isO ? 'rgba(228,42,40,0.95)' : 'rgba(210,220,240,0.7)'; }
+        ctx.beginPath(); ctx.arc(nd.wx, nd.wy, (isO ? 2.8 : 2.15) + near * 1.6, 0, 6.2832);
         ctx.fillStyle = isO ? 'rgba(255,120,110,' + aa2 + ')' : 'rgba(238,242,250,' + aa2 + ')';
         ctx.fill(); ctx.restore();
       }
