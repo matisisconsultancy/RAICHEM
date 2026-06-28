@@ -125,45 +125,53 @@
 /* =====================================================================
    LIGHTBOX — ispezione pulita a tutto schermo
    ===================================================================== */
-.lbox { position: fixed; inset: 0; z-index: 9999; display: grid; grid-template-rows: 1fr auto;
-  background: rgba(6,6,8,0.975); backdrop-filter: blur(12px);
+.lbox { position: fixed; inset: 0; z-index: 9999; display: grid; grid-template-rows: auto minmax(0,1fr) auto;
+  background: rgba(6,6,8,0.975); backdrop-filter: blur(14px);
   opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), visibility .45s; }
 .lbox.open { opacity: 1; visibility: visible; }
-.lbox__stage { position: relative; display: grid; place-items: center; min-height: 0;
-  padding: clamp(3rem,7vh,5rem) clamp(4.5rem,9vw,8rem) clamp(1.4rem,3vh,2.4rem); }
+
+/* toolbar superiore: categoria + titolo a sinistra, contatore + chiudi a destra */
+.lbox__top { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  padding: clamp(0.9rem,2.4vh,1.5rem) clamp(1.3rem,4vw,3rem); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.lbox__info { display: flex; align-items: baseline; gap: 1rem; min-width: 0; }
+.lbox__cat { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rosso); white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 0.55rem; }
+.lbox__cat::before { content: ""; width: 18px; height: 2px; background: var(--rosso); }
+.lbox__title { font-family: var(--display); font-weight: 500; text-transform: uppercase; font-size: clamp(1.05rem,2vw,1.55rem); line-height: 1; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lbox__tools { display: flex; align-items: center; gap: clamp(1rem,2vw,1.6rem); flex: none; }
+.lbox__count { font-family: var(--mono); font-size: 0.84rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.5); white-space: nowrap; }
+.lbox__count b { color: #fff; }
+.lbox__count .sep { color: rgba(255,255,255,0.3); margin: 0 0.1rem; }
+.lbox__close { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; cursor: pointer; font-family: var(--mono); font-size: 1.05rem; transition: background .3s, border-color .3s, transform .3s var(--ease); }
+.lbox__close:hover { background: var(--rosso); border-color: var(--rosso); transform: rotate(90deg); }
+
+/* palcoscenico immagine — l'immagine non tocca mai toolbar/footer */
+.lbox__stage { position: relative; display: grid; place-items: center; min-height: 0; padding: clamp(1.4rem,4vh,3rem) clamp(4.5rem,9vw,8rem); }
+.lbox__frame { margin: 0; max-width: 100%; max-height: 100%; display: flex; }
 .lbox__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6); background: #0c0c0e;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
   opacity: 0; transform: scale(0.97); transition: opacity .4s var(--ease-io), transform .5s var(--ease-io); }
 .lbox.open .lbox__img { opacity: 1; transform: none; }
 .lbox.open .lbox__img.swapping { opacity: 0; transform: scale(0.985); }
-/* barra info in basso — separata, mai sopra l'immagine */
-.lbox__bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.4rem; flex-wrap: wrap;
-  padding: 1.1rem clamp(1.6rem,5vw,4rem) clamp(1.8rem,4vh,2.6rem); border-top: 1px solid rgba(255,255,255,0.1); }
-.lbox__info { display: flex; flex-direction: column; gap: 0.55rem; }
-.lbox__cat { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rosso); display: inline-flex; align-items: center; gap: 0.6rem; }
-.lbox__cat::before { content: ""; width: 22px; height: 2px; background: var(--rosso); }
-.lbox__title { font-family: var(--display); font-weight: 500; text-transform: uppercase; font-size: clamp(1.4rem,3vw,2.4rem); line-height: 0.95; color: #fff; }
-.lbox__meta-r { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
-.lbox__count { font-family: var(--mono); font-size: 0.9rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.5); }
-.lbox__count b { color: #fff; font-size: 1.05rem; }
-.lbox__hintk { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.32); text-transform: uppercase; }
-.lbox__nav { position: absolute; top: 50%; transform: translateY(-50%); width: clamp(46px,5vw,60px); height: clamp(46px,5vw,60px);
+
+.lbox__nav { position: absolute; top: 50%; transform: translateY(-50%); width: clamp(46px,5vw,58px); height: clamp(46px,5vw,58px);
   display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.18); color: #fff;
   cursor: pointer; transition: background .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease); z-index: 3; }
 .lbox__nav:hover { background: var(--rosso); border-color: var(--rosso); transform: translateY(-50%) scale(1.06); }
 .lbox__nav svg { width: 42%; height: 42%; }
 .lbox__nav--prev { left: clamp(0.8rem,2.5vw,2rem); }
 .lbox__nav--next { right: clamp(0.8rem,2.5vw,2rem); }
-.lbox__close { position: absolute; top: clamp(1rem,3vw,1.8rem); right: clamp(1rem,3vw,1.8rem); z-index: 5;
-  width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-  color: #fff; cursor: pointer; font-family: var(--mono); font-size: 1.05rem; transition: all .3s var(--ease); }
-.lbox__close:hover { background: var(--rosso); border-color: var(--rosso); transform: rotate(90deg); }
+
+/* footer: solo hint, centrato */
+.lbox__foot { text-align: center; padding: clamp(0.7rem,1.6vh,1.1rem); border-top: 1px solid rgba(255,255,255,0.07); }
+.lbox__hintk { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.34); text-transform: uppercase; }
+
 @media (max-width: 600px) {
-  .lbox__stage { padding: 4.5rem 1.2rem 1rem; }
-  .lbox__nav { top: auto; bottom: clamp(6rem,15vh,8rem); transform: none; }
+  .lbox__title { font-size: 0.95rem; }
+  .lbox__stage { padding: 1.4rem 1rem; }
+  .lbox__nav { width: 42px; height: 42px; top: auto; bottom: 0.6rem; transform: none; background: rgba(0,0,0,0.45); }
   .lbox__nav:hover { transform: scale(1.06); }
   .lbox__nav--prev { left: 1rem; } .lbox__nav--next { right: 1rem; }
-  .lbox__hintk { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .acard, .acard__stage img, .lbox__img, .vetrina-intro__media img { transition: none !important; transform: none !important; }
