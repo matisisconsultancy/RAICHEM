@@ -797,7 +797,12 @@
     /* ---- filtri ---- */
     function applyFilter(f) {
       current = f;
-      chips.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-filter') === f); });
+      chips.forEach(function (c) {
+        var on = c.getAttribute('data-filter') === f;
+        c.classList.toggle('is-active', on);
+        // su mobile la barra scorre: porta il filtro attivo in vista
+        if (on && c.scrollIntoView) c.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      });
       // con filtro attivo: ogni immagine a tutto schermo, impilata; senza filtro: mosaico
       grid.classList.toggle('is-single', f !== 'all');
       cards.forEach(function (card) {
