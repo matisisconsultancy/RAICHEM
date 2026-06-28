@@ -114,12 +114,11 @@
 
 /* ---- stato FILTRATO: ogni mockup a tutto schermo, impilato verticale ---- */
 .atelier.is-single { grid-template-columns: 1fr; gap: 0; background: #0a0a0b; }
-.atelier.is-single .acard__stage { aspect-ratio: auto; height: 100svh; background: radial-gradient(120% 130% at 50% 35%, #161619, #0a0a0b 80%); }
+.atelier.is-single .acard__stage { aspect-ratio: auto; height: 100svh; background: #0a0a0b; }
 .atelier.is-single .acard__stage img,
 .atelier.is-single .acard__stage.cover img {
-  inset: 0; width: 100%; height: 100%; object-fit: contain;   /* verticali ≤ ~50% in modo naturale */
-  padding: clamp(2rem, 5vh, 5rem) clamp(1rem, 4vw, 4rem);
-  filter: none;
+  inset: 0; width: 100%; height: 100%; object-fit: cover;   /* riempie il viewport, nessun bordo nero */
+  padding: 0; filter: none;
 }
 .atelier.is-single .acard__num { font-size: clamp(3rem, 8vw, 7rem); bottom: 4vh; left: 4vw; }
 .atelier.is-single .acard__meta { opacity: 1; transform: none; padding: clamp(3rem,7vh,6rem) clamp(1.5rem,4vw,4rem) clamp(2rem,4vh,3rem); }

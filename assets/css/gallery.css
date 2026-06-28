@@ -138,6 +138,9 @@
 }
 .fotostrip--xl .fotostrip__item { aspect-ratio: auto; height: 100%; }
 .fotostrip--xl .fotostrip__item--lead { grid-row: 1 / span 2; }
+/* strip coerente in bianco e nero ad alto contrasto (stile editoriale) */
+.fotostrip--xl .fotostrip__item img { filter: grayscale(1) contrast(1.08); }
+.fotostrip--xl .fotostrip__item:hover img { filter: grayscale(1) contrast(1.14); }
 .fotostrip--xl .fotostrip__cap { font-size: 0.92rem; padding: 1.3rem clamp(1rem,2vw,1.5rem); }
 .fotostrip--xl .fotostrip__item--lead .fotostrip__cap { font-size: 1.05rem; }
 
