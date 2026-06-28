@@ -52,8 +52,6 @@
   <div class="nav__hud" aria-hidden="true">
     <span class="nav__hud-dot"></span>
     <span id="navClock">--:--:--</span>
-    <span class="nav__hud-sep"></span>
-    <span class="nav__hud-state">SISTEMA CONTROLLATO</span>
   </div>
   <button class="nav__menu" id="navToggle" aria-label="Apri indice" aria-expanded="false" aria-controls="navMenu" data-cursor="hover">
     <span class="nav__menu-lab" data-open="Indice" data-close="Chiudi">Indice</span>
@@ -106,17 +104,34 @@
 </div>
 
 <!-- SCOPO -->
-<section class="section section--grigio" id="scopo">
+<!-- SCOPO + INDICE (uniti) -->
+<section class="section section--scuro" id="scopo">
+  <div class="seam" aria-hidden="true"><span class="seam__line"></span><span class="seam__lab">Scopo</span></div>
+  <div class="blueprint-bg" aria-hidden="true"></div>
   <div class="sez-head">
-    <div class="sez-label"><span class="tick"></span><span class="mono">SCOPO DEL BRAND BOOK</span></div>
-    <h2 class="sez-titolo" data-reveal>Il manuale operativo della marca</h2>
-    <p class="sez-intro" data-reveal>Questo documento definisce come la marca Raichem deve essere compresa, espressa, applicata e protetta.</p>
+    <div class="sez-label"><span class="tick"></span><span class="mono mono--bianco">SCOPO E STRUTTURA</span></div>
+    <h2 class="sez-titolo" data-reveal="clip">Il manuale operativo della marca</h2>
+    <p class="sez-intro" data-reveal>Definisce come la marca Raichem deve essere compresa, espressa, applicata e protetta — articolata in dodici capitoli operativi.</p>
   </div>
-  <div class="scopo-grid" data-reveal-stagger>
-    <div class="scopo-cell scopo-cell--si brackets"><div class="et mono mono--rosso">È</div><p class="display">Il manuale operativo della marca</p></div>
-    <div class="scopo-cell"><div class="et mono">NON È</div><p>Un pitch di vendita</p></div>
-    <div class="scopo-cell"><div class="et mono">NON È</div><p>Una presentazione commerciale</p></div>
-    <div class="scopo-cell"><div class="et mono">NON CONTIENE</div><p>Dati finanziari</p></div>
+
+  <div class="scopo-def" data-reveal-stagger>
+    <div class="scopo-def__row scopo-def__row--si"><span class="k">È</span><span class="v">Il manuale operativo della marca</span></div>
+    <div class="scopo-def__row"><span class="k">Non è</span><span class="v">Un pitch di vendita · una presentazione commerciale</span></div>
+    <div class="scopo-def__row"><span class="k">Non contiene</span><span class="v">Dati finanziari</span></div>
+  </div>
+
+  <span class="eyebrow">Sommario · 12 capitoli</span>
+  <div class="indice-grid" data-reveal-stagger>
+    <a class="indice-item" href="#fondamenti" data-cursor="hover"><span class="num">01</span><span class="titolo">Fondamenti strategici</span></a>
+    <a class="indice-item" href="#posizionamento" data-cursor="hover"><span class="num">02</span><span class="titolo">Posizionamento</span></a>
+    <a class="indice-item" href="#verbale" data-cursor="hover"><span class="num">03</span><span class="titolo">Identità verbale</span></a>
+    <a class="indice-item" href="#messaggi" data-cursor="hover"><span class="num">04</span><span class="titolo">Architettura messaggi</span></a>
+    <a class="indice-item" href="#target" data-cursor="hover"><span class="num">05</span><span class="titolo">Target group</span></a>
+    <a class="indice-item" href="#visiva" data-cursor="hover"><span class="num">08</span><span class="titolo">Identità visiva</span></a>
+    <a class="indice-item" href="#canali" data-cursor="hover"><span class="num">09</span><span class="titolo">Contenuti per canale</span></a>
+    <a class="indice-item" href="#dodont" data-cursor="hover"><span class="num">10</span><span class="titolo">Do's &amp; Don'ts</span></a>
+    <a class="indice-item" href="#checklist" data-cursor="hover"><span class="num">11</span><span class="titolo">Checklist</span></a>
+    <a class="indice-item" href="#governance" data-cursor="hover"><span class="num">12</span><span class="titolo">Governance</span></a>
   </div>
 </section>
 
@@ -146,29 +161,6 @@
     <div class="stat"><div class="stat__num"><span data-count="7">0</span></div><div class="stat__lab">Industrie verticali</div></div>
     <div class="stat"><div class="stat__num"><span data-count="8">0</span></div><div class="stat__lab">Buyer personas</div></div>
     <div class="stat"><div class="stat__num"><span data-count="12">0</span></div><div class="stat__lab">Capitoli · un sistema</div></div>
-  </div>
-</section>
-
-<!-- INDICE -->
-<section class="section section--scuro" id="indice">
-  <div class="seam" aria-hidden="true"><span class="seam__line"></span><span class="seam__lab">Sommario</span></div>
-  <div class="blueprint-bg" aria-hidden="true"></div>
-  <div class="sez-head">
-    <div class="sez-label"><span class="tick"></span><span class="mono mono--bianco">SOMMARIO · 12 CAPITOLI</span></div>
-    <h2 class="sez-titolo" data-reveal="clip">Indice</h2>
-    <p class="sez-intro" data-reveal>Un sistema unico, articolato in dodici capitoli operativi.</p>
-  </div>
-  <div class="indice-grid" data-reveal-stagger>
-    <a class="indice-item" href="#fondamenti" data-cursor="hover"><span class="num">01</span><span class="titolo">Fondamenti strategici</span></a>
-    <a class="indice-item" href="#posizionamento" data-cursor="hover"><span class="num">02</span><span class="titolo">Posizionamento</span></a>
-    <a class="indice-item" href="#verbale" data-cursor="hover"><span class="num">03</span><span class="titolo">Identità verbale</span></a>
-    <a class="indice-item" href="#messaggi" data-cursor="hover"><span class="num">04</span><span class="titolo">Architettura messaggi</span></a>
-    <a class="indice-item" href="#target" data-cursor="hover"><span class="num">05</span><span class="titolo">Target group</span></a>
-    <a class="indice-item" href="#visiva" data-cursor="hover"><span class="num">08</span><span class="titolo">Identità visiva</span></a>
-    <a class="indice-item" href="#canali" data-cursor="hover"><span class="num">09</span><span class="titolo">Contenuti per canale</span></a>
-    <a class="indice-item" href="#dodont" data-cursor="hover"><span class="num">10</span><span class="titolo">Do's &amp; Don'ts</span></a>
-    <a class="indice-item" href="#checklist" data-cursor="hover"><span class="num">11</span><span class="titolo">Checklist</span></a>
-    <a class="indice-item" href="#governance" data-cursor="hover"><span class="num">12</span><span class="titolo">Governance</span></a>
   </div>
 </section>
 
@@ -272,12 +264,12 @@
   <div class="voce-scroll" id="voce-scroll">
     <div class="vs__media">
       <div class="vs__media-inner">
-        <figure class="vs__img is-on" data-i="0"><img src="assets/img/mockups/foto-portrait.jpg" alt="Precisa" loading="lazy"></figure>
-        <figure class="vs__img" data-i="1"><img src="assets/img/mockups/foto-processi.jpg" alt="Concreta" loading="lazy"></figure>
+        <figure class="vs__img is-on" data-i="0"><img src="assets/img/mockups/voce-beams.jpg" alt="Precisa" loading="lazy"></figure>
+        <figure class="vs__img" data-i="1"><img src="assets/img/mockups/voce-mech.jpg" alt="Concreta" loading="lazy"></figure>
         <figure class="vs__img" data-i="2"><img src="assets/img/mockups/foto-persone.jpg" alt="Vicina" loading="lazy"></figure>
-        <figure class="vs__img" data-i="3"><img src="assets/img/mockups/foto-impianti.jpg" alt="Sicura di sé" loading="lazy"></figure>
-        <figure class="vs__img" data-i="4"><img src="assets/img/mockups/merch-fieldkit.jpg" alt="Affidabile" loading="lazy"></figure>
-        <figure class="vs__img" data-i="5"><img src="assets/img/mockups/merch-fieldkit.jpg" alt="Pragmatica" loading="lazy"></figure>
+        <figure class="vs__img" data-i="3"><img src="assets/img/mockups/voce-pipe.jpg" alt="Sicura di sé" loading="lazy"></figure>
+        <figure class="vs__img" data-i="4"><img src="assets/img/mockups/voce-towers.jpg" alt="Affidabile" loading="lazy"></figure>
+        <figure class="vs__img" data-i="5"><img src="assets/img/mockups/foto-portrait.jpg" alt="Pragmatica" loading="lazy"></figure>
         <span class="vs__tag">L'ingegnere che ascolta</span>
         <span class="vs__num">01</span>
       </div>
