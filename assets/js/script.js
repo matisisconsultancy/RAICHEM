@@ -219,9 +219,10 @@
   }
 
   /* =============================================================
-     4b. HERO CINEMATICO — campo di traiettorie controllate
-     Particelle + rete molecolare + reazione al cursore + parallax
-     + cometa lungo l'arco dello swoosh. Pausa fuori vista / tab nascosta.
+     4b. HERO CINEMATICO — campo + molecola astratta del BPO
+     Campo di particelle + rete molecolare, reazione al cursore, parallax,
+     e la molecola del perossido di benzoile (BPO) che si assembla da punti.
+     Pausa fuori vista / a tab nascosta; rispetta reduced-motion.
      ============================================================= */
   function heroCinema() {
     var hero = $('#hero'); if (!hero) return;
@@ -257,12 +258,21 @@
     }, { passive: true });
     window.addEventListener('blur', function () { inside = false; });
 
-    // cometa lungo un arco "swoosh"
-    var P0, P1, P2;
-    function arc() { P0 = [-0.06 * w, 0.64 * h]; P1 = [0.5 * w, 0.16 * h]; P2 = [1.06 * w, 0.46 * h]; }
-    arc();
-    function bz(t) { var u = 1 - t; return [u * u * P0[0] + 2 * u * t * P1[0] + t * t * P2[0], u * u * P0[1] + 2 * u * t * P1[1] + t * t * P2[1]]; }
-    var comet = { on: false, t: 0, trail: [], next: 1.9 };
+    // molecola astratta del BPO (perossido di benzoile): due anelli benzenici
+    // uniti dal ponte perossido O–O. Formata da molti punti che si assemblano.
+    var MOL = (function buildBPO() {
+      var nodes = [], bonds = [], R = 0.16, i, a;
+      function add(lx, ly, type) { nodes.push({ lx: lx, ly: ly, type: type, ph: Math.random() * 6.28, sa: Math.random() * 6.28, sd: 0.5 + Math.random() * 0.8, wx: 0, wy: 0 }); return nodes.length - 1; }
+      var ringA = [], ringB = [];
+      for (i = 0; i < 6; i++) { a = i * Math.PI / 3; ringA.push(add(-0.62 + R * Math.cos(a), R * Math.sin(a), 'C')); }
+      for (i = 0; i < 6; i++) { a = i * Math.PI / 3; ringB.push(add(0.62 + R * Math.cos(a), R * Math.sin(a), 'C')); }
+      var Ca = add(-0.34, 0, 'C'), Oa = add(-0.34, -0.20, 'O');
+      var Cb = add(0.34, 0, 'C'), Ob = add(0.34, 0.20, 'O');
+      var O1 = add(-0.12, 0.03, 'O'), O2 = add(0.12, -0.03, 'O');
+      for (i = 0; i < 6; i++) { bonds.push([ringA[i], ringA[(i + 1) % 6], i % 2]); bonds.push([ringB[i], ringB[(i + 1) % 6], i % 2]); }
+      bonds.push([ringA[0], Ca, 0], [Ca, Oa, 1], [Ca, O1, 0], [O1, O2, 0], [O2, Cb, 0], [Cb, Ob, 1], [ringB[3], Cb, 0]);
+      return { nodes: nodes, bonds: bonds };
+    })();
 
     function flow(x, y, tn) {
       return [Math.sin(y * 0.0042 + tn * 0.00026) * 0.018, Math.cos(x * 0.0042 - tn * 0.00022) * 0.012];
@@ -314,7 +324,7 @@
       for (i = 0; i < ps.length; i++) {
         p = ps[i];
         var px = p.x + ox * 0.05 * p.depth, py = p.y + oy * 0.05 * p.depth;
-        var tw = 0.6 + 0.4 * Math.sin(tn * 0.002 + p.tw), aa = (0.32 + 0.45 * p.depth) * tw * introE, rd = 0;
+        var tw = 0.6 + 0.4 * Math.sin(tn * 0.002 + p.tw), aa = (0.22 + 0.34 * p.depth) * tw * introE, rd = 0;
         if (inside) { var qx = p.x - tmx, qy = p.y - tmy; rd = clamp(1 - Math.sqrt(qx * qx + qy * qy) / 150, 0, 1); }
         ctx.beginPath(); ctx.arc(px, py, p.r, 0, 6.2832);
         if (rd > 0.02) ctx.fillStyle = 'rgba(' + Math.round(255 - 54 * rd) + ',' + Math.round(255 - 234 * rd) + ',' + Math.round(255 - 232 * rd) + ',' + aa + ')';
@@ -322,21 +332,46 @@
         ctx.fill();
       }
 
-      comet.next -= dt / 1000;
-      if (!comet.on && comet.next <= 0) { comet.on = true; comet.t = 0; comet.trail.length = 0; }
-      if (comet.on) {
-        comet.t += (dt / 1000) * 0.5;
-        if (comet.t >= 1) { comet.on = false; comet.next = rnd(5, 9); }
-        else {
-          var pos = bz(comet.t); comet.trail.push(pos); if (comet.trail.length > 26) comet.trail.shift();
-          for (var s = 0; s < comet.trail.length; s++) {
-            var tp = comet.trail[s], ta = s / comet.trail.length;
-            ctx.beginPath(); ctx.arc(tp[0], tp[1], 0.6 + ta * 1.6, 0, 6.2832);
-            ctx.fillStyle = 'rgba(' + RED + ',' + (ta * 0.5 * introE) + ')'; ctx.fill();
+      // ----- molecola BPO: assemblaggio di punti in struttura -----
+      var ms = Math.min(w * 0.5, h * 1.9) * (1 + 0.02 * Math.sin(tn * 0.0008));
+      var rot = Math.sin(tn * 0.00009) * 0.06, cr = Math.cos(rot), sr = Math.sin(rot);
+      var mn = MOL.nodes, n2, nd, lx, ly;
+      for (n2 = 0; n2 < mn.length; n2++) {
+        nd = mn[n2];
+        lx = nd.lx * cr - nd.ly * sr; ly = nd.lx * sr + nd.ly * cr;
+        var tx = cx + lx * ms + ox * 0.03, ty = cy + ly * ms + oy * 0.03;
+        var sx = Math.cos(nd.sa) * nd.sd * ms * 0.6, sy = Math.sin(nd.sa) * nd.sd * ms * 0.6;
+        nd.wx = tx + sx * (1 - introE) + Math.sin(tn * 0.001 + nd.ph) * 2.2 * introE;
+        nd.wy = ty + sy * (1 - introE) + Math.cos(tn * 0.0011 + nd.ph) * 2.2 * introE;
+      }
+      var mb = MOL.bonds, bd, A2, B2;
+      for (bd = 0; bd < mb.length; bd++) {
+        A2 = mn[mb[bd][0]]; B2 = mn[mb[bd][1]];
+        var oO = (A2.type === 'O' || B2.type === 'O');
+        var bx = B2.wx - A2.wx, by = B2.wy - A2.wy, blen = Math.sqrt(bx * bx + by * by) || 1;
+        var dots = Math.max(3, Math.round(blen / 9)), perx = -by / blen, pery = bx / blen;
+        var rows = mb[bd][2] ? [-2.2, 2.2] : [0];
+        for (var ri = 0; ri < rows.length; ri++) {
+          for (var kk = 0; kk <= dots; kk++) {
+            var tt = kk / dots, edge = Math.sin(tt * Math.PI);
+            var al = (0.13 + 0.2 * edge) * introE;
+            ctx.beginPath(); ctx.arc(A2.wx + bx * tt + perx * rows[ri], A2.wy + by * tt + pery * rows[ri], 0.95, 0, 6.2832);
+            ctx.fillStyle = oO ? 'rgba(214,46,44,' + (al * 1.1) + ')' : 'rgba(220,226,235,' + al + ')';
+            ctx.fill();
           }
-          ctx.save(); ctx.shadowColor = 'rgba(' + RED + ',0.9)'; ctx.shadowBlur = 16;
-          ctx.beginPath(); ctx.arc(pos[0], pos[1], 2.4, 0, 6.2832); ctx.fillStyle = 'rgba(255,210,205,' + introE + ')'; ctx.fill(); ctx.restore();
         }
+      }
+      for (n2 = 0; n2 < mn.length; n2++) {
+        nd = mn[n2];
+        var isO = nd.type === 'O', pulse = 0.7 + 0.3 * Math.sin(tn * 0.002 + nd.ph), near = 0;
+        if (inside) { var qd = Math.sqrt((nd.wx - tmx) * (nd.wx - tmx) + (nd.wy - tmy) * (nd.wy - tmy)); near = clamp(1 - qd / 140, 0, 1); }
+        var aa2 = (isO ? 0.6 : 0.48) * pulse * introE + near * 0.4;
+        ctx.save();
+        ctx.shadowBlur = (isO ? 10 : 6) + near * 8;
+        ctx.shadowColor = isO ? 'rgba(225,40,40,0.9)' : 'rgba(210,220,240,0.7)';
+        ctx.beginPath(); ctx.arc(nd.wx, nd.wy, (isO ? 2.4 : 1.9) + near * 1.6, 0, 6.2832);
+        ctx.fillStyle = isO ? 'rgba(255,120,110,' + aa2 + ')' : 'rgba(238,242,250,' + aa2 + ')';
+        ctx.fill(); ctx.restore();
       }
 
       if (fine && inner) inner.style.transform = 'translate3d(' + (-ox * 0.02) + 'px,' + (-oy * 0.02) + 'px,0)';
@@ -356,7 +391,7 @@
     window.addEventListener('scroll', function () { if (window.scrollY > h) stop(); else start(); }, { passive: true });
     document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else if (window.scrollY <= h) start(); });
     window.addEventListener('resize', debounce(function () {
-      size(); arc();
+      size();
       for (var k = 0; k < ps.length; k++) { if (ps[k].x > w) ps[k].x = rnd(0, w); if (ps[k].y > h) ps[k].y = rnd(0, h); }
     }, 200));
   }
