@@ -151,3 +151,28 @@ body { overscroll-behavior-y: none; }
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
   .fotostrip__hint { animation: none; }
 }
+
+/* =====================================================================
+   CARD DI TESTO ESPANDIBILI (mobile) — riducono il muro di testo e
+   aggiungono interazione: si toccano per aprire/chiudere il corpo.
+   ===================================================================== */
+.exp__body { display: contents; }   /* desktop: il wrapper non altera il layout */
+.exp__chev { display: none; }
+
+@media (max-width: 760px) {
+  .exp { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .exp > .exp__body, .exp .body > .exp__body {
+    display: grid; grid-template-rows: 0fr; opacity: 0;
+    transition: grid-template-rows .42s var(--ease), opacity .32s var(--ease);
+  }
+  .exp.is-open > .exp__body, .exp.is-open .body > .exp__body { grid-template-rows: 1fr; opacity: 1; }
+  .exp > .exp__body > *, .exp .body > .exp__body > * { overflow: hidden; min-height: 0; }
+
+  .exp__chev { display: block; position: absolute; top: 1.05rem; right: 1.05rem; width: 22px; height: 22px; z-index: 2; }
+  .exp__chev::before, .exp__chev::after { content: ""; position: absolute; top: 50%; left: 50%; background: var(--rosso); transition: transform .32s var(--ease); }
+  .exp__chev::before { width: 12px; height: 2px; transform: translate(-50%,-50%); }
+  .exp__chev::after  { width: 2px; height: 12px; transform: translate(-50%,-50%); }
+  .exp.is-open .exp__chev::after { transform: translate(-50%,-50%) scaleY(0); }
+  .exp:active { background: rgba(127,127,127,0.05); }
+  .exp.is-open { background: rgba(127,127,127,0.03); }
+}

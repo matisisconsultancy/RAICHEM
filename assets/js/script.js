@@ -1008,6 +1008,33 @@
   }
 
   /* =============================================================
+     CARD DI TESTO ESPANDIBILI — accordion su mobile per le card con
+     corpo lungo (Mission/Vision/Promessa, ecc.): riduce il testo e
+     aggiunge interazione. Solo le card con testo davvero lungo.
+     ============================================================= */
+  function expandables() {
+    var cards = $$('.mvp__cell, .flow__step, .ger-node');
+    cards.forEach(function (card) {
+      var host = $('.body', card) || card;
+      var ps = [], k = host.children;
+      for (var i = 0; i < k.length; i++) if (k[i].tagName === 'P') ps.push(k[i]);
+      if (!ps.length) return;
+      var len = ps.reduce(function (a, p) { return a + (p.textContent || '').length; }, 0);
+      if (len < 70) return; // niente accordion per testi di una riga
+      var wrap = document.createElement('div'); wrap.className = 'exp__body';
+      host.insertBefore(wrap, ps[0]);
+      ps.forEach(function (p) { wrap.appendChild(p); });
+      var chev = document.createElement('span'); chev.className = 'exp__chev'; chev.setAttribute('aria-hidden', 'true');
+      card.appendChild(chev);
+      card.classList.add('exp');
+      card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0'); card.setAttribute('aria-expanded', 'false');
+      function toggle() { var o = card.classList.toggle('is-open'); card.setAttribute('aria-expanded', String(o)); }
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    });
+  }
+
+  /* =============================================================
      INIT
      ============================================================= */
   function init() {
@@ -1029,6 +1056,7 @@
     voceScroll();
     checklist();
     galleryMobile();
+    expandables();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
