@@ -62,30 +62,62 @@
 .vs__step-img { display: none; }
 
 @media (max-width: 860px) {
-  /* layout a card: ogni parola con la sua foto, niente colonna sticky che si sovrappone */
-  .voce-scroll { display: block; }
+  /* GALLERIA DI PAROLE — carosello a schermo intero, una parola per
+     schermata, foto a tutto sfondo con testo sovrapposto. Swipe. */
+  .voce-scroll { display: block; position: relative; }
   .vs__media { display: none; }
 
-  .vs__steps { display: block; padding-bottom: 0; }
-  .vs__step {
-    min-height: 0; opacity: 1; padding: 0 0 2.2rem; padding-left: 0;
-    margin-bottom: 2.2rem; border-top: 0; border-bottom: 1px solid var(--linea);
+  .vs__steps {
+    display: flex; flex-direction: row; flex-wrap: nowrap; gap: 0; padding: 0;
+    margin-inline: calc(-1 * var(--pad-x)); width: 100vw;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain; scrollbar-width: none;
   }
-  .vs__step:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
-  .section--scuro .vs__step { border-color: var(--linea-scuro); }
+  .vs__steps::-webkit-scrollbar { display: none; }
+
+  .vs__step {
+    flex: 0 0 100vw; width: 100vw; min-height: 0; opacity: 1; margin: 0;
+    padding: 0; border: 0; scroll-snap-align: center; scroll-snap-stop: always;
+    position: relative; isolation: isolate; overflow: hidden;
+    height: min(84svh, 700px);
+    display: flex; flex-direction: column; justify-content: flex-end; gap: 0.5rem;
+  }
   .vs__step::before { display: none; }
 
+  /* foto a tutto sfondo */
   .vs__step-img {
-    display: block; margin: 0 0 1.1rem; position: relative; overflow: hidden;
-    aspect-ratio: 16 / 11; background: #0c0c0e; border: 1px solid var(--linea);
+    display: block; position: absolute; inset: 0; z-index: -1; margin: 0;
+    width: 100%; height: 100%; aspect-ratio: auto; border: 0; background: #0c0c0e;
   }
-  .section--scuro .vs__step-img { border-color: var(--linea-scuro); }
-  .vs__step-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.12); }
+  .vs__step-img img { width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(1) contrast(1.16) brightness(0.82); }
   .vs__step-img::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(0deg, rgba(7,7,9,0.5), transparent 55%); }
+    background: linear-gradient(0deg, rgba(7,7,9,0.94) 4%, rgba(7,7,9,0.28) 46%, rgba(7,7,9,0.5) 100%); }
 
-  .vs__step-n { display: block; margin-bottom: 0.5rem; }
-  .vs__step-w { font-size: clamp(2.1rem, 10vw, 3.1rem); margin-bottom: 0.4rem; }
+  /* testo sovrapposto in basso */
+  .vs__step-n { display: block; color: var(--rosso); margin: 0 1.4rem 0.4rem; }
+  .vs__step-w { color: #fff; margin: 0 1.4rem 0.4rem; font-size: clamp(2.4rem, 13vw, 3.6rem); }
+  .section--scuro .vs__step-w { color: #fff; }
+  .vs__step-w em { color: rgba(255,255,255,0.72); }
+  .vs__step-m { color: rgba(255,255,255,0.84); margin: 0 1.4rem;
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom)); max-width: none; }
+  .section--scuro .vs__step-m { color: rgba(255,255,255,0.84); }
+
+  /* indicatori di posizione + hint swipe (creati da JS) */
+  .vs__nav { position: absolute; top: calc(var(--nav-h, 64px) + 0.9rem); left: 0; right: 0; z-index: 6;
+    display: flex; justify-content: center; align-items: center; gap: 0.5rem; pointer-events: none; }
+  .vs__dot { width: 7px; height: 7px; border-radius: 50%; padding: 0; border: 0;
+    background: rgba(255,255,255,0.34); pointer-events: auto;
+    transition: width .3s var(--ease), background .3s var(--ease); }
+  .vs__dot.on { background: var(--rosso); width: 24px; border-radius: 4px; }
+  .vs__hint { position: absolute; right: 1.3rem; top: 46%; z-index: 6;
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); pointer-events: none; animation: fotoHint 1.8s var(--ease) infinite; }
+  .vs__hint.gone { opacity: 0; transition: opacity .4s; }
+}
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+  .vs__hint { animation: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .vs__img { transition: opacity .2s; transform: none; }

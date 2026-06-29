@@ -161,12 +161,14 @@ body { overscroll-behavior-y: none; }
 
 @media (max-width: 760px) {
   .exp { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  /* collapse robusto via max-height (compatibile ovunque, anche Safari/iOS):
+     il vecchio trucco grid 0fr->1fr non si anima su alcuni browser e lasciava
+     il testo nascosto. */
   .exp > .exp__body, .exp .body > .exp__body {
-    display: grid; grid-template-rows: 0fr; opacity: 0;
-    transition: grid-template-rows .42s var(--ease), opacity .32s var(--ease);
+    display: block; max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height .45s var(--ease), opacity .35s var(--ease);
   }
-  .exp.is-open > .exp__body, .exp.is-open .body > .exp__body { grid-template-rows: 1fr; opacity: 1; }
-  .exp > .exp__body > *, .exp .body > .exp__body > * { overflow: hidden; min-height: 0; }
+  .exp.is-open > .exp__body, .exp.is-open .body > .exp__body { max-height: 60svh; opacity: 1; }
 
   .exp__chev { display: block; position: absolute; top: 1.05rem; right: 1.05rem; width: 22px; height: 22px; z-index: 2; }
   .exp__chev::before, .exp__chev::after { content: ""; position: absolute; top: 50%; left: 50%; background: var(--rosso); transition: transform .32s var(--ease); }

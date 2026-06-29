@@ -1040,6 +1040,47 @@
   }
 
   /* =============================================================
+     GALLERIA DI PAROLE — carosello swipe a schermo intero (mobile)
+     Indicatori di posizione + hint di swipe per la sezione "voce".
+     ============================================================= */
+  function wordsGalleryMobile() {
+    var sec = $('#voce-scroll'); if (!sec) return;
+    var scroller = $('.vs__steps', sec); if (!scroller) return;
+    var mq = window.matchMedia('(max-width: 860px)');
+    var nav = null, hint = null, dots = [], steps = [], rafing = false, swiped = false;
+
+    function build() {
+      if (nav) return;
+      steps = $$('.vs__step', scroller); if (!steps.length) return;
+      nav = document.createElement('div'); nav.className = 'vs__nav';
+      steps.forEach(function (s, i) {
+        var d = document.createElement('button'); d.className = 'vs__dot'; d.type = 'button';
+        d.setAttribute('aria-label', 'Vai alla parola ' + (i + 1));
+        d.addEventListener('click', function () { scroller.scrollTo({ left: i * scroller.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); });
+        nav.appendChild(d); dots.push(d);
+      });
+      sec.appendChild(nav); if (dots[0]) dots[0].classList.add('on');
+      hint = document.createElement('span'); hint.className = 'vs__hint';
+      hint.innerHTML = 'Scorri <b aria-hidden="true">›</b>'; sec.appendChild(hint);
+    }
+    function teardown() { if (!nav) return; nav.remove(); if (hint) hint.remove(); nav = hint = null; dots = []; steps = []; }
+    function apply() { if (mq.matches) build(); else teardown(); }
+
+    scroller.addEventListener('scroll', function () {
+      if (!dots.length || rafing) return; rafing = true;
+      requestAnimationFrame(function () {
+        rafing = false;
+        var idx = clamp(Math.round(scroller.scrollLeft / scroller.clientWidth), 0, dots.length - 1);
+        dots.forEach(function (x, j) { x.classList.toggle('on', j === idx); });
+        if (!swiped && scroller.scrollLeft > 12 && hint) { swiped = true; hint.classList.add('gone'); }
+      });
+    }, { passive: true });
+
+    apply();
+    if (mq.addEventListener) mq.addEventListener('change', apply); else mq.addListener(apply);
+  }
+
+  /* =============================================================
      INIT
      ============================================================= */
   function init() {
@@ -1061,6 +1102,7 @@
     voceScroll();
     checklist();
     galleryMobile();
+    wordsGalleryMobile();
     expandables();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
