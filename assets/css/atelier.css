@@ -164,12 +164,16 @@
 
 /* palcoscenico immagine — l'immagine non tocca mai toolbar/footer */
 .lbox__stage { position: relative; display: grid; place-items: center; min-height: 0; padding: clamp(1.4rem,4vh,3rem) clamp(4.5rem,9vw,8rem); }
-.lbox__frame { margin: 0; max-width: 100%; max-height: 100%; display: flex; }
+.lbox__frame { margin: 0; max-width: 100%; max-height: 100%; display: flex; touch-action: none; }
 .lbox__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55); transform-origin: center center; will-change: transform;
   opacity: 0; transform: scale(0.97); transition: opacity .4s var(--ease-io), transform .5s var(--ease-io); }
 .lbox.open .lbox__img { opacity: 1; transform: none; }
 .lbox.open .lbox__img.swapping { opacity: 0; transform: scale(0.985); }
+/* in zoom: niente ombra pesante, frecce nascoste per non disturbare il pan */
+.lbox.is-zoomed .lbox__img { box-shadow: none; }
+.lbox.is-zoomed .lbox__nav { opacity: 0; pointer-events: none; }
+.lbox.is-zoomed .lbox__stage { cursor: grab; }
 
 .lbox__nav { position: absolute; top: 50%; transform: translateY(-50%); width: clamp(46px,5vw,58px); height: clamp(46px,5vw,58px);
   display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.18); color: #fff;

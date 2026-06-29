@@ -835,6 +835,7 @@
     function show(i) {
       if (!list.length) return;
       pos = (i + list.length) % list.length;
+      if (typeof resetZoom === 'function') resetZoom();
       var card = list[pos];
       var src = card.getAttribute('data-src');
       // crossfade: precarica la nuova immagine, poi dissolvi
@@ -860,6 +861,61 @@
       lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true');
       document.documentElement.style.overflow = '';
     }
+    /* ---- zoom & pan dell'immagine: pizzica, trascina, doppio-tocco ---- */
+    var frame = $('.lbox__frame', lb) || lbImg;
+    var z = { scale: 1, tx: 0, ty: 0 }, pts = {}, pinch = null, pan = null, lastTap = 0;
+    function applyZoom(animate) {
+      if (z.scale <= 1.001 && z.tx === 0 && z.ty === 0) {
+        // a riposo: niente transform inline, cosi resta l'animazione d'apertura CSS
+        lbImg.style.transition = ''; lbImg.style.transform = ''; lb.classList.remove('is-zoomed');
+        return;
+      }
+      lbImg.style.transition = animate ? 'transform .28s var(--ease)' : 'none';
+      lbImg.style.transform = 'translate(' + z.tx + 'px,' + z.ty + 'px) scale(' + z.scale + ')';
+      lb.classList.add('is-zoomed');
+    }
+    function clampPan() {
+      var mx = Math.max(0, (z.scale - 1) * lbImg.offsetWidth / 2);
+      var my = Math.max(0, (z.scale - 1) * lbImg.offsetHeight / 2);
+      z.tx = clamp(z.tx, -mx, mx); z.ty = clamp(z.ty, -my, my);
+    }
+    function resetZoom() { z.scale = 1; z.tx = 0; z.ty = 0; pinch = pan = null; pts = {}; applyZoom(false); }
+    function toggleZoom() { if (z.scale > 1.01) { resetZoom(); } else { z.scale = 2.6; z.tx = 0; z.ty = 0; applyZoom(true); } }
+    function dist(a, b) { var dx = a.x - b.x, dy = a.y - b.y; return Math.sqrt(dx * dx + dy * dy); }
+    frame.addEventListener('pointerdown', function (e) {
+      if (frame.setPointerCapture) try { frame.setPointerCapture(e.pointerId); } catch (x) {}
+      pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (ids.length === 2) { pinch = { d0: dist(pts[ids[0]], pts[ids[1]]) || 1, s0: z.scale }; pan = null; }
+      else if (ids.length === 1) {
+        var now = Date.now();
+        if (now - lastTap < 300) { toggleZoom(); lastTap = 0; }
+        else { lastTap = now; }
+        pan = z.scale > 1.01 ? { x: e.clientX, y: e.clientY, tx: z.tx, ty: z.ty } : null;
+      }
+    });
+    frame.addEventListener('pointermove', function (e) {
+      if (!pts[e.pointerId]) return;
+      pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (pinch && ids.length >= 2) {
+        z.scale = clamp(pinch.s0 * (dist(pts[ids[0]], pts[ids[1]]) / pinch.d0), 1, 4);
+        clampPan(); applyZoom(false);
+      } else if (pan && ids.length === 1) {
+        z.tx = pan.tx + (e.clientX - pan.x); z.ty = pan.ty + (e.clientY - pan.y);
+        clampPan(); applyZoom(false);
+      }
+    });
+    function endPointer(e) {
+      delete pts[e.pointerId];
+      var n = Object.keys(pts).length;
+      if (n < 2) pinch = null;
+      if (n === 0) { pan = null; if (z.scale <= 1.01) resetZoom(); }
+    }
+    frame.addEventListener('pointerup', endPointer);
+    frame.addEventListener('pointercancel', endPointer);
+    frame.addEventListener('dblclick', function (e) { e.preventDefault(); toggleZoom(); });
+
     cards.forEach(function (card) { card.addEventListener('click', function () { open(card); }); });
     document.getElementById('lboxClose').addEventListener('click', close);
     document.getElementById('lboxPrev').addEventListener('click', function () { show(pos - 1); });
@@ -1029,13 +1085,16 @@
       var wrap = document.createElement('div'); wrap.className = 'exp__body';
       host.insertBefore(wrap, ps[0]);
       ps.forEach(function (p) { wrap.appendChild(p); });
-      var chev = document.createElement('span'); chev.className = 'exp__chev'; chev.setAttribute('aria-hidden', 'true');
+      var chev = document.createElement('button'); chev.className = 'exp__chev'; chev.type = 'button';
+      chev.setAttribute('aria-label', 'Mostra o nascondi il testo'); chev.setAttribute('aria-expanded', 'true');
       card.appendChild(chev);
-      card.classList.add('exp');
-      card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0'); card.setAttribute('aria-expanded', 'false');
-      function toggle() { var o = card.classList.toggle('is-open'); card.setAttribute('aria-expanded', String(o)); }
-      card.addEventListener('click', toggle);
-      card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+      // testo VISIBILE di default: si puo solo richiudere col pulsante (niente testo nascosto a sorpresa)
+      card.classList.add('exp', 'is-open');
+      chev.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var o = card.classList.toggle('is-open');
+        chev.setAttribute('aria-expanded', String(o));
+      });
     });
   }
 

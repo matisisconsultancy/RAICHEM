@@ -160,21 +160,22 @@ body { overscroll-behavior-y: none; }
 .exp__chev { display: none; }
 
 @media (max-width: 760px) {
-  .exp { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-  /* collapse robusto via max-height (compatibile ovunque, anche Safari/iOS):
-     il vecchio trucco grid 0fr->1fr non si anima su alcuni browser e lasciava
-     il testo nascosto. */
+  .exp { position: relative; }
+  /* testo visibile di default; collapse via max-height in px (compatibile ovunque,
+     anche Safari/iOS: il vecchio trucco grid 0fr->1fr non si animava). */
   .exp > .exp__body, .exp .body > .exp__body {
     display: block; max-height: 0; overflow: hidden; opacity: 0;
     transition: max-height .45s var(--ease), opacity .35s var(--ease);
   }
-  .exp.is-open > .exp__body, .exp.is-open .body > .exp__body { max-height: 60svh; opacity: 1; }
+  .exp.is-open > .exp__body, .exp.is-open .body > .exp__body { max-height: 1200px; opacity: 1; }
 
-  .exp__chev { display: block; position: absolute; top: 1.05rem; right: 1.05rem; width: 22px; height: 22px; z-index: 2; }
-  .exp__chev::before, .exp__chev::after { content: ""; position: absolute; top: 50%; left: 50%; background: var(--rosso); transition: transform .32s var(--ease); }
-  .exp__chev::before { width: 12px; height: 2px; transform: translate(-50%,-50%); }
-  .exp__chev::after  { width: 2px; height: 12px; transform: translate(-50%,-50%); }
-  .exp.is-open .exp__chev::after { transform: translate(-50%,-50%) scaleY(0); }
-  .exp:active { background: rgba(127,127,127,0.05); }
-  .exp.is-open { background: rgba(127,127,127,0.03); }
+  /* pulsante +/- chiaro e con area di tocco comoda */
+  .exp__chev { display: grid; place-items: center; position: absolute; top: 0.5rem; right: 0.5rem;
+    width: 40px; height: 40px; padding: 0; border: 0; background: transparent; cursor: pointer; z-index: 3;
+    -webkit-tap-highlight-color: transparent; }
+  .exp__chev::before, .exp__chev::after { content: ""; position: absolute; background: var(--rosso); transition: transform .3s var(--ease); }
+  .exp__chev::before { width: 13px; height: 2px; }
+  .exp__chev::after  { width: 2px; height: 13px; }
+  .exp.is-open .exp__chev::after { transform: scaleY(0); }
+  .exp__chev:active { transform: scale(0.88); }
 }
